@@ -11,6 +11,4 @@ RUN pip install poetry \
     && poetry config virtualenvs.create false \
     && poetry install
 
-RUN python /code/manage.py migrate
-
 COPY . /code/

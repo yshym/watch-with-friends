@@ -23,6 +23,26 @@
       update: yes
       force: yes
       dest: ~/{{ project_name }}
+  - name: Install npm deps
+    tags: deploy
+    shell: npm install
+    args:
+      chdir: ~/{{ project_name }}/webpack
+  - name: Build webpack bundles
+    tags: deploy
+    shell: npm run build
+    args:
+      chdir: ~/{{ project_name }}/webpack
+  - name: Migrate db
+    tags: deploy
+    shell: pipenv run python manage.py migrate
+    args:
+      chdir: ~/{{ project_name }}
+  - name: Collect static files
+    tags: deploy
+    shell: pipenv run python manage.py collectstatic --noinput
+    args:
+      chdir: ~/{{ project_name }}
   - name: Run docker
     tags: deploy
     become: yes
