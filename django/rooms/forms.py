@@ -21,6 +21,7 @@ class RoomCreateForm(forms.ModelForm):
         model = Room
         fields = (
             'name',
+            'video',
         )
         error_messages = {
             'name': {
