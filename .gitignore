@@ -1,0 +1,26 @@
+# django
+__pycache__/
+*.sqlite*
+media/
+
+# environment variables
+.env
+
+# ansible
+inventory
+playbook.retry
+
+# webpack
+node_modules/
+bundles/
+
+# coverage
+htmlcov/
+.coverage
+
+# docs build
+build/
+
+# static root
+static_root/
+media/

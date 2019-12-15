@@ -1,0 +1,209 @@
+{% extends 'base.djhtml' %}
+
+{% load static %}
+
+
+{% block title %}Chat room{% endblock title %}
+
+{% block content %}
+    <h3>{{ object.name }}</h3>
+    <hr />
+
+    <div class="d-flex">
+        <div class="video mr-2" style="height: 50vh;">
+            <video
+                id="video-active"
+                class="video-active w-100 h-100"
+                controls="controls"
+                preload="auto">
+                <source src="{{ object.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="chat">
+            <div
+                class="card"
+                id="chat-log"
+                style="overflow-y: auto; height: 50vh;">
+                <div
+                    id="chat-log-body"
+                    class="card-body">
+                    {% for message in object.messages.all %}
+                        {% if not forloop.first %}
+                            <br />
+                        {% endif %}
+                        <div
+                            class="card d-inline-flex
+                                {% if not message.author == user %}
+                                    bg-light
+                                {% endif %}
+                                "
+                            style="max-width: 55vw;">
+                            <div class="card-body">
+                                <p class="font-weight-bold">
+                                    {{ message.author }}
+                                    <span
+                                        class="badge text-muted">
+                                        {{ message.timestamp|date:'d.m.Y'}},
+                                        {{ message.timestamp|time:'H:i' }}
+                                    </span>
+                                </p>
+                                <p>{{ message.content }}</p>
+                            </div>
+                        </div>
+                        <br />
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr/>
+            <div class="input-group">
+                <input
+                    id="chat-message-input"
+                    class="form-control"
+                    type="text"/>
+                <div class="input-group-append">
+                    <input
+                        id="chat-message-submit"
+                        class="btn btn-primary"
+                        type="submit"
+                        value="Send"/>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+    <script>
+        let chatLog = document.querySelector('#chat-log');
+        let chatLogBody = document.querySelector('#chat-log-body');
+        let messageInput = document.querySelector('#chat-message-input');
+        let video = document.querySelector('#video-active');
+
+
+        chatLog.scrollTop = chatLog.scrollHeight;
+
+        if (chatLog.value == '') {
+            {% for message in object.messages.all %}
+                chatLog.value += `{{ message.author }}: {{ message.content }}\n`;
+            {% endfor %}
+        }
+
+        let roomName = {{ room_name_json }};
+
+        let chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/${roomName}/`
+        );
+
+        function newMessageDiv(username, timestamp, message) {
+            let cardDiv = document.createElement('div');
+            cardDiv.className = 'card d-inline-flex';
+            cardDiv.style="max-width: 55vw;";
+
+            let cardBodyDiv = document.createElement('div');
+            cardBodyDiv.className = 'card-body';
+
+            let authorP = document.createElement('p');
+            authorP.className = 'font-weight-bold';
+            let authorText = document.createTextNode(username);
+            authorP.appendChild(authorText);
+
+            let timestampSpan = document.createElement('span');
+            timestampSpan.className = 'badge text-muted';
+            let timestampText = document.createTextNode(timestamp);
+            timestampSpan.appendChild(timestampText);
+
+            let contentP = document.createElement('p');
+            let contentText = document.createTextNode(message);
+            contentP.appendChild(contentText);
+
+            authorP.appendChild(timestampSpan);
+            cardBodyDiv.appendChild(authorP);
+            cardBodyDiv.appendChild(contentP);
+            cardDiv.appendChild(cardBodyDiv);
+
+            return cardDiv;
+        }
+
+        chatSocket.onmessage = function(e) {
+            console.log(e);
+            let data = JSON.parse(e.data);
+            let message_type = data['type'];
+
+            if (message_type == 'message') {
+                let username = data['username'];
+                let message = data['message'];
+                let timestamp = data['timestamp'];
+
+                chatLogBody.appendChild(document.createElement('br'));
+                chatLogBody.appendChild(newMessageDiv(username, timestamp, message));
+                chatLogBody.appendChild(document.createElement('br'));
+
+                if(username != '{{ user.username }}') {
+                    messagesCards = document.querySelectorAll('.card.d-inline-flex');
+                    lastMessageCard = messagesCards[messagesCards.length - 1];
+                    lastMessageCard.className = 'card d-inline-flex bg-light';
+                }
+
+                chatLog.scrollTop = chatLog.scrollHeight;
+            } else if (message_type == 'seeked_video') {
+                let currentTimeData = data['current_time'];
+                console.log(currentTimeData);
+                video.currentTime = currentTimeData;
+            } else if (message_type == 'pause_video') {
+                video.pause();
+            } else if (message_type == 'play_video') {
+                video.play();
+            }
+
+        };
+
+        video.onpause = function() {
+            chatSocket.send(JSON.stringify({
+                'type': 'pause_video',
+            }));
+        };
+
+        video.onplay = function() {
+            chatSocket.send(JSON.stringify({
+                'type': 'play_video',
+            }));
+        };
+
+        video.onseeked = function() {
+            chatSocket.send(JSON.stringify({
+                'type': 'seeked_video',
+                'currentTime': video.currentTime,
+            }));
+        };       
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        messageInput.focus();
+        messageInput.onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            if (messageInput.value.trim() != '') {
+                let message = messageInput.value;
+
+                chatSocket.send(JSON.stringify({
+                    'type': 'message',
+                    'room_name': '{{ object.name }}',
+                    'username': '{{ user.username }}',
+                    'message': message,
+                }));
+
+                messageInput.value = '';
+            }
+        };
+    </script>
+{% endblock script %}
