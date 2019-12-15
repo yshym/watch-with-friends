@@ -16,7 +16,7 @@ from .tasks import (
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope.get('url_route').get('kwargs').get('room_name')
-        self.room_group_name = f'chat_{self.room_name}'
+        self.room_group_name = f'room_{self.room_name}'
 
         # Join room group
         await self.channel_layer.group_add(
