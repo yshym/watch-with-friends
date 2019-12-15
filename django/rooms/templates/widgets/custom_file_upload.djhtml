@@ -1,0 +1,15 @@
+<div class="input-group mb-3">
+    <div class="custom-file">
+        <input type="file" name="{{ widget.name }}" id="id_{{ widget.name }}" class="custom-file-input" id="inputGroupFile03">
+        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
+    </div>
+</div>
+
+<script type="text/javascript">
+ $(document).ready(function(){
+     $('.custom-file-input').change(function(e){
+         let fileName = e.target.files[0].name;
+         $('.custom-file-label').text(fileName);
+     });
+ });
+</script>

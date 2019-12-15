@@ -33,11 +33,16 @@
     shell: npm run build
     args:
       chdir: ~/{{ project_name }}/django/webpack
+  # - name: Install poetry deps
+  #   tags: deploy
+  #   shell: poetry install
+  #   args:
+  #     chdir: ~/{{ project_name }}/django
   - name: Migrate db
     tags: deploy
-    shell: pipenv run python manage.py migrate
+    shell: poetry run python manage.py migrate
     args:
-      chdir: ~/{{ project_name }}
+      chdir: ~/{{ project_name }}/django
   # - name: Collect static files
   #   tags: deploy
   #   shell: pipenv run python manage.py collectstatic --noinput

@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 app = Celery(
     'config',
-    broker='redis://',
+    broker='redis://redis:6379/0',
     backend='rpc://',
 )
 
