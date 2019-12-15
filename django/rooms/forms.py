@@ -41,3 +41,22 @@ class RoomCreateForm(forms.ModelForm):
                     numbers, underscores or hyphens.',
             }
         }
+        labels = {
+            'video': 'Video*',
+            'youtube_link': 'Youtube link*',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        attrs = {}
+        if self.fields.get('video').error_messages is not None:
+            attrs['class'] = 'is-invalid'
+        self.fields.get('video').widget = CustomFileUpload(attrs=attrs)
+
+    def clean(self):
+        super().clean()
+        if self.cleaned_data.get('video_type') == 'local' and not self.cleaned_data.get('video'):
+            self.add_error('video', 'This field is required.')
+        elif self.cleaned_data.get('video_type') == 'yt' and not self.cleaned_data.get('youtube_link'):
+            self.add_error('youtube_link', 'This field is required.')
+        return self.cleaned_data

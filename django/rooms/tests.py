@@ -53,9 +53,6 @@ class ChatTests(ChannelsLiveServerTestCase):
     def setUp(self):
         self.client.login(username=self.username, password=self.password)
 
-    def tearDown(self):
-        self.client.logout()
-
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
             self._enter_chat_room('room_1')

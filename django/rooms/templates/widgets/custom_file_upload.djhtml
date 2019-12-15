@@ -1,9 +1,15 @@
-<div class="input-group mb-3">
-    <div class="custom-file">
-        <input type="file" name="{{ widget.name }}" id="id_{{ widget.name }}" class="custom-file-input" id="inputGroupFile03">
-        <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-    </div>
+<div class="input-group is-invalid">
+    <input
+        type="file"
+        name="{{ widget.name }}"
+        id="id_{{ widget.name }}"
+        class="custom-file-input {{ widget.attrs.class }}">
+    <label
+        class="custom-file-label">
+        Choose file
+    </label>
 </div>
+
 
 <script type="text/javascript">
  $(document).ready(function(){
