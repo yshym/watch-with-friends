@@ -16,7 +16,16 @@
         - python3-setuptools
         - docker
         - docker-compose
+  - name: Clone repo
+    tags: deploy
+    git:
+      repo: https://github.com/{{ repo_name }}
+      update: yes
+      force: yes
+      dest: ~/{{ project_name }}
   - name: Run docker
     tags: deploy
     become: yes
     shell: docker-compose up -d --build
+    args:
+      chdir: ~/{{ project_name }}/django
