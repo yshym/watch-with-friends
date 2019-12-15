@@ -6,6 +6,7 @@ from .models import (
     Room,
     Message,
 )
+from .widgets import CustomFileUpload
 
 
 class MessageCreateForm(forms.ModelForm):
@@ -23,6 +24,9 @@ class RoomCreateForm(forms.ModelForm):
             'name',
             'video',
         )
+        widgets = {
+            'video': CustomFileUpload,
+        }
         error_messages = {
             'name': {
                 'invalid': 'Enter a valid chat room name consisting of letters, \
