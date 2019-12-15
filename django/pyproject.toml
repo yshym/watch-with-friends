@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "watch-with-friends"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+django = "*"
+python-dotenv = "*"
+python-decouple = "*"
+psycopg2-binary = "*"
+sphinx = "*"
+coverage = "*"
+django-crispy-forms = "*"
+django-extensions = "*"
+pillow = "*"
+gunicorn = "*"
+channels = "*"
+django-celery-results = "*"
+redis = "*"
+django-autoslug = "*"
+channels-redis = "*"
+channels_rabbitmq = "*"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

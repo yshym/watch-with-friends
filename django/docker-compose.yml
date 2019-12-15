@@ -1,0 +1,20 @@
+version: '3.7'
+
+
+services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  celery_worker:
+    build: .
+    command: celery worker -A config --broker=redis://redis:6379/0
+    depends_on:
+      - redis
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    depends_on:
+      - celery_worker

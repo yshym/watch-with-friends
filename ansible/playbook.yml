@@ -1,0 +1,22 @@
+---
+- hosts: all
+  vars:
+    project_name: watch-with-friends
+    repo_name: fly1ngDream/watch-with-friends
+  tasks:
+  - name: Dependencies
+    tags: apt
+    apt: cache_valid_time=3600 name={{ packages }}
+    become: yes
+    vars:
+      packages:
+        - python3
+        - python-pip
+        - python3-pip
+        - python3-setuptools
+        - docker
+        - docker-compose
+  - name: Run docker
+    tags: deploy
+    become: yes
+    shell: docker-compose up -d --build
