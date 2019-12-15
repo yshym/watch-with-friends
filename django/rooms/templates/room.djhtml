@@ -173,13 +173,13 @@
             }));
         };
 
-        video.onseeked = function() {
-            chatSocket.send(JSON.stringify({
-                'type': 'seeked_video',
-                'currentTime': video.currentTime,
-            }));
-        };       
-
+     /* video.onseeked = function() { */
+     /* chatSocket.send(JSON.stringify({ */
+     /* 'type': 'seeked_video', */
+     /* 'currentTime': video.currentTime, */
+     /* })); */
+     /* }; */
+     /*  */
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };

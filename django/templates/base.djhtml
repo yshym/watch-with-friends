@@ -28,7 +28,7 @@
             <!-- Navbar title -->
             <a
                 class="navbar-brand text-dark"
-                href="{% url 'admin:login' %}">
+                href="{% url 'index' %}">
                 {% include 'title.djhtml' %}
             </a>
 
@@ -70,7 +70,7 @@
                         <form
                             class="form-inline"
                             method="GET"
-                            action="{% url 'admin:login' %}">
+                            action="#">
                             <div class="input-group w-100">
                                 <input
                                     class="form-control"
@@ -107,12 +107,12 @@
                                 </button>
                                 <a
                                     class="btn btn-light"
-                                    href="{% url 'admin:login' %}">
+                                    href="#">
                                     Change password
                                 </a>
                                 <a
                                     class="btn btn-light"
-                                    href="{% url 'admin:login' %}">
+                                    href="{% url 'users:logout' %}">
                                     Log Out
                                 </a>
                             </div>
@@ -129,14 +129,14 @@
                         <li class="nav-item mx-auto">
                             <form class="form-inline">
                                 <a
-                                    href="{% url 'admin:login' %}"
+                                    href="{% url 'users:login' %}"
                                     class="btn btn-outline-secondary">
                                     Log In
                                 </a>
                                 <a
-                                    href="{% url 'admin:login' %}"
+                                    href="{% url 'users:signup' %}"
                                     class="btn btn-primary ml-2">
-                                    Sign up
+                                    Sign Up
                                 </a>
                             </form>
                         </li>
