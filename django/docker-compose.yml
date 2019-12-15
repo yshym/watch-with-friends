@@ -8,7 +8,7 @@ services:
       - 6379:6379
   celery_worker:
     build: .
-    command: celery worker -A config --broker=redis://redis:6379/0
+    command: celery worker -A config
     depends_on:
       - redis
   web:

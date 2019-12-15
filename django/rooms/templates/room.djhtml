@@ -10,7 +10,7 @@
     <hr />
 
     <div class="d-flex">
-        <div class="video mr-2" style="height: 50vh;">
+        <div class="img-thumbnail video mr-2" style="height: 50vh;">
             <video
                 id="video-active"
                 class="video-active w-100 h-100"
@@ -33,13 +33,13 @@
                             <br />
                         {% endif %}
                         <div
-                            class="card d-inline-flex
+                            class="img-thumbnail d-inline-flex
                                 {% if not message.author == user %}
                                     bg-light
                                 {% endif %}
                                 "
                             style="max-width: 55vw;">
-                            <div class="card-body">
+                            <div class="">
                                 <p class="font-weight-bold">
                                     {{ message.author }}
                                     <span
@@ -48,7 +48,7 @@
                                         {{ message.timestamp|time:'H:i' }}
                                     </span>
                                 </p>
-                                <p>{{ message.content }}</p>
+                                <span>{{ message.content }}</span>
                             </div>
                         </div>
                         <br />
@@ -100,11 +100,10 @@
 
         function newMessageDiv(username, timestamp, message) {
             let cardDiv = document.createElement('div');
-            cardDiv.className = 'card d-inline-flex';
+            cardDiv.className = 'img-thumbnail d-inline-flex';
             cardDiv.style="max-width: 55vw;";
 
             let cardBodyDiv = document.createElement('div');
-            cardBodyDiv.className = 'card-body';
 
             let authorP = document.createElement('p');
             authorP.className = 'font-weight-bold';
@@ -116,7 +115,7 @@
             let timestampText = document.createTextNode(timestamp);
             timestampSpan.appendChild(timestampText);
 
-            let contentP = document.createElement('p');
+            let contentP = document.createElement('span');
             let contentText = document.createTextNode(message);
             contentP.appendChild(contentText);
 
@@ -143,9 +142,9 @@
                 chatLogBody.appendChild(document.createElement('br'));
 
                 if(username != '{{ user.username }}') {
-                    messagesCards = document.querySelectorAll('.card.d-inline-flex');
+                    messagesCards = document.querySelectorAll('.img-thumbnail.d-inline-flex');
                     lastMessageCard = messagesCards[messagesCards.length - 1];
-                    lastMessageCard.className = 'card d-inline-flex bg-light';
+                    lastMessageCard.className = 'img-thumbnail d-inline-flex bg-light';
                 }
 
                 chatLog.scrollTop = chatLog.scrollHeight;

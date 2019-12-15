@@ -7,7 +7,7 @@ from autoslug import AutoSlugField
 class Room(models.Model):
     name = models.SlugField(max_length=100, unique=True)
     slug = AutoSlugField(max_length=100, unique=True, populate_from='name')
-    video = models.FileField(upload_to='videos/', blank=True)
+    video = models.FileField(upload_to='videos/')
     author = models.ForeignKey(
         get_user_model(),
         related_name='room',
