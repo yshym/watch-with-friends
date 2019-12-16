@@ -3,7 +3,7 @@
 {% load static %}
 
 
-{% block title %}Chat room{% endblock title %}
+{% block title %}{{ block.super }} | {{ object.name }}{% endblock title %}
 
 {% block content %}
     <h3>{{ object.name }}</h3>
