@@ -1,10 +1,22 @@
-#chat-message-submit {
-    border: 0;
-    border-top: 1px solid lightgrey;
-    border-top-right-radius: 0;
+.navbar {
+    background-color: #e3f2fd;
 }
 
-#chat-message-input {
+#video-player,
+#chat-log {
+    height: 50vh;
+}
+
+#chat-log-body {
+    overflow-y: auto;
+}
+
+#message-div {
+    max-width: 55vw;
+}
+
+#chat-message-input,
+#chat-message-submit {
     border: 0;
     border-top: 1px solid lightgrey;
     border-top-left-radius: 0;
