@@ -3,10 +3,10 @@
 {% load static %}
 
 
-{% block title %}{{ block.super }} | {{ object.name }}{% endblock title %}
+{% block title %}{{ block.super }} | {{ room.name }}{% endblock title %}
 
 {% block content %}
-    <h3>{{ object.name }}</h3>
+    <h3>{{ room.name }}</h3>
     <hr />
 
     <div class="d-flex">
@@ -18,7 +18,7 @@
                 class="video-active w-100 h-100"
                 controls="controls"
                 preload="auto">
-                <source src="{{ object.video.url }}" type="video/mp4">
+                <source src="{{ room.video.url }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <br /><br />
@@ -30,7 +30,7 @@
                 <div
                     id="chat-log-body"
                     class="card-body">
-                    {% for message in object.messages.all %}
+                    {% for message in room.messages.all %}
                         {% if not forloop.first %}
                             <br />
                         {% endif %}
@@ -90,7 +90,7 @@
         chatLog.scrollTop = chatLog.scrollHeight;
 
         if (chatLog.value == '') {
-            {% for message in object.messages.all %}
+            {% for message in room.messages.all %}
                 chatLog.value += `{{ message.author }}: {{ message.content }}\n`;
             {% endfor %}
         }
@@ -241,7 +241,7 @@
 
                 chatSocket.send(JSON.stringify({
                     'type': 'message',
-                    'room_name': '{{ object.name }}',
+                    'room_name': '{{ room.name }}',
                     'username': '{{ user.username }}',
                     'message': message,
                 }));
