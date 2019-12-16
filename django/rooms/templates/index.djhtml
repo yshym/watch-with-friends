@@ -4,7 +4,7 @@
 
 
 {% block content %}
-    <h3>What chat room would you like to enter?</h3>
+    <h3>What room would you like to enter?</h3>
     <hr />
     <input
         id="room-name-input"
