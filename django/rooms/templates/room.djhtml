@@ -10,7 +10,7 @@
     <hr />
 
     <div class="d-flex">
-        <div class="img-thumbnail video mr-2" style="height: 50vh;">
+        <div class="img-thumbnail video col" style="height: 50vh;">
             <video
                 id="video-active"
                 class="video-active w-100 h-100"
@@ -19,15 +19,16 @@
                 <source src="{{ object.video.url }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <br /><br />
         </div>
-        <div class="chat">
+        <div class="chat col-sm-3">
             <div
                 class="card"
-                id="chat-log"
-                style="overflow-y: auto; height: 50vh;">
+                id="chat-log" style="height: 50vh;">
                 <div
                     id="chat-log-body"
-                    class="card-body">
+                    class="card-body"
+                    style="overflow-y: auto;">
                     {% for message in object.messages.all %}
                         {% if not forloop.first %}
                             <br />
@@ -54,25 +55,25 @@
                         <br />
                     {% endfor %}
                 </div>
-            </div>
-
-            <hr/>
-            <div class="input-group">
-                <input
-                    id="chat-message-input"
-                    class="form-control"
-                    type="text"/>
-                <div class="input-group-append">
+                <div id="chatMessageInputGroup" class="input-group">
                     <input
-                        id="chat-message-submit"
-                        class="btn btn-primary"
-                        type="submit"
-                        value="Send"/>
+                        id="chat-message-input"
+                        class="form-control"
+                        type="text"/>
+                    <div class="input-group-append">
+                        <button
+                            id="chat-message-submit"
+                            class="btn btn-default"
+                            type="submit">
+                            <i class="fa fa-paper-plane text-primary"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <br />
         </div>
     </div>
+    <br />
+    <span id="connectedUsers"></span>
 
 {% endblock content %}
 
@@ -82,6 +83,7 @@
         let chatLogBody = document.querySelector('#chat-log-body');
         let messageInput = document.querySelector('#chat-message-input');
         let video = document.querySelector('#video-active');
+        let connectedUsers = []
 
 
         chatLog.scrollTop = chatLog.scrollHeight;
@@ -127,35 +129,75 @@
             return cardDiv;
         }
 
+        HTMLElement.prototype.removeChildren = function() {
+            while (this.firstChild) {
+                this.removeChild(this.firstChild);
+            }
+            return this
+        }
+
+        function userSpan(username) {
+            let spanWrapper = document.createElement('span');
+            spanWrapper.className = 'img-thumbnail bg-info';
+
+            let userIcon = document.createElement('i');
+            userIcon.className = 'fa fa-user';
+
+            let usernameText = document.createTextNode(` ${username}`);
+            spanWrapper.appendChild(userIcon);
+            spanWrapper.appendChild(usernameText);
+
+            return spanWrapper;
+        }
+
         chatSocket.onmessage = function(e) {
             console.log(e);
             let data = JSON.parse(e.data);
             let message_type = data['type'];
+            let username;
 
-            if (message_type == 'message') {
-                let username = data['username'];
-                let message = data['message'];
-                let timestamp = data['timestamp'];
+            switch (message_type) {
+                case 'message':
+                    username = data['username'];
+                    let message = data['message'];
+                    let timestamp = data['timestamp'];
 
-                chatLogBody.appendChild(document.createElement('br'));
-                chatLogBody.appendChild(newMessageDiv(username, timestamp, message));
-                chatLogBody.appendChild(document.createElement('br'));
+                    chatLogBody.appendChild(document.createElement('br'));
+                    chatLogBody.appendChild(newMessageDiv(username, timestamp, message));
+                    chatLogBody.appendChild(document.createElement('br'));
 
-                if(username != '{{ user.username }}') {
-                    messagesCards = document.querySelectorAll('.img-thumbnail.d-inline-flex');
-                    lastMessageCard = messagesCards[messagesCards.length - 1];
-                    lastMessageCard.className = 'img-thumbnail d-inline-flex bg-light';
-                }
+                    if(username != '{{ user.username }}') {
+                        messagesCards = document.querySelectorAll('.img-thumbnail.d-inline-flex');
+                        lastMessageCard = messagesCards[messagesCards.length - 1];
+                        lastMessageCard.className = 'img-thumbnail d-inline-flex bg-light';
+                    }
 
-                chatLog.scrollTop = chatLog.scrollHeight;
-            } else if (message_type == 'seeked_video') {
-                let currentTimeData = data['current_time'];
-                console.log(currentTimeData);
-                video.currentTime = currentTimeData;
-            } else if (message_type == 'pause_video') {
-                video.pause();
-            } else if (message_type == 'play_video') {
-                video.play();
+                    chatLog.scrollTop = chatLog.scrollHeight;
+                    break;
+                case 'seeked_video':
+                    let currentTimeData = data['current_time'];
+                    console.log(currentTimeData);
+                    video.currentTime = currentTimeData;
+                    break;
+                case 'pause_video':
+                    video.pause();
+                    break;
+                case 'play_video':
+                    video.play();
+                    break;
+                case 'user_connected':
+                case 'user_disconnected':
+                    connectedUsers = data['connected_users'].split(',');
+                    let connectedUsersContainer = document.querySelector('#connectedUsers');
+                    connectedUsersContainer.removeChildren();
+
+                    connectedUsers.forEach(function (username) {
+                        connectedUsersContainer.appendChild(userSpan(username));
+                    })
+
+                    break;
+                default:
+                    console.log('Unknown WS message!')
             }
 
         };

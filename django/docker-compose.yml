@@ -8,13 +8,16 @@ services:
       - 6379:6379
   celery_worker:
     build: .
-    command: celery worker -A config
+    command: celery worker -A config -l info
     depends_on:
       - redis
   web:
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
     ports:
       - 8000:8000
     depends_on:
       - celery_worker
+      - redis
