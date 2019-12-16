@@ -1,0 +1,11 @@
+#chat-message-submit {
+    border: 0;
+    border-top: 1px solid lightgrey;
+    border-top-right-radius: 0;
+}
+
+#chat-message-input {
+    border: 0;
+    border-top: 1px solid lightgrey;
+    border-top-left-radius: 0;
+}
