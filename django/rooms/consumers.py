@@ -14,10 +14,14 @@ from .tasks import (
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    users = {}
+
     async def connect(self):
         self.room_name = self.scope.get('url_route').get('kwargs').get('room_name')
         self.room_group_name = f'room_{self.room_name}'
+        self.user = self.scope.get('user')
 
+        self.add_user(self.room_name, self.user)
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -26,8 +30,27 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'user_connected',
+                'connected_users': ','.join(self.users.get(self.room_name)),
+            }
+        )
+
     async def disconnect(self, close_code):
+        self.room_name = self.scope.get('url_route').get('kwargs').get('room_name')
+        self.user = self.scope.get('user')
+
+        await self.remove_user(self.room_name, self.user)
         # Leave room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'user_disconnected',
+                'connected_users': ','.join(self.users.get(self.room_name)),
+            }
+        )
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
@@ -122,3 +145,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': 'seeked_video',
             'current_time': current_time,
         }))
+
+    async def user_connected(self, event):
+        connected_users = event.get('connected_users')
+
+        await self.send(text_data=json.dumps({
+            'type': 'user_connected',
+            'connected_users': connected_users,
+        }))
+
+    async def user_disconnected(self, event):
+        connected_users = event.get('connected_users')
+
+        await self.send(text_data=json.dumps({
+            'type': 'user_disconnected',
+            'connected_users': connected_users,
+        }))
+
+    def add_user(self, room_name, user):
+        self.users.setdefault(room_name, []).append(user.username)
+
+    async def remove_user(self, room_name, user):
+        await self.users.get(room_name, []).remove(user.username)
