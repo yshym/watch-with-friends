@@ -163,7 +163,9 @@
                     let message = data['message'];
                     let timestamp = data['timestamp'];
 
-                    chatLogBody.appendChild(document.createElement('br'));
+                    if (chatLogBody.firstElementChild) {
+                        chatLogBody.appendChild(document.createElement('br'));
+                    }
                     chatLogBody.appendChild(newMessageDiv(username, timestamp, message));
                     chatLogBody.appendChild(document.createElement('br'));
 
