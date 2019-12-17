@@ -48,7 +48,15 @@
                 messageDiv.className = `alert alert-${type}`;
                 let messageText = document.createTextNode(text);
                 messageDiv.appendChild(messageText);
-                document.querySelector('.container').prepend(messageDiv);
+                document.querySelector('.container-xl').prepend(messageDiv);
+                setTimeout(
+                    () => document.querySelector(
+                        '.container-xl'
+                    ).removeChild(
+                        document.querySelector('.alert')
+                    ),
+                    5000
+                );
             }
         }
 
@@ -70,14 +78,7 @@
                     window.location.pathname = `/${slugify(roomName)}/`;
                 } else {
                     create_message('Room with this name does not exist!', 'warning');
-                    /*setTimeout(
-                        () => document.querySelector(
-                            '.container'
-                        ).removeChild(
-                            document.querySelector('.alert')
-                        ),
-                        5000
-                    );*/
+
                 }
             }
         }
