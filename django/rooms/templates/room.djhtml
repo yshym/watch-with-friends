@@ -75,7 +75,6 @@
     </div>
     <br />
     <span id="connectedUsers"></span>
-
 {% endblock content %}
 
 {% block script %}
