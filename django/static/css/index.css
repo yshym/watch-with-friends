@@ -22,6 +22,7 @@
     border-top-left-radius: 0;
 }
 
-.plyr {
+.plyr,
+.plyr__video-wrapper {
     height: 100% !important;
 }
