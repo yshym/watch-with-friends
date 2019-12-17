@@ -20,10 +20,10 @@ class IndexView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context.update(rooms_names=self.rooms_names())
+        context.update(room_names=self.room_names())
         return context
 
-    def rooms_names(self):
+    def room_names(self):
         return mark_safe([
             room.get('name')
             for room in Room.objects.all().values('name')
@@ -34,13 +34,6 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     model = Room
     template_name = 'room.djhtml'
     login_url = 'users:login'
-
-
-    def get_context_data(self, **kwargs):
-        context = super(RoomDetailView, self).get_context_data(**kwargs)
-        self.object = self.get_object()
-        context.update(room_name_json=mark_safe(json.dumps(self.object.name)))
-        return context
 
 
 class RoomCreateView(SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView):
