@@ -31,7 +31,10 @@
             <a
                 class="navbar-brand text-dark"
                 href="{% url 'index' %}">
-                {% include 'title.djhtml' %}
+                <div class="favicon">
+                    <img src="{% static 'favicon.ico' %}" height="35" />
+                    <img src="{% static 'wff_hover.png' %}" class="favicon-hover" height="35" />
+                </div>
             </a>
 
             <!-- Search collapse button -->
