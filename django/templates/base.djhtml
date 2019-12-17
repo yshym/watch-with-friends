@@ -18,6 +18,8 @@
             type="text/css"
             href="{% static 'css/index.css' %}"/>
         <script src="{% static 'bundles/main.js' %}"></script>
+
+        <link rel="stylesheet" href="{% static 'css/plyr.css' %}" />
     </head>
 
     <body>
@@ -151,6 +153,7 @@
             {% endblock content %}
         </div>
 
+        <script src="{% static 'js/plyr.polyfilled.js' %}"></script>
         {% block script %}
         {% endblock script %}
     </body>

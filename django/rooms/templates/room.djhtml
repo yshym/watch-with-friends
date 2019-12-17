@@ -79,12 +79,27 @@
 
 {% block script %}
     <script>
+        const plyrPlayer = new Plyr(
+            '#video-active',
+            {
+                controls: [
+                    'play-large',
+                    'play',
+                    'current-time',
+                    'mute',
+                    'volume',
+                    'captions',
+                    'airplay',
+                    'fullscreen'
+                ]
+            }
+        );
+
         let chatLog = document.querySelector('#chat-log');
         let chatLogBody = document.querySelector('#chat-log-body');
         let messageInput = document.querySelector('#chat-message-input');
         let video = document.querySelector('#video-active');
         let connectedUsers = []
-
 
         chatLog.scrollTop = chatLog.scrollHeight;
 

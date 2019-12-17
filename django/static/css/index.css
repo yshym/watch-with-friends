@@ -21,3 +21,7 @@
     border-top: 1px solid lightgrey;
     border-top-left-radius: 0;
 }
+
+.plyr {
+    height: 100% !important;
+}
