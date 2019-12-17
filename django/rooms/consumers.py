@@ -39,10 +39,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def disconnect(self, close_code):
-        self.room_name = self.scope.get('url_route').get('kwargs').get('room_name')
-        self.user = self.scope.get('user')
-
-        await self.remove_user(self.room_name, self.user)
+        self.remove_user(self.room_name, self.user)
         # Leave room group
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -165,5 +162,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def add_user(self, room_name, user):
         self.users.setdefault(room_name, []).append(user.username)
 
-    async def remove_user(self, room_name, user):
-        await self.users.get(room_name, []).remove(user.username)
+    def remove_user(self, room_name, user):
+        self.users.get(room_name, []).remove(user.username)
