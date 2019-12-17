@@ -6,6 +6,14 @@
 {% block title %}{{ block.super }} | {{ room.name }}{% endblock title %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <h3>{{ room.name }}</h3>
     <hr />
 

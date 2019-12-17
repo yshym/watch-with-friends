@@ -1,6 +1,7 @@
 from django.views import generic
 from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 import json
 
@@ -8,7 +9,6 @@ from .models import (
     Room,
     Message,
 )
-
 from .forms import (
     MessageCreateForm,
     RoomCreateForm,
@@ -43,10 +43,11 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
         return context
 
 
-class RoomCreateView(LoginRequiredMixin, generic.edit.CreateView):
+class RoomCreateView(SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView):
     template_name = 'room_create.djhtml'
     form_class = RoomCreateForm
     login_url = 'users:login'
+    success_message = 'Room was successfully created!'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

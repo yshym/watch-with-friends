@@ -4,6 +4,14 @@
 
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <h3>What room would you like to enter?</h3>
     <hr />
     <input
