@@ -87,6 +87,16 @@
 
 {% block script %}
     <script>
+        // Remove alert if exist
+        let alert = document.querySelector('.alert');
+        let container = document.querySelector('.container-xl');
+        if (alert !== null) {
+            setTimeout(
+                () => container.removeChild(alert),
+                5000
+            );
+        }
+
         const plyrPlayer = new Plyr(
             '#video-active',
             {
