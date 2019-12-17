@@ -26,3 +26,19 @@
 .plyr__video-wrapper {
     height: 100% !important;
 }
+
+.favicon {
+    position: relative;
+    display: inline-block;
+}
+
+.favicon-hover {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.favicon:hover .favicon-hover {
+    display: inline;
+}
