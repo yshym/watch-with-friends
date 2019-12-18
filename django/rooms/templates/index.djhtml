@@ -36,12 +36,8 @@
 {% endblock content %}
 
 {% block script %}
-    <script
-        type="text/javascript">
+    <script>
         const roomNames = {{ room_names }};
     </script>
-    <script
-        type="text/javascript"
-        src="{% static 'js/rooms/index.js' %}">
-    </script>
+    <script src="{% static 'bundles/index.js' %}"></script>
 {% endblock script %}
