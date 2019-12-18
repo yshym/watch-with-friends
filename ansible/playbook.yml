@@ -3,6 +3,8 @@
   vars:
     project_name: watch-with-friends
     repo_name: fly1ngDream/watch-with-friends
+    webpack_dir: ~/{{ project_name }}/django/webpack
+    django_dir: ~/{{ project_name }}/django
   tasks:
   - name: Dependencies
     tags: apt
@@ -27,30 +29,21 @@
     tags: deploy
     shell: npm install
     args:
-      chdir: ~/{{ project_name }}/django/webpack
+      chdir: "{{ webpack_dir }}"
   - name: Build webpack bundles
     tags: deploy
     shell: npm run build
     args:
-      chdir: ~/{{ project_name }}/django/webpack
-  # - name: Install poetry deps
-  #   tags: deploy
-  #   shell: poetry install
-  #   args:
-  #     chdir: ~/{{ project_name }}/django
-  - name: Migrate db
+      chdir: "{{ webpack_dir }}"
+  - name: Stop docker
     tags: deploy
-    shell: poetry run python manage.py migrate
+    become: yes
+    shell: docker-compose down
     args:
-      chdir: ~/{{ project_name }}/django
-  # - name: Collect static files
-  #   tags: deploy
-  #   shell: pipenv run python manage.py collectstatic --noinput
-  #   args:
-  #     chdir: ~/{{ project_name }}
+      chdir: "{{ django_dir }}"
   - name: Run docker
     tags: deploy
     become: yes
     shell: docker-compose up -d --build
     args:
-      chdir: ~/{{ project_name }}/django
+      chdir: "{{ django_dir }}"
