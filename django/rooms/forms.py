@@ -18,11 +18,19 @@ class MessageCreateForm(forms.ModelForm):
 
 
 class RoomCreateForm(forms.ModelForm):
+    VIDEO_TYPES = (
+        ('local', 'Local'),
+        ('yt', 'YouTube'),
+    )
+    video_type = forms.ChoiceField(choices=VIDEO_TYPES)
+
     class Meta:
         model = Room
         fields = (
             'name',
+            'video_type',
             'video',
+            'youtube_link',
         )
         widgets = {
             'video': CustomFileUpload,
