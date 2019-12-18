@@ -1,4 +1,3 @@
-
 {% load static %}
 <!doctype html>
 <html lang="en">
@@ -12,12 +11,12 @@
 
         <link
             rel="icon"
-            href="{% static 'favicon.ico' %}"/>
+            href="{% static 'favicon.ico' %}" />
         <link
             rel="stylesheet"
             type="text/css"
-            href="{% static 'css/index.css' %}"/>
-        <script src="{% static 'bundles/index.js' %}"></script>
+            href="{% static 'css/index.css' %}" />
+        <script src="{% static 'bundles/main.js' %}"></script>
 
         <link rel="stylesheet" href="{% static 'css/plyr.css' %}" />
     </head>
