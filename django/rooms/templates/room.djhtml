@@ -88,7 +88,9 @@
 {% block script %}
     <script
         type="text/javascript">
-        const roomName = "{{ room.name }}";
+        const roomName = "{{ room.name }}"
+        const roomAuthor = "{{ room.author }}"
+        const user = "{{ user }}"
     </script>
     <script
         type="text/javascript"

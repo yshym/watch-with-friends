@@ -9,6 +9,7 @@ const plyrPlayer = new Plyr("#video-active", {
     controls: [
         "play-large",
         "play",
+        "progress",
         "current-time",
         "mute",
         "volume",
@@ -86,6 +87,8 @@ chatSocket.onmessage = function(e) {
     let message_type = data["type"]
     let username
 
+
+    if (roomAuthor != user) {
     switch (message_type) {
         case "message":
             username = data["username"]
@@ -136,31 +139,34 @@ chatSocket.onmessage = function(e) {
         default:
             console.log("Unknown WS message!")
     }
+    }
 }
 
-video.onpause = function() {
-    chatSocket.send(
-        JSON.stringify({
-            type: "pause_video",
-        })
-    )
+if (roomAuthor == user) {
+    video.onpause = function() {
+        chatSocket.send(
+            JSON.stringify({
+                type: "pause_video",
+            })
+        )
+    }
+
+    video.onplay = function() {
+        chatSocket.send(
+            JSON.stringify({
+                type: "play_video",
+            })
+        )
+    }
+
+    video.onseeked = function() {
+        chatSocket.send(JSON.stringify({
+            'type': 'seeked_video',
+            'currentTime': video.currentTime,
+        }));
+    };
 }
 
-video.onplay = function() {
-    chatSocket.send(
-        JSON.stringify({
-            type: "play_video",
-        })
-    )
-}
-
-/* video.onseeked = function() { */
-/* chatSocket.send(JSON.stringify({ */
-/* 'type': 'seeked_video', */
-/* 'currentTime': video.currentTime, */
-/* })); */
-/* }; */
-/*  */
 chatSocket.onclose = function(e) {
     console.error("Chat socket closed unexpectedly")
 }
