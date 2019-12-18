@@ -39,10 +39,10 @@
     become: yes
     shell: docker-compose down
     args:
-      chdir: ~/{{ project_name }}/django
+      chdir: /home/yevhens/{{ project_name }}/django
   - name: Run docker
     tags: deploy
     become: yes
     shell: docker-compose up -d --build
     args:
-      chdir: ~/{{ project_name }}/django
+      chdir: /home/yevhens/{{ project_name }}/django

@@ -17,7 +17,7 @@
             rel="stylesheet"
             type="text/css"
             href="{% static 'css/index.css' %}"/>
-        <script src="{% static 'bundles/main.js' %}"></script>
+        <script src="{% static 'bundles/index.js' %}"></script>
 
         <link rel="stylesheet" href="{% static 'css/plyr.css' %}" />
     </head>
@@ -83,11 +83,13 @@
                                     placeholder="Search"
                                     aria-label="Search"
                                     name="Search"
-                                    value="{{ request.GET.Search }}">
+                                    value="{{ request.GET.Search }}"
+                                    disabled>
                                 <span class="input-group-append">
                                     <button
                                         class="btn btn-outline-success"
-                                        type="submit">
+                                        type="submit"
+                                        disabled>
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
