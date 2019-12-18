@@ -4,7 +4,6 @@
     project_name: watch-with-friends
     repo_name: fly1ngDream/watch-with-friends
     webpack_dir: ~/{{ project_name }}/django/webpack
-    django_dir: ~/{{ project_name }}/django
   tasks:
   - name: Dependencies
     tags: apt
@@ -40,10 +39,10 @@
     become: yes
     shell: docker-compose down
     args:
-      chdir: "{{ django_dir }}"
+      chdir: ~/{{ project_name }}/django
   - name: Run docker
     tags: deploy
     become: yes
     shell: docker-compose up -d --build
     args:
-      chdir: "{{ django_dir }}"
+      chdir: ~/{{ project_name }}/django

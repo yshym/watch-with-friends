@@ -5,8 +5,8 @@ if (alert !== null) {
     setTimeout(() => container.removeChild(alert), 5000)
 }
 
-const plyrPlayer = new Plyr("#video-active", {
-    controls: [
+if (user === roomAuthor) {
+    var controls = [
         "play-large",
         "play",
         "progress",
@@ -16,18 +16,33 @@ const plyrPlayer = new Plyr("#video-active", {
         "captions",
         "airplay",
         "fullscreen",
-    ],
+    ]
+    var clickToPlay = true
+} else {
+    var controls = [
+        "play-large",
+        "current-time",
+        "mute",
+        "volume",
+        "captions",
+        "airplay",
+        "fullscreen",
+    ]
+    var clickToPlay = false
+}
+const video = new Plyr("#video-active", {
+    controls: controls,
+    clickToPlay: clickToPlay,
 })
 
 let chatLog = document.querySelector("#chat-log")
 let chatLogBody = document.querySelector("#chat-log-body")
 let messageInput = document.querySelector("#chat-message-input")
-let video = document.querySelector("#video-active")
 let connectedUsers = []
 
 chatLog.scrollTop = chatLog.scrollHeight
 
-let chatSocket = new WebSocket(
+const chatSocket = new WebSocket(
     `ws://${window.location.host}/ws/chat/${roomName}/`
 )
 
@@ -88,7 +103,6 @@ chatSocket.onmessage = function(e) {
     let username
 
 
-    if (roomAuthor != user) {
     switch (message_type) {
         case "message":
             username = data["username"]
@@ -112,17 +126,6 @@ chatSocket.onmessage = function(e) {
 
             chatLog.scrollTop = chatLog.scrollHeight
             break
-        case "seeked_video":
-            let currentTimeData = data["current_time"]
-            console.log(currentTimeData)
-            video.currentTime = currentTimeData
-            break
-        case "pause_video":
-            video.pause()
-            break
-        case "play_video":
-            video.play()
-            break
         case "user_connected":
         case "user_disconnected":
             connectedUsers = data["connected_users"].split(",")
@@ -134,37 +137,48 @@ chatSocket.onmessage = function(e) {
             connectedUsers.forEach(function(username) {
                 connectedUsersContainer.appendChild(userSpan(username))
             })
-
             break
-        default:
-            console.log("Unknown WS message!")
     }
+    if (user !== roomAuthor) {
+        switch (message_type) {
+            case "seeked_video":
+                let currentTimeData = data["current_time"]
+                console.log(currentTimeData)
+                video.currentTime = currentTimeData
+                break
+            case "pause_video":
+                video.pause()
+                break
+            case "play_video":
+                video.play()
+                break
+        }
     }
 }
 
 if (roomAuthor == user) {
-    video.onpause = function() {
+    video.on("pause", function(e) {
         chatSocket.send(
             JSON.stringify({
                 type: "pause_video",
             })
         )
-    }
+    })
 
-    video.onplay = function() {
+    video.on("play", function(e) {
         chatSocket.send(
             JSON.stringify({
                 type: "play_video",
             })
         )
-    }
+    })
 
-    video.onseeked = function() {
+    video.on("seeked", function(e) {
         chatSocket.send(JSON.stringify({
             'type': 'seeked_video',
             'currentTime': video.currentTime,
         }));
-    };
+    });
 }
 
 chatSocket.onclose = function(e) {

@@ -26,7 +26,29 @@
 
 {% block script %}
     <script>
-        let name_input = document.querySelector('#id_name');
+        let name_input = document.querySelector("#id_name");
         name_input.focus();
+
+        function getSelectedText(selectElement) {
+            return selectElement.options[selectElement.selectedIndex].value
+        }
+
+        const videoTypeSelectElement = document.querySelector("#id_video_type")
+
+        const divIdVideo = document.querySelector("#div_id_video")
+        const divIdYoutubeLink = document.querySelector("#div_id_youtube_link")
+
+        let showVideoField = () => {
+            let selectedText = getSelectedText(videoTypeSelectElement)
+            if (selectedText === "local" ) {
+                divIdYoutubeLink.style.display = "none"
+                divIdVideo.style.display = "block"
+            } else if (selectedText === "yt" ) {
+                divIdVideo.style.display = "none"
+                divIdYoutubeLink.style.display = "block"
+            }
+        }
+        showVideoField()
+        videoTypeSelectElement.onchange = showVideoField
     </script>
 {% endblock script %}

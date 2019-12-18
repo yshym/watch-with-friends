@@ -21,14 +21,26 @@
         <div
             id="video-player"
             class="img-thumbnail video col">
-            <video
-                id="video-active"
-                class="video-active w-100 h-100"
-                controls="controls"
-                preload="auto">
-                <source src="{{ room.video.url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            {% if room.video %}
+                <video
+                    id="video-active"
+                    class="video-active w-100 h-100"
+                    controls="controls"
+                    preload="auto">
+                    <source src="{{ room.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% elif room.youtube_link %}
+                <div
+                    class="plyr__video-embed video-active w-100 h-100"
+                    id="video-active">
+                    <iframe
+                        src="https://www.youtube.com/embed/{{ room.youtube_link|youtube_video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                        allowfullscreen
+                        allowtransparency
+                    ></iframe>
+                </div>
+            {% endif %}
             <br /><br />
         </div>
         <div class="chat col-sm-3">
