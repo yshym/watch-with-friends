@@ -17,8 +17,10 @@ module.exports = {
     ],
   },
   entry: {
-    index:  './index.js',
-    room: '../static/js/rooms/room.js'
+    main:  './main.js',
+    room: '../static/js/rooms/room.js',
+    index: '../static/js/rooms/index.js',
+    roomCreate: '../static/js/rooms/roomCreate.js',
   },
   output: {
     filename: '[name].js',

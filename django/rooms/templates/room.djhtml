@@ -98,14 +98,10 @@
 {% endblock content %}
 
 {% block script %}
-    <script
-        type="text/javascript">
+    <script>
         const roomName = "{{ room.name }}"
         const roomAuthor = "{{ room.author }}"
         const user = "{{ user }}"
     </script>
-    <script
-        type="text/javascript"
-        src="{% static 'bundles/room.js' %}">
-    </script>
+    <script src="{% static 'bundles/room.js' %}"></script>
 {% endblock script %}

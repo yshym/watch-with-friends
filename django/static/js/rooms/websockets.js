@@ -10,13 +10,14 @@ export const chatSocket = new WebSocket(
 
 let connectedUsers = []
 const chatLogBody = document.querySelector("#chat-log-body")
+const connectedUsersContainer = document.querySelector("#connectedUsers")
+const messagesCards = document.querySelectorAll(".img-thumbnail.d-inline-flex")
 
 chatSocket.onmessage = function(e) {
     console.log(e)
     let data = JSON.parse(e.data)
     let message_type = data["type"]
     let username
-
 
     switch (message_type) {
         case "message":
@@ -31,10 +32,7 @@ chatSocket.onmessage = function(e) {
             chatLogBody.appendChild(document.createElement("br"))
 
             if (username != "{{ user.username }}") {
-                messagesCards = document.querySelectorAll(
-                    ".img-thumbnail.d-inline-flex"
-                )
-                lastMessageCard = messagesCards[messagesCards.length - 1]
+                let lastMessageCard = messagesCards[messagesCards.length - 1]
                 lastMessageCard.className =
                     "img-thumbnail d-inline-flex bg-light"
             }
@@ -44,9 +42,7 @@ chatSocket.onmessage = function(e) {
         case "user_connected":
         case "user_disconnected":
             connectedUsers = data["connected_users"].split(",")
-            let connectedUsersContainer = document.querySelector(
-                "#connectedUsers"
-            )
+
             connectedUsersContainer.removeChildren()
 
             connectedUsers.forEach(function(username) {

@@ -9,14 +9,12 @@ import {video} from "./video"
     user,
 ];
 
-
 // Remove alert if exist
 let alert = document.querySelector(".alert")
 let container = document.querySelector(".container-xl")
 if (alert !== null) {
     setTimeout(() => container.removeChild(alert), 5000)
 }
-
 
 // Get necessaty DOM elements
 let chatLog = document.querySelector("#chat-log")
@@ -32,7 +30,6 @@ HTMLElement.prototype.removeChildren = function() {
     }
     return this
 }
-
 
 // html5 video events for room author
 if (roomAuthor == user) {
