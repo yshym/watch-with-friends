@@ -13,7 +13,7 @@ import {removeAlertMessage} from "./alertMessages"
 // Get necessaty DOM elements
 const chatLog = document.querySelector("#chat-log")
 const messageInput = document.querySelector("#chat-message-input")
-const messageSubmitButton = document.querySelector("#chat-message-input")
+const messageSubmitButton = document.querySelector("#chat-message-submit")
 const container = document.querySelector(".container-xl")
 
 removeAlertMessage(container)
