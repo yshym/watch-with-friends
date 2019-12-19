@@ -1,5 +1,6 @@
 import {chatSocket} from "./websockets"
 import {video} from "./video"
+import {removeAlertMessage} from "./alertMessages"
 
 
 // Check if variables are correctly initialized using DTL
@@ -9,20 +10,15 @@ import {video} from "./video"
     user,
 ];
 
-// Remove alert if exist
-let alert = document.querySelector(".alert")
-let container = document.querySelector(".container-xl")
-if (alert !== null) {
-    setTimeout(() => container.removeChild(alert), 5000)
-}
-
 // Get necessaty DOM elements
-let chatLog = document.querySelector("#chat-log")
-let messageInput = document.querySelector("#chat-message-input")
-let messageSubmitButton = document.querySelector("#chat-message-input")
+const chatLog = document.querySelector("#chat-log")
+const messageInput = document.querySelector("#chat-message-input")
+const messageSubmitButton = document.querySelector("#chat-message-input")
+const container = document.querySelector(".container-xl")
+
+removeAlertMessage(container)
 
 chatLog.scrollTop = chatLog.scrollHeight
-
 
 HTMLElement.prototype.removeChildren = function() {
     while (this.firstChild) {
@@ -32,7 +28,7 @@ HTMLElement.prototype.removeChildren = function() {
 }
 
 // html5 video events for room author
-if (roomAuthor == user) {
+if (roomAuthor === user) {
     video.on("pause", function(_e) {
         chatSocket.send(
             JSON.stringify({

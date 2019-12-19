@@ -1,6 +1,5 @@
-export default function createAlertMessage(text, type) {
+export function createAlertMessage(container, text, type) {
     const alert = document.querySelector(".alert")
-    const container = document.querySelector(".container-xl")
 
     if (alert === null) {
         let messageDiv = document.createElement("div")
@@ -12,5 +11,14 @@ export default function createAlertMessage(text, type) {
             () => container.removeChild(alert),
             5000
         )
+    }
+}
+
+// Remove alert if exist
+export function removeAlertMessage(container) {
+    const alert = document.querySelector(".alert")
+
+    if (alert !== null) {
+        setTimeout(() => container.removeChild(alert), 5000)
     }
 }
