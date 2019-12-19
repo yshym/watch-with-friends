@@ -3,6 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from django.contrib.auth import get_user_model, login
+
+from .models import Room
 
 
 class ChatTests(ChannelsLiveServerTestCase):
@@ -12,7 +15,31 @@ class ChatTests(ChannelsLiveServerTestCase):
     def setUpClass(cls):
         super().setUpClass()
         try:
-            cls.driver = webdriver.Chrome(ChromeDriverManager().install())
+            cls.driver = webdriver.Chrome()
+
+            # Create user
+            cls.username = 'testuser1'
+            cls.password = 'testpass123'
+
+            User = get_user_model()
+            cls.user = User(
+                username=cls.username,
+                password=cls.password
+            )
+            cls.user.set_password(cls.password)
+            cls.user.save()
+
+            # Create room
+            cls.room1 = Room.objects.create(
+                name='room_1',
+                author=cls.user,
+                youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
+            )
+            cls.room2 = Room.objects.create(
+                name='room_2',
+                author=cls.user,
+                youtube_link='https://www.youtube.com/watch?v=DmeUuoxyt_E',
+            )
         except:
             super().tearDownClass()
             raise
@@ -21,6 +48,13 @@ class ChatTests(ChannelsLiveServerTestCase):
     def tearDownClass(cls):
         cls.driver.quit()
         super().tearDownClass()
+
+    def setUp(self):
+        # self._signup(username=self.user.username, password=self.user.password)
+        self._login(username=self.username, password=self.password)
+
+    def tearDown(self):
+        self._logout()
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
@@ -31,17 +65,21 @@ class ChatTests(ChannelsLiveServerTestCase):
 
             self._switch_to_window(0)
             self._post_message('hello')
-            WebDriverWait(self.driver, 2).until(lambda _:
-                'hello' in self._chat_log_value,
-                'Message was not received by window 1 from window 1')
+            WebDriverWait(self.driver, 2).until(
+                lambda _: 'hello' in self._chat_log_value,
+                'Message was not received by window 1 from window 1',
+            )
             self._switch_to_window(1)
-            WebDriverWait(self.driver, 2).until(lambda _:
-                'hello' in self._chat_log_value,
-                'Message was not received by window 2 from window 1')
+            WebDriverWait(self.driver, 2).until(
+                lambda _: 'hello' in self._chat_log_value,
+                'Message was not received by window 2 from window 1',
+            )
         finally:
             self._close_all_new_windows()
 
-    def test_when_chat_message_posted_then_not_seen_by_anyone_in_different_room(self):
+    def test_when_chat_message_posted_then_not_seen_by_anyone_in_different_room(
+        self,
+    ):
         try:
             self._enter_chat_room('room_1')
 
@@ -50,27 +88,72 @@ class ChatTests(ChannelsLiveServerTestCase):
 
             self._switch_to_window(0)
             self._post_message('hello')
-            WebDriverWait(self.driver, 2).until(lambda _:
-                'hello' in self._chat_log_value,
-                'Message was not received by window 1 from window 1')
+            WebDriverWait(self.driver, 2).until(
+                lambda _: 'hello' in self._chat_log_value,
+                'Message was not received by window 1 from window 1',
+            )
 
             self._switch_to_window(1)
             self._post_message('world')
-            WebDriverWait(self.driver, 2).until(lambda _:
-                'world' in self._chat_log_value,
-                'Message was not received by window 2 from window 2')
-            self.assertTrue('hello' not in self._chat_log_value,
-                'Message was improperly received by window 2 from window 1')
+            WebDriverWait(self.driver, 2).until(
+                lambda _: 'world' in self._chat_log_value,
+                'Message was not received by window 2 from window 2',
+            )
+            self.assertTrue(
+                'hello' not in self._chat_log_value,
+                'Message was improperly received by window 2 from window 1',
+            )
         finally:
             self._close_all_new_windows()
 
     # === Utility ===
 
+    # TODO Add
+    def _create_room(self, room_name):
+        pass
+
+    def _signup(self, username, password):
+        self.driver.get(self.live_server_url + '/users/signup/')
+
+        username_input = self.driver.find_element_by_id("id_username")
+        password_input1 = self.driver.find_element_by_id("id_password1")
+        password_input2 = self.driver.find_element_by_id("id_password2")
+
+        username_input.send_keys(username)
+        password_input1.send_keys(password)
+        password_input2.send_keys(password)
+
+        self.driver.find_element_by_name("submit").click()
+        WebDriverWait(self.driver, 2).until(
+            lambda _: 'signup' not in self.driver.current_url
+        )
+
+    def _login(self, username, password):
+        self.driver.get(self.live_server_url + '/users/login/')
+
+        username_input = self.driver.find_element_by_id("id_username")
+        password_input = self.driver.find_element_by_id("id_password")
+
+        username_input.send_keys(username)
+        password_input.send_keys(password)
+
+        self.driver.find_element_by_name("submit").click()
+        WebDriverWait(self.driver, 2).until(
+            lambda _: 'login' not in self.driver.current_url
+        )
+
+    def _logout(self):
+        self.driver.get(self.live_server_url + '/users/logout/')
+        WebDriverWait(self.driver, 2).until(
+            lambda _: 'logout' not in self.driver.current_url
+        )
+
     def _enter_chat_room(self, room_name):
-        self.driver.get(self.live_server_url + '/chat/')
+        self.driver.get(self.live_server_url + '')
         ActionChains(self.driver).send_keys(room_name + '\n').perform()
-        WebDriverWait(self.driver, 2).until(lambda _:
-            room_name in self.driver.current_url)
+        WebDriverWait(self.driver, 2).until(
+            lambda _: room_name in self.driver.current_url
+        )
 
     def _open_new_window(self):
         self.driver.execute_script('window.open("about:blank", "_blank");')
@@ -83,12 +166,31 @@ class ChatTests(ChannelsLiveServerTestCase):
         if len(self.driver.window_handles) == 1:
             self.driver.switch_to_window(self.driver.window_handles[0])
 
+    def _close_window(self):
+        self.driver.execute_script('window.close();')
+
     def _switch_to_window(self, window_index):
         self.driver.switch_to_window(self.driver.window_handles[window_index])
 
     def _post_message(self, message):
-        ActionChains(self.driver).send_keys(message + '\n').perform()
+        chat_message_input = self.driver.find_element_by_id('chat-message-input')
+        chat_message_submit_button = self.driver.find_element_by_id('chat-message-submit')
+
+        chat_message_input.send_keys(message)
+        # WebDriverWait(self.driver, 2).until(
+        #     lambda _: message in self._chat_input_value
+        # )
+        chat_message_submit_button.click()
+
 
     @property
     def _chat_log_value(self):
-        return self.driver.find_element_by_css_selector('#chat-log').get_property('value')
+        return self.driver.find_element_by_css_selector(
+            '#chat-log'
+        ).get_property('textContent')
+
+    @property
+    def _chat_input_value(self):
+        return self.driver.find_element_by_css_selector(
+            '#chat-message-input'
+        ).get_property('value')
