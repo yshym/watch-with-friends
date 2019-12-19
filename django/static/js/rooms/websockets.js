@@ -31,7 +31,7 @@ chatSocket.onmessage = function(e) {
             chatLogBody.appendChild(newMessageDiv(username, timestamp, message))
             chatLogBody.appendChild(document.createElement("br"))
 
-            if (username != "{{ user.username }}") {
+            if (username !== "{{ user.username }}") {
                 let lastMessageCard = messagesCards[messagesCards.length - 1]
                 lastMessageCard.className =
                     "img-thumbnail d-inline-flex bg-light"
