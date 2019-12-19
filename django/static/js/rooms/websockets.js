@@ -1,6 +1,6 @@
 import userSpan from "./userSpan"
-import newMessageDiv from "./newMessageDiv"
 import {video} from "./video"
+import createMessage from "./createMessage"
 
 
 // Initialize WebSocket
@@ -9,6 +9,7 @@ export const chatSocket = new WebSocket(
 )
 
 let connectedUsers = []
+const chatLog = document.querySelector("#chat-log")
 const chatLogBody = document.querySelector("#chat-log-body")
 const connectedUsersContainer = document.querySelector("#connectedUsers")
 const messagesCards = document.querySelectorAll(".img-thumbnail.d-inline-flex")
@@ -21,21 +22,8 @@ chatSocket.onmessage = function(e) {
 
     switch (message_type) {
         case "message":
-            username = data["username"]
             let message = data["message"]
-            let timestamp = data["timestamp"]
-
-            if (chatLogBody.firstElementChild) {
-                chatLogBody.appendChild(document.createElement("br"))
-            }
-            chatLogBody.appendChild(newMessageDiv(username, timestamp, message))
-            chatLogBody.appendChild(document.createElement("br"))
-
-            if (username !== "{{ user.username }}") {
-                let lastMessageCard = messagesCards[messagesCards.length - 1]
-                lastMessageCard.className =
-                    "img-thumbnail d-inline-flex bg-light"
-            }
+            createMessage(chatLogBody, messagesCards, user, message)
 
             chatLog.scrollTop = chatLog.scrollHeight
             break

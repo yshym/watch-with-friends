@@ -18,5 +18,11 @@ DATABASES = {
             BASE_DIR,
             'watch-with-friends.sqlite3'.replace('-', '_')
         ),
+        'TEST': {
+            'NAME': os.path.join(
+                BASE_DIR,
+                f"{'watch-with-friends.sqlite3'.replace('-', '_')}_test.sqlite3"
+            )
+        }
     }
 }
