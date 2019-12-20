@@ -50,11 +50,10 @@ class ChatTests(ChannelsLiveServerTestCase):
         super().tearDownClass()
 
     def setUp(self):
-        # self._signup(username=self.user.username, password=self.user.password)
-        self._login(username=self.username, password=self.password)
+        self.client.login(username=self.username, password=self.password)
 
     def tearDown(self):
-        self._logout()
+        self.client.logout()
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
@@ -108,8 +107,8 @@ class ChatTests(ChannelsLiveServerTestCase):
 
     # === Utility ===
 
-    # TODO Add
-    def _create_room(self, room_name):
+    # TODO: Add _create_room method
+    def _create_room(self):
         pass
 
     def _signup(self, username, password):
