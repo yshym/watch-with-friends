@@ -10,5 +10,3 @@ COPY pyproject.toml poetry.lock /code/
 RUN pip install poetry \
     && poetry config virtualenvs.create false \
     && poetry install
-
-COPY . /code/

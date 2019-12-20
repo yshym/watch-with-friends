@@ -70,10 +70,13 @@
                                         {{ message.timestamp|time:'H:i' }}
                                     </span>
                                 </p>
-                                <span>{{ message.content }}</span>
+                                <span id="message-content">{{ message.content }}</span>
                             </div>
                         </div>
                         <br />
+                        {% if forloop.last %}
+                            <br />
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class="input-group">

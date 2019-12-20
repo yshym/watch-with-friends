@@ -9,10 +9,12 @@
 
 #chat-log-body {
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #message-div {
-    max-width: 55vw;
+    max-width: 40vw;
+    word-wrap: anywhere;
 }
 
 #chat-message-input,
