@@ -25,7 +25,7 @@ chatSocket.onmessage = function(e) {
             let message = data["message"]
             createMessage(chatLogBody, messagesCards, user, message)
 
-            chatLog.scrollTop = chatLog.scrollHeight
+            chatLogBody.scrollTop = chatLogBody.scrollHeight
             break
         case "user_connected":
         case "user_disconnected":

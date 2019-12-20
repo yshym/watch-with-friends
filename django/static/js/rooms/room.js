@@ -11,14 +11,14 @@ import {removeAlertMessage} from "./alertMessages"
 ];
 
 // Get necessaty DOM elements
-const chatLog = document.querySelector("#chat-log")
+const chatLogBody = document.querySelector("#chat-log-body")
 const messageInput = document.querySelector("#chat-message-input")
 const messageSubmitButton = document.querySelector("#chat-message-submit")
 const container = document.querySelector(".container-xl")
 
 removeAlertMessage(container)
 
-chatLog.scrollTop = chatLog.scrollHeight
+chatLogBody.scrollTop = chatLogBody.scrollHeight
 
 HTMLElement.prototype.removeChildren = function() {
     while (this.firstChild) {
