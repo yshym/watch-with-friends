@@ -8,7 +8,7 @@ export default function newMessageDiv(username, timestamp, message) {
 
     let authorP = document.createElement("p")
     authorP.className = "font-weight-bold"
-    let authorText = document.createTextNode(username)
+    let authorText = document.createTextNode(`${username} `)
     authorP.appendChild(authorText)
 
     let timestampSpan = document.createElement("span")

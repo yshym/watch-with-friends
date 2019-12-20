@@ -22,10 +22,8 @@ function formattedCurrentDate() {
 export default function createMessage(chatLogBody, messagesCards, username, message) {
     let timestamp = formattedCurrentDate()
 
-    if (chatLogBody.firstElementChild) {
-        chatLogBody.appendChild(document.createElement("br"))
-    }
     chatLogBody.appendChild(newMessageDiv(username, timestamp, message))
+    chatLogBody.appendChild(document.createElement("br"))
     chatLogBody.appendChild(document.createElement("br"))
 
     if (username !== user) {
