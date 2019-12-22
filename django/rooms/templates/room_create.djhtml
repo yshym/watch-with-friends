@@ -26,5 +26,5 @@
 {% endblock content %}
 
 {% block script %}
-    <script src="{% static 'bundles/roomCreate.js' %}"/>
+    <script src="{% static 'bundles/roomCreate.js' %}"></script>
 {% endblock script %}

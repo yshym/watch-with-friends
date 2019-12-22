@@ -7,6 +7,7 @@ from autoslug import AutoSlugField
 class Room(models.Model):
     name = models.SlugField(max_length=100, unique=True)
     slug = AutoSlugField(max_length=100, unique=True, populate_from='name')
+    # TODO Either video or youtube_link field should be required based on user's selection
     video = models.FileField(upload_to='videos/', blank=True, null=True)
     youtube_link = models.URLField(blank=True, null=True)
     author = models.ForeignKey(

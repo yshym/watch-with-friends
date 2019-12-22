@@ -1,6 +1,6 @@
 import {chatSocket} from "./websockets"
 import {video} from "./video"
-import {removeAlertMessage} from "./alertMessages"
+import AlertMessage from "./AlertMessage"
 
 
 // Check if variables are correctly initialized using DTL
@@ -16,7 +16,7 @@ const messageInput = document.querySelector("#chat-message-input")
 const messageSubmitButton = document.querySelector("#chat-message-submit")
 const container = document.querySelector(".container-xl")
 
-removeAlertMessage(container)
+AlertMessage.removeFrom(container)
 
 chatLogBody.scrollTop = chatLogBody.scrollHeight
 
@@ -45,6 +45,7 @@ if (roomAuthor === user) {
         )
     })
 
+    // FIXME Fix synchronized video seeking while wathing local video
     video.on("seeked", function(_e) {
         chatSocket.send(JSON.stringify({
             'type': 'seeked_video',

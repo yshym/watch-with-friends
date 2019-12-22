@@ -11,6 +11,7 @@ from .models import Room
 class ChatTests(ChannelsLiveServerTestCase):
     serve_static = True  # emulate StaticLiveServerTestCase
 
+    # FIXME Fix User does not exist on login after logout
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -29,7 +30,7 @@ class ChatTests(ChannelsLiveServerTestCase):
             cls.user.set_password(cls.password)
             cls.user.save()
 
-            # Create room
+            # Create rooms
             cls.room1 = Room.objects.create(
                 name='room_1',
                 author=cls.user,
@@ -107,7 +108,7 @@ class ChatTests(ChannelsLiveServerTestCase):
 
     # === Utility ===
 
-    # TODO: Add _create_room method
+    # TODO Add _create_room method
     def _create_room(self):
         pass
 
