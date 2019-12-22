@@ -1,5 +1,5 @@
 import slugify from "./slugify"
-import {createAlertMessage} from "./alertMessages"
+import AlertMessage from "./AlertMessage"
 
 
 const roomNameInput = document.querySelector("#room-name-input")
@@ -13,14 +13,18 @@ roomNameInput.onkeyup = function(e) {
     }
 }
 
-roomNameSubmitButton.onclick = function(e) {
+roomNameSubmitButton.onclick = function(_e) {
     let roomName = roomNameInput.value
     if (roomName !== "") {
-        console.log(roomNames)
         if (roomNames.includes(roomName)) {
             window.location.pathname = `/${slugify(roomName)}/`
         } else {
-            createAlertMessage(container, "Room with this name does not exist!", "warning")
+            let alertMessage = new AlertMessage(
+                container,
+                "Room with this name does not exist!",
+                "warning",
+            )
+            alertMessage.post()
         }
     }
 }
