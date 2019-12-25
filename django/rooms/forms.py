@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-
 from .models import (
     Room,
     Message,
@@ -50,7 +49,7 @@ class RoomCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         attrs = {}
         if self.errors.get('video') is not None:
-            attrs['class'] = 'is-invalid'
+            attrs.update({'class': 'is-invalid'})
         self.fields.get('video').widget = CustomFileUpload(attrs=attrs)
 
     def clean(self):
