@@ -11,10 +11,10 @@
 </div>
 
 <script type="text/javascript">
- $(document).ready(function(){
-     $('.custom-file-input').change(function(e){
-         let fileName = e.target.files[0].name;
-         $('.custom-file-label').text(fileName);
-     });
- });
+    $(document).ready(function(){
+        $('.custom-file-input').change(function(e){
+            let fileName = e.target.files[0].name;
+            $('.custom-file-label').text(fileName);
+        });
+    });
 </script>
