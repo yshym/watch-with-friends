@@ -49,7 +49,7 @@ class RoomCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         attrs = {}
-        if self.fields.get('video').error_messages is not None:
+        if self.errors.get('video') is not None:
             attrs['class'] = 'is-invalid'
         self.fields.get('video').widget = CustomFileUpload(attrs=attrs)
 
