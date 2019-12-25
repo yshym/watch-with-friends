@@ -10,7 +10,6 @@
     </label>
 </div>
 
-
 <script type="text/javascript">
  $(document).ready(function(){
      $('.custom-file-input').change(function(e){
