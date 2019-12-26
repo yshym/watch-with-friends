@@ -15,6 +15,11 @@ const chatLogBody = document.querySelector("#chat-log-body")
 const messageInput = document.querySelector("#chat-message-input")
 const messageSubmitButton = document.querySelector("#chat-message-submit")
 const container = document.querySelector(".container-xl")
+const roomNameElement = document.querySelector("h3#room-name")
+const roomNameChangeForm = document.querySelector("form#room-name-change")
+const roomNameChangeCancelButton = document.querySelector(
+    "button#room-name-change-cancel"
+)
 
 AlertMessage.removeFrom(container)
 
@@ -81,4 +86,15 @@ messageSubmitButton.onclick = function(_e) {
 
         messageInput.value = ""
     }
+}
+
+roomNameElement.onclick = function(_e) {
+    this.style.display = "none"
+    roomNameChangeForm.style.display = "block"
+}
+
+roomNameChangeCancelButton.onclick = function(e) {
+    e.preventDefault()
+    roomNameChangeForm.style.display = "none"
+    roomNameElement.style.display = "block"
 }
