@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.views import generic
 from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,7 +20,7 @@ class IndexView(generic.TemplateView):
     template_name = 'index.djhtml'
 
     def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context.update(room_names=self.room_names())
         return context
 
@@ -35,6 +36,14 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'room.djhtml'
     login_url = 'users:login'
 
+    def post(self, request, *args, **kwargs):
+        obj = super().get_object()
+
+        name = request.POST.get('name')
+        obj.name = name
+        obj.save()
+
+        return redirect(request.build_absolute_uri())
 
 class RoomCreateView(SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView):
     template_name = 'room_create.djhtml'
@@ -44,7 +53,7 @@ class RoomCreateView(SuccessMessageMixin, LoginRequiredMixin, generic.edit.Creat
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super(RoomCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self):
         return self.object.get_absolute_url()

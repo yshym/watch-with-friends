@@ -14,7 +14,17 @@
         {% endfor %}
     {% endif %}
 
-    <h3>{{ room.name }}</h3>
+    <h3 id="room-name">{{ room.name }} <i class="far fa-edit"></i></h3>
+    <!-- Change room name form -->
+    <form id="room-name-change" method="POST">{% csrf_token %}
+        <div class="input-group">
+            <input class="form-control" type="text" name="name" value="{{ room.name }}" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-light">Change</button>
+                <button id="room-name-change-cancel" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </form>
     <hr />
 
     <div class="d-flex">
@@ -37,8 +47,8 @@
                     <iframe
                         src="https://www.youtube.com/embed/{{ room.youtube_link|youtube_video_id }}?origin=https://plyr.io&amp"
                         allowfullscreen
-                        allowtransparency
-                    ></iframe>
+                        allowtransparency>
+                    </iframe>
                 </div>
             {% endif %}
             <br /><br />

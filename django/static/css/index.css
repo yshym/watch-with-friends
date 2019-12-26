@@ -44,3 +44,12 @@
 .favicon:hover .favicon-hover {
     display: inline;
 }
+
+form#room-name-change {
+    display: none;
+}
+
+h3#room-name:hover {
+    color: gray;
+    cursor: pointer;
+}
