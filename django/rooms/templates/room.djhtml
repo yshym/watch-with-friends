@@ -20,33 +20,34 @@
             <h3 class="w-100 mb-0">{{ room.name }}</h3>
             <h3 id="room-name-change-form-show" class="mb-0"><i class="far fa-edit"></i></h3>
         </div>
+        <!-- Change room name form -->
+        <form
+            id="room-name-change"
+            method="POST">{% csrf_token %}
+            <div class="input-group">
+                <input
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    value="{{ room.name }}" />
+                <div class="input-group-append">
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+                        Change
+                    </button>
+                    <button
+                        id="room-name-change-cancel"
+                        class="btn btn-danger">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
     {% else %}
         <h3 id="room-name-public">{{ room.name }}</h3>
     {% endif %}
-    <!-- Change room name form -->
-    <form
-        id="room-name-change"
-        method="POST">{% csrf_token %}
-        <div class="input-group">
-            <input
-                class="form-control"
-                type="text"
-                name="name"
-                value="{{ room.name }}" />
-            <div class="input-group-append">
-                <button
-                    type="submit"
-                    class="btn btn-success">
-                    Change
-                </button>
-                <button
-                    id="room-name-change-cancel"
-                    class="btn btn-danger">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </form>
+
     <hr />
 
     <div class="d-flex">
