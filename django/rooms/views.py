@@ -47,7 +47,20 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
 
         if request.user == obj.author:
             name = request.POST.get('name')
-            obj.name = name
+            video = request.FILES.get('video')
+            youtube_link = request.POST.get('youtube_link')
+
+            print(video, request.FILES)
+
+            if name:
+                obj.name = name
+            elif video:
+                obj.youtube_link = None
+                obj.video = video
+            elif youtube_link:
+                obj.video = None
+                obj.youtube_link = youtube_link
+
             obj.save()
 
         return redirect(request.build_absolute_uri())
