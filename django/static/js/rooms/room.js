@@ -1,6 +1,7 @@
 import {chatSocket} from "./websockets"
 import {video} from "./video"
 import AlertMessage from "./AlertMessage"
+import showVideoField from "./showVideoField"
 
 
 // Check if variables are correctly initialized using DTL
@@ -19,6 +20,14 @@ const roomNameElement = document.querySelector("h3#room-name")
 const roomNameChangeForm = document.querySelector("form#room-name-change")
 const roomNameChangeCancelButton = document.querySelector(
     "button#room-name-change-cancel"
+)
+const videoTypeSelectElement = document.querySelector("#id_video_type")
+const roomVideoChangeForm = document.querySelector("form#room-video-change")
+const roomVideoChangeButton = document.querySelector(
+    "button#room-video-change-form-show"
+)
+const roomVideoChangeCancelButton = document.querySelector(
+    "button#room-video-change-cancel"
 )
 
 AlertMessage.removeFrom(container)
@@ -99,4 +108,17 @@ if (roomAuthor === user) {
         roomNameChangeForm.style.display = "none"
         roomNameElement.style.display = "block"
     }
+}
+
+
+showVideoField()
+videoTypeSelectElement.onchange = showVideoField
+roomVideoChangeButton.onclick = function(_e) {
+    this.style.display = "none"
+    roomVideoChangeForm.style.display = "block"
+}
+roomVideoChangeCancelButton.onclick = function(e) {
+    e.preventDefault()
+    roomVideoChangeForm.style.display = "none"
+    roomVideoChangeButton.style.display = "block"
 }
