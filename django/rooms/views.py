@@ -13,6 +13,7 @@ from .models import (
 from .forms import (
     MessageCreateForm,
     RoomCreateForm,
+    RoomVideoUpdateForm,
 )
 
 
@@ -35,6 +36,11 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     model = Room
     template_name = 'room.djhtml'
     login_url = 'users:login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(room_video_update_form=RoomVideoUpdateForm())
+        return context
 
     def post(self, request, *args, **kwargs):
         obj = super().get_object()

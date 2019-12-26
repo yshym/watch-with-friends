@@ -53,3 +53,7 @@ h3#room-name:hover {
     color: gray;
     cursor: pointer;
 }
+
+form#room-video-change {
+    display: none;
+}
