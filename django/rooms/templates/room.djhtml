@@ -16,7 +16,10 @@
     {% endif %}
 
     {% if user == room.author  %}
-        <h3 id="room-name">{{ room.name }} <i class="far fa-edit"></i></h3>
+        <div id="room-name" class="d-flex">
+            <h3 class="w-100 mb-0">{{ room.name }}</h3>
+            <h3 id="room-name-change-form-show" class="mb-0"><i class="far fa-edit"></i></h3>
+        </div>
     {% else %}
         <h3 id="room-name-public">{{ room.name }}</h3>
     {% endif %}
