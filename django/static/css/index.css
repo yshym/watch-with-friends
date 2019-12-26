@@ -49,7 +49,7 @@ form#room-name-change {
     display: none;
 }
 
-h3#room-name:hover {
+h3#room-name-change-form-show:hover {
     color: gray;
     cursor: pointer;
 }

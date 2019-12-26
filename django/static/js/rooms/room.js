@@ -16,8 +16,11 @@ const chatLogBody = document.querySelector("#chat-log-body")
 const messageInput = document.querySelector("#chat-message-input")
 const messageSubmitButton = document.querySelector("#chat-message-submit")
 const container = document.querySelector(".container-xl")
-const roomNameElement = document.querySelector("h3#room-name")
+const roomNameElement = document.querySelector("div#room-name")
 const roomNameChangeForm = document.querySelector("form#room-name-change")
+const roomNameChangeButton = document.querySelector(
+    "h3#room-name-change-form-show"
+)
 const roomNameChangeCancelButton = document.querySelector(
     "button#room-name-change-cancel"
 )
@@ -99,15 +102,16 @@ messageSubmitButton.onclick = function(_e) {
 
 if (roomAuthor === user) {
     // Change room name
-    roomNameElement.onclick = function(_e) {
-        this.style.display = "none"
+    roomNameChangeButton.onclick = function(_e) {
+        roomNameElement.className = ""
+        roomNameElement.style.display = "none"
         roomNameChangeForm.style.display = "block"
     }
 
     roomNameChangeCancelButton.onclick = function(e) {
         e.preventDefault()
         roomNameChangeForm.style.display = "none"
-        roomNameElement.style.display = "block"
+        roomNameElement.className = "d-flex"
     }
 
     // Change room video
