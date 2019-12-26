@@ -81,7 +81,7 @@
         </button>
         <form
             method="POST"
-            enctype="multiparm/form-data"
+            enctype="multipart/form-data"
             id="room-video-change"
             class="img-thumbnail">{% csrf_token %}
             {{ room_video_update_form|crispy }}
