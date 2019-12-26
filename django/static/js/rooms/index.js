@@ -2,6 +2,11 @@ import slugify from "./slugify"
 import AlertMessage from "./AlertMessage"
 
 
+// Check if variables are correctly initialized using DTL
+[
+    roomNames,
+];
+
 const roomNameInput = document.querySelector("#room-name-input")
 const roomNameSubmitButton = document.querySelector("#room-name-submit")
 const container = document.querySelector(".container-xl")
