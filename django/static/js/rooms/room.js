@@ -72,7 +72,7 @@ messageInput.onkeyup = function(e) {
 }
 
 messageSubmitButton.onclick = function(_e) {
-    if (messageInput.value.trim() != "") {
+    if (messageInput.value.trim() !== "") {
         let message = messageInput.value
 
         chatSocket.send(
@@ -88,13 +88,15 @@ messageSubmitButton.onclick = function(_e) {
     }
 }
 
-roomNameElement.onclick = function(_e) {
-    this.style.display = "none"
-    roomNameChangeForm.style.display = "block"
-}
+if (roomAuthor === user) {
+    roomNameElement.onclick = function(_e) {
+        this.style.display = "none"
+        roomNameChangeForm.style.display = "block"
+    }
 
-roomNameChangeCancelButton.onclick = function(e) {
-    e.preventDefault()
-    roomNameChangeForm.style.display = "none"
-    roomNameElement.style.display = "block"
+    roomNameChangeCancelButton.onclick = function(e) {
+        e.preventDefault()
+        roomNameChangeForm.style.display = "none"
+        roomNameElement.style.display = "block"
+    }
 }
