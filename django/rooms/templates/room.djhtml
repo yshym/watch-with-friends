@@ -14,7 +14,11 @@
         {% endfor %}
     {% endif %}
 
-    <h3 id="room-name">{{ room.name }} <i class="far fa-edit"></i></h3>
+    {% if user == room.author  %}
+        <h3 id="room-name">{{ room.name }} <i class="far fa-edit"></i></h3>
+    {% else %}
+        <h3 id="room-name-public">{{ room.name }}</h3>
+    {% endif %}
     <!-- Change room name form -->
     <form id="room-name-change" method="POST">{% csrf_token %}
         <div class="input-group">

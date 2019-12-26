@@ -39,9 +39,10 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     def post(self, request, *args, **kwargs):
         obj = super().get_object()
 
-        name = request.POST.get('name')
-        obj.name = name
-        obj.save()
+        if request.user == obj.author:
+            name = request.POST.get('name')
+            obj.name = name
+            obj.save()
 
         return redirect(request.build_absolute_uri())
 
