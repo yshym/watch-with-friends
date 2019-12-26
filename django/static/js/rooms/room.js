@@ -98,6 +98,7 @@ messageSubmitButton.onclick = function(_e) {
 }
 
 if (roomAuthor === user) {
+    // Change room name
     roomNameElement.onclick = function(_e) {
         this.style.display = "none"
         roomNameChangeForm.style.display = "block"
@@ -108,17 +109,19 @@ if (roomAuthor === user) {
         roomNameChangeForm.style.display = "none"
         roomNameElement.style.display = "block"
     }
-}
 
+    // Change room video
+    showVideoField()
+    videoTypeSelectElement.onchange = showVideoField
 
-showVideoField()
-videoTypeSelectElement.onchange = showVideoField
-roomVideoChangeButton.onclick = function(_e) {
-    this.style.display = "none"
-    roomVideoChangeForm.style.display = "block"
-}
-roomVideoChangeCancelButton.onclick = function(e) {
-    e.preventDefault()
-    roomVideoChangeForm.style.display = "none"
-    roomVideoChangeButton.style.display = "block"
+    roomVideoChangeButton.onclick = function(_e) {
+        this.style.display = "none"
+        roomVideoChangeForm.style.display = "block"
+    }
+
+    roomVideoChangeCancelButton.onclick = function(e) {
+        e.preventDefault()
+        roomVideoChangeForm.style.display = "none"
+        roomVideoChangeButton.style.display = "block"
+    }
 }
