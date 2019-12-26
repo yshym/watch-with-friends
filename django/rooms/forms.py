@@ -59,3 +59,25 @@ class RoomCreateForm(forms.ModelForm):
         elif self.cleaned_data.get('video_type') == 'yt' and not self.cleaned_data.get('youtube_link'):
             self.add_error('youtube_link', 'This field is required.')
         return self.cleaned_data
+
+
+class RoomVideoUpdateForm(forms.ModelForm):
+    VIDEO_TYPES = (
+        ('local', 'Local'),
+        ('yt', 'YouTube'),
+    )
+    video_type = forms.ChoiceField(choices=VIDEO_TYPES, label='')
+    class Meta:
+        model = Room
+        fields = (
+            'video_type',
+            'video',
+            'youtube_link',
+        )
+        widgets = {
+            'video': CustomFileUpload,
+        }
+        labels = {
+            'video': '',
+            'youtube_link': '',
+        }
