@@ -33,13 +33,13 @@
                 <div class="input-group-append">
                     <button
                         type="submit"
-                        class="btn btn-success">
-                        Change
+                        class="btn btn-light text-success border">
+                        <i class="fas fa-check"></i>
                     </button>
                     <button
                         id="room-name-change-cancel"
-                        class="btn btn-danger">
-                        Cancel
+                        class="btn btn-light text-danger border">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
@@ -93,13 +93,13 @@
                     <div class="btn-group w-100">
                         <button
                             type="submit"
-                            class="btn btn-success">
-                            Change
+                            class="btn btn-light text-success">
+                            <i class="fas fa-check"></i>
                         </button>
                         <button
                             id="room-video-change-cancel"
-                            class="btn btn-danger">
-                            Cancel
+                            class="btn btn-light text-danger">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </form>
