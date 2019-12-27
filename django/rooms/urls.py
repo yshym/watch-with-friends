@@ -11,5 +11,5 @@ from .views import (
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('create/', RoomCreateView.as_view(), name='room_create'),
-    path('<slug:slug>/', RoomDetailView.as_view(), name='room_detail'),
+    path('<uuid:pk>/', RoomDetailView.as_view(), name='room_detail'),
 ]

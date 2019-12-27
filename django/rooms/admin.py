@@ -25,6 +25,7 @@ class MessagesInline(admin.TabularInline):
 
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('name', 'author', 'timestamp')
+    readonly_fields = ('id',)
     list_filter = ('timestamp', 'author')
     search_fields = ('name', 'author')
 

@@ -26,10 +26,10 @@ class IndexView(generic.TemplateView):
         return context
 
     def room_names(self):
-        return mark_safe([
-            room.get('name')
-            for room in Room.objects.all().values('name')
-        ])
+        return mark_safe({
+            room.get('name'): str(room.get('id'))
+            for room in Room.objects.all().values('name', 'id')
+        })
 
 
 class RoomDetailView(LoginRequiredMixin, generic.DetailView):
