@@ -1,4 +1,3 @@
-import slugify from "./slugify"
 import AlertMessage from "./AlertMessage"
 
 
@@ -21,8 +20,8 @@ roomNameInput.onkeyup = function(e) {
 roomNameSubmitButton.onclick = function(_e) {
     let roomName = roomNameInput.value
     if (roomName !== "") {
-        if (roomNames.includes(roomName)) {
-            window.location.pathname = `/${slugify(roomName)}/`
+        if (roomName in roomNames) {
+            window.location.pathname = `/${roomNames[roomName]}/`
         } else {
             let alertMessage = new AlertMessage(
                 container,
