@@ -22,7 +22,6 @@ redis = "*"
 channels-redis = "*"
 selenium = "^3.141"
 webdriver_manager = "^2.3"
-static-ranges = "^0.2.0"
 celery = "^4.4"
 
 [tool.poetry.dev-dependencies]
