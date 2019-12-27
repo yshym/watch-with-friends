@@ -21,7 +21,7 @@ class Room(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse_lazy('room_detail', kwargs={'slug': str(self.slug)})
+        return reverse_lazy('room_detail', kwargs={'pk': str(self.id)})
 
 
 class Message(models.Model):
