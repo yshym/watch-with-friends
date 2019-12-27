@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
-from autoslug import AutoSlugField
+
+import uuid
 
 
 class Room(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.SlugField(max_length=100, unique=True)
-    slug = AutoSlugField(max_length=100, unique=True, populate_from='name')
     video = models.FileField(upload_to='videos/', blank=True, null=True)
     youtube_link = models.URLField(blank=True, null=True)
     author = models.ForeignKey(
