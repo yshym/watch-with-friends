@@ -1,6 +1,8 @@
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from channels.generic.websocket import AsyncWebsocketConsumer
+from collections import deque
+
 import json
 
 from .models import (
@@ -15,6 +17,7 @@ from .tasks import (
 
 class ChatConsumer(AsyncWebsocketConsumer):
     users = {}
+    waiting_users = deque()
 
     async def connect(self):
         self.room_name = self.scope.get('url_route').get('kwargs').get('room_name')
@@ -108,6 +111,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'current_time': current_time,
                 }
             )
+        elif message_type == 'buffering_video':
+            self.add_waiting_user(self.user)
+
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'buffering_video',
+                }
+            )
+        elif message_type == 'buffered_video':
+            if self.user in self.waiting_users:
+                self.remove_waiting_user(self.user)
+
+                if len(self.waiting_users) == 0:
+                    await self.channel_layer.group_send(
+                        self.room_group_name,
+                        {
+                            'type': 'all_players_buffered',
+                        }
+                    )
 
     # Receive message from room group
     async def chat_message(self, event):
@@ -159,8 +182,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'connected_users': connected_users,
         }))
 
+    async def buffering_video(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'buffering_video',
+        }))
+
+    async def all_players_buffered(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'all_players_buffered',
+        }))
+
     def add_user(self, room_name, user):
         self.users.setdefault(room_name, []).append(user.username)
 
     def remove_user(self, room_name, user):
         self.users.get(room_name, []).remove(user.username)
+
+    def add_waiting_user(self, user):
+        self.waiting_users.append(user)
+
+    def remove_waiting_user(self, user):
+        self.waiting_users.remove(user)

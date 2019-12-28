@@ -18,6 +18,7 @@ chatSocket.onmessage = function(e) {
     let data = JSON.parse(e.data)
     let message_type = data["type"]
 
+    // Messages for all users
     switch (message_type) {
         case "message":
             let username = data["username"]
@@ -39,12 +40,16 @@ chatSocket.onmessage = function(e) {
                 connectedUser.addToContainer(connectedUsersContainer)
             })
             break
+        case "buffering_video":
+            video.pause()
+        case "all_players_buffered":
+            video.play()
     }
+    // Messages for all users, except the room creator
     if (user !== roomAuthor) {
         switch (message_type) {
             case "seeked_video":
                 let currentTimeData = data["current_time"]
-                console.log(currentTimeData)
                 video.currentTime = currentTimeData
                 break
             case "pause_video":
