@@ -23,6 +23,8 @@ channels-redis = "*"
 selenium = "^3.141"
 webdriver_manager = "^2.3"
 celery = "^4.4"
+django-debug-toolbar = "^2.1"
+whitenoise = "^5.0"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,4 +1,5 @@
 from .base import *
+from decouple import config
 
 
 ALLOWED_HOSTS = config(
@@ -23,3 +24,6 @@ DATABASES = {
         'HOST': 'localhost',
     }
 }
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
