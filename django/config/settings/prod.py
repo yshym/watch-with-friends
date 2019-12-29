@@ -18,10 +18,11 @@ SECRET_KEY = config('SECRET_KEY')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'watch-with-friends',
-        'USER': config('DB_USER', default='postres'),
-        'PASSWORD': config('DB_PASS', default='postres'),
-        'HOST': 'localhost',
+        'NAME': 'watch-with-friends'.replace('-', '_'),
+        'USER': config('DB_USER', default='postgres'),
+        'PASSWORD': config('DB_PASS', default='postgres'),
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

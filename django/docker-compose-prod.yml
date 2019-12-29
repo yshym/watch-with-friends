@@ -18,9 +18,10 @@ services:
   web:
     container_name: wwf_web
     build: .
-    command: ./web_entrypoint.sh
+    command: ./web_entrypoint_prod.sh
     environment:
-      - ENVIRONMENT=development
+      - ENVIRONMENT=production
+      - ALLOWED_HOSTS=*
     volumes:
       - .:/code
     ports:
@@ -28,3 +29,14 @@ services:
     depends_on:
       - celery_worker
       - redis
+      - db
+  db:
+    container_name: wwf_db
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
