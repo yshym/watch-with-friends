@@ -12,6 +12,7 @@ import showVideoField from "./showVideoField"
 ];
 
 // Get necessaty DOM elements
+const videoElement = document.querySelector("#video-active")
 const chatLogBody = document.querySelector("#chat-log-body")
 const messageInput = document.querySelector("#chat-message-input")
 const messageSubmitButton = document.querySelector("#chat-message-submit")
@@ -140,5 +141,13 @@ if (roomAuthor === user) {
         e.preventDefault()
         roomVideoChangeForm.style.display = "none"
         roomVideoChangeButton.style.display = "block"
+    }
+}
+
+if (videoElement) {
+    if(Hls.isSupported()) {
+        var hls = new Hls()
+        hls.loadSource(videoURL)
+        hls.attachMedia(videoElement)
     }
 }
