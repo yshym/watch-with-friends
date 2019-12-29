@@ -1,5 +1,4 @@
 // Initialize Plyr player
-
 if (user === roomAuthor) {
     var controls = [
         "play-large",
@@ -30,3 +29,4 @@ export const video = new Plyr("#video-active", {
     controls: controls,
     clickToPlay: clickToPlay,
 })
+

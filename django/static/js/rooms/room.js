@@ -67,27 +67,22 @@ if (roomAuthor === user) {
             'type': 'seeked_video',
             'currentTime': video.currentTime,
         }))
-        video.pause()
-        setTimeout(
-            () => video.play(),
-            1000
-        )
     })
 }
 
-// video.on("statechange", function(e) {
-//     let code = e.detail.code
+video.on("statechange", function(e) {
+    let code = e.detail.code
 
-//     if (code == 3) {
-//         chatSocket.send(JSON.stringify({
-//             'type': 'buffering_video',
-//         }));
-//     } else {
-//         chatSocket.send(JSON.stringify({
-//             'type': 'buffered_video',
-//         }));
-//     }
-// })
+    if (code == 3) {
+        chatSocket.send(JSON.stringify({
+            'type': 'buffering_video',
+        }));
+    } else {
+        chatSocket.send(JSON.stringify({
+            'type': 'buffered_video',
+        }));
+    }
+})
 
 chatSocket.onclose = function(_e) {
     console.error("Chat socket closed unexpectedly")
