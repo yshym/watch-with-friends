@@ -61,8 +61,6 @@
                         class="video-active w-100 h-100"
                         controls="controls"
                         preload="auto">
-                        <source src="{{ room.video.url }}" type="video/mp4">
-                        Your browser does not support the video tag.
                     </video>
                 {% elif room.youtube_link %}
                     <div
@@ -167,6 +165,8 @@
         const roomName = "{{ room.name }}"
         const roomAuthor = "{{ room.author }}"
         const user = "{{ user }}"
+        const videoURL = "{% if room.video %}{{ room.video.url }}{% endif %}"
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="{% static 'bundles/room.js' %}"></script>
 {% endblock script %}
