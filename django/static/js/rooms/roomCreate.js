@@ -1,8 +1,8 @@
 import showVideoField from "./showVideoField"
 
 
-const nameInput = document.querySelector("#id_name")
-const videoTypeSelectElement = document.querySelector("#id_video_type")
+const nameInput = document.getElementById("id_name")
+const videoTypeSelectElement = document.getElementById("id_video_type")
 
 nameInput.focus()
 

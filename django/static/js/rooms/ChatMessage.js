@@ -61,7 +61,7 @@ export default class ChatMessage {
         this.container.appendChild(document.createElement("br"))
 
         if (this.lightBackground) {
-            let messageCards = document.querySelectorAll("#message-div")
+            let messageCards = document.getElementById("message-div")
             let lastMessageCard = [].slice.call(messageCards).pop()
             lastMessageCard.className = "img-thumbnail d-inline-flex bg-light"
         }
