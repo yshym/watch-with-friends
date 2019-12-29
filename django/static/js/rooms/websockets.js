@@ -42,8 +42,10 @@ chatSocket.onmessage = function(e) {
             break
         case "buffering_video":
             video.pause()
+            break
         case "all_players_buffered":
             video.play()
+            break
     }
     // Messages for all users, except the room creator
     if (user !== roomAuthor) {

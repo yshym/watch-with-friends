@@ -61,7 +61,7 @@
                         class="video-active w-100 h-100"
                         controls="controls"
                         preload="auto">
-                        <source src="{{ room.video.url }}" type="application/x-mpegURL">
+                        <source src="{{ room.video.url }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 {% elif room.youtube_link %}
