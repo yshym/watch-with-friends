@@ -12,26 +12,26 @@ import showVideoField from "./showVideoField"
 ];
 
 // Get necessaty DOM elements
-const videoElement = document.querySelector("#video-active")
-const chatLogBody = document.querySelector("#chat-log-body")
-const messageInput = document.querySelector("#chat-message-input")
-const messageSubmitButton = document.querySelector("#chat-message-submit")
-const container = document.querySelector(".container-xl")
-const roomNameElement = document.querySelector("div#room-name")
-const roomNameChangeForm = document.querySelector("form#room-name-change")
-const roomNameChangeButton = document.querySelector(
-    "h3#room-name-change-form-show"
+const videoElement = document.getElementById("video-active")
+const chatLogBody = document.getElementById("chat-log-body")
+const messageInput = document.getElementById("chat-message-input")
+const messageSubmitButton = document.getElementById("chat-message-submit")
+const container = document.getElementsByClassName("container-xl")
+const roomNameElement = document.getElementById("room-name")
+const roomNameChangeForm = document.getElementById("room-name-change")
+const roomNameChangeButton = document.getElementById(
+    "room-name-change-form-show"
 )
-const roomNameChangeCancelButton = document.querySelector(
-    "button#room-name-change-cancel"
+const roomNameChangeCancelButton = document.getElementById(
+    "room-name-change-cancel"
 )
-const videoTypeSelectElement = document.querySelector("#id_video_type")
-const roomVideoChangeForm = document.querySelector("form#room-video-change")
-const roomVideoChangeButton = document.querySelector(
-    "button#room-video-change-form-show"
+const videoTypeSelectElement = document.getElementById("id_video_type")
+const roomVideoChangeForm = document.getElementById("room-video-change")
+const roomVideoChangeButton = document.getElementById(
+    "room-video-change-form-show"
 )
-const roomVideoChangeCancelButton = document.querySelector(
-    "button#room-video-change-cancel"
+const roomVideoChangeCancelButton = document.getElementById(
+    "room-video-change-cancel"
 )
 
 AlertMessage.removeFrom(container)

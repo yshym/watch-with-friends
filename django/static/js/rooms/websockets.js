@@ -9,9 +9,8 @@ export const chatSocket = new WebSocket(
 )
 
 let connectedUsers = []
-const chatLog = document.querySelector("#chat-log")
-const chatLogBody = document.querySelector("#chat-log-body")
-const connectedUsersContainer = document.querySelector("#connectedUsers")
+const chatLogBody = document.getElementById("chat-log-body")
+const connectedUsersContainer = document.getElementById("connectedUsers")
 
 chatSocket.onmessage = function(e) {
     console.log(e)

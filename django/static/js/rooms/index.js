@@ -6,9 +6,9 @@ import AlertMessage from "./AlertMessage"
     roomNames,
 ];
 
-const roomNameInput = document.querySelector("#room-name-input")
-const roomNameSubmitButton = document.querySelector("#room-name-submit")
-const container = document.querySelector(".container-xl")
+const roomNameInput = document.getElementById("room-name-input")
+const roomNameSubmitButton = document.getElementById("room-name-submit")
+const container = document.getElementsByClassName("container-xl")
 
 roomNameInput.focus()
 roomNameInput.onkeyup = function(e) {
