@@ -14,7 +14,6 @@ if (user === roomAuthor) {
     var clickToPlay = true
 } else {
     var controls = [
-        "play-large",
         "current-time",
         "mute",
         "volume",
