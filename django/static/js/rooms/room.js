@@ -35,10 +35,13 @@ const roomVideoChangeCancelButton = document.getElementById(
     "room-video-change-cancel"
 )
 
+// Remove alert message
 AlertMessage.removeFrom(container)
 
+// Scroll down chat log
 chatLogBody.scrollTop = chatLogBody.scrollHeight
 
+// Remove all children of the element
 HTMLElement.prototype.removeChildren = function() {
     while (this.firstChild) {
         this.removeChild(this.firstChild)
@@ -46,7 +49,7 @@ HTMLElement.prototype.removeChildren = function() {
     return this
 }
 
-// html5 video events for room author
+// HTML5 video events for room author
 if (roomAuthor === user) {
     video.on("pause", function(_e) {
         chatSocket.send(
@@ -72,6 +75,7 @@ if (roomAuthor === user) {
     })
 }
 
+// Change state of the yt video player event
 video.on("statechange", function(e) {
     let code = e.detail.code
 
@@ -90,6 +94,7 @@ chatSocket.onclose = function(_e) {
     console.error("Chat socket closed unexpectedly")
 }
 
+// Focus chat message input
 messageInput.focus()
 messageInput.onkeyup = function(e) {
     if (e.keyCode === 13) {
@@ -97,6 +102,7 @@ messageInput.onkeyup = function(e) {
         messageSubmitButton.click()
     }
 }
+
 
 messageSubmitButton.onclick = function(_e) {
     if (messageInput.value.trim() !== "") {
@@ -115,6 +121,7 @@ messageSubmitButton.onclick = function(_e) {
     }
 }
 
+// Show room change forms on button clicks
 if (roomAuthor === user) {
     // Change room name
     roomNameChangeButton.onclick = function(_e) {
