@@ -6,7 +6,7 @@ export default class AlertMessage {
     }
 
     post() {
-        const alertElement = document.getElementsByClassName("alert")
+        const alertElement = document.getElementsByClassName("alert")[0]
 
         if (alertElement === null) {
             let messageDiv = document.createElement("div")
@@ -25,7 +25,7 @@ export default class AlertMessage {
     }
 
     static removeFrom(container) {
-        const alertElement = document.getElementsByClassName("alert")
+        const alertElement = document.getElementsByClassName("alert")[0]
 
         if (alertElement !== null) {
             setTimeout(() => container.removeChild(alertElement), 5000)
