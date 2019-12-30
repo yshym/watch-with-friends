@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django_select2.forms import Select2Widget
 
 from .models import (
     Room,
@@ -81,3 +82,12 @@ class RoomVideoUpdateForm(forms.ModelForm):
             'video': '',
             'youtube_link': '',
         }
+
+
+class RoomEnterForm(forms.Form):
+    name = forms.ModelChoiceField(
+        queryset=Room.objects.all(),
+        empty_label=' ',
+        widget=Select2Widget,
+        label='',
+    )

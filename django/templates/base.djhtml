@@ -19,6 +19,8 @@
         <script src="{% static 'bundles/main.js' %}"></script>
 
         <link rel="stylesheet" href="{% static 'css/plyr.css' %}" />
+
+        {{ form.media.css }}
     </head>
 
     <body>
@@ -160,6 +162,7 @@
         <script src="{% static 'js/plyr.polyfilled.js' %}"></script>
         {% block script %}
         {% endblock script %}
+        {{ form.media.js }}
     </body>
 </html>
 

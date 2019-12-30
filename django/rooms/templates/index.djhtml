@@ -1,6 +1,7 @@
 {% extends 'base.djhtml' %}
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ block.super }}{% endblock title %}
 
@@ -16,10 +17,13 @@
 
     <h3>What room would you like to enter?</h3>
     <hr />
-    <input
-        id="room-name-input"
-        class="form-control"
-        type="text" />
+    <!-- <input -->
+    <!-- id="room-name-input" -->
+    <!-- class="form-control" -->
+    <!-- type="text" /> -->
+    <form method="GET" action="">{% csrf_token %}
+        {{ form|crispy }}
+    </form>
     <hr />
     <div class="btn-group w-100" role="group" aria-label="Basic example">
         <input
@@ -36,8 +40,5 @@
 {% endblock content %}
 
 {% block script %}
-    <script>
-        const roomNames = {{ room_names }};
-    </script>
     <script src="{% static 'bundles/index.js' %}"></script>
 {% endblock script %}
