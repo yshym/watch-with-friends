@@ -8,7 +8,7 @@ import AlertMessage from "./AlertMessage"
 
 const roomNameInput = document.getElementById("room-name-input")
 const roomNameSubmitButton = document.getElementById("room-name-submit")
-const container = document.getElementsByClassName("container-xl")
+const container = document.getElementsByClassName("container-xl")[0]
 
 roomNameInput.focus()
 roomNameInput.onkeyup = function(e) {
