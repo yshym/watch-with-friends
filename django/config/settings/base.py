@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'channels',
     'django_celery_results',
     'debug_toolbar',
+    'django_select2',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

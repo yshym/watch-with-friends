@@ -25,6 +25,7 @@ webdriver_manager = "^2.3"
 celery = "^4.4"
 django-debug-toolbar = "^2.1"
 whitenoise = "^5.0"
+django_select2 = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
 

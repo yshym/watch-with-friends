@@ -71,3 +71,7 @@ form#room-video-change {
         border-bottom-right-radius: 20px;
     }
 }
+
+#div_id_name {
+    width: 100%;
+}
