@@ -17,10 +17,6 @@
 
     <h3>What room would you like to enter?</h3>
     <hr />
-    <!-- <input -->
-    <!-- id="room-name-input" -->
-    <!-- class="form-control" -->
-    <!-- type="text" /> -->
     <form method="GET" action="">{% csrf_token %}
         {{ form|crispy }}
     </form>
