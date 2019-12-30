@@ -60,3 +60,14 @@ h3#room-name-change-form-show:hover {
 form#room-video-change {
     display: none;
 }
+
+@media screen and (max-width: 950px) {
+    div#search>input {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    div#search>span>button {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+}
