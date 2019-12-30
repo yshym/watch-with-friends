@@ -9,6 +9,7 @@ import showVideoField from "./showVideoField"
     roomName,
     roomAuthor,
     user,
+    videoURL,
 ];
 
 // Get necessaty DOM elements
