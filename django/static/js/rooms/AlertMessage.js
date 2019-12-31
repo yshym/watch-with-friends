@@ -27,7 +27,7 @@ export default class AlertMessage {
     static removeFrom(container) {
         const alertElement = document.getElementsByClassName("alert")[0]
 
-        if (alertElement !== null) {
+        if (alertElement) {
             setTimeout(() => container.removeChild(alertElement), 5000)
         }
     }
