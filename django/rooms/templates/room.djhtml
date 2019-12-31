@@ -64,9 +64,13 @@
                     </video>
                 {% elif room.youtube_link %}
                     <div
-                        id="video-active"
-                        data-plyr-provider="youtube"
-                        data-plyr-embed-id="{{ room.youtube_link|youtube_video_id }}">
+                        class="plyr__video-embed video-active w-100 h-100"
+                        id="video-active">
+                        <iframe
+                            src="https://www.youtube.com/embed/{{ room.youtube_link|youtube_video_id }}?cc_load_policy=3?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency>
+                        </iframe>
                     </div>
                 {% endif %}
                 <br /><br />
