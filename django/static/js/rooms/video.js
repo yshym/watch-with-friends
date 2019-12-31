@@ -27,5 +27,10 @@ if (user === roomAuthor) {
 export const video = new Plyr("#video-active", {
     controls: controls,
     clickToPlay: clickToPlay,
+    fullscreen: {iosNative: true},
+    youtube: {
+        cc_load_policy: 3,
+        playsinline: true,
+    }
 })
 
