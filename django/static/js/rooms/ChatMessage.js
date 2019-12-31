@@ -8,33 +8,37 @@ export default class ChatMessage {
     }
 
     createElement() {
-        let cardDiv = document.createElement("div")
-        cardDiv.className = "img-thumbnail d-inline-flex"
-        cardDiv.id = "message-div"
-        cardDiv.style = "max-width: 55vw;"
+        let messageDiv = document.createElement("div")
+        messageDiv.className = "chat-message img-thumbnail d-inline-flex"
 
-        let cardBodyDiv = document.createElement("div")
+        let messageBodyDiv = document.createElement("div")
 
-        let authorP = document.createElement("p")
-        authorP.className = "font-weight-bold"
+        let titleP = document.createElement("p")
+        titleP.className = "font-weight-bold"
+
         let authorText = document.createTextNode(`${this.username} `)
-        authorP.appendChild(authorText)
 
         let timestampSpan = document.createElement("span")
         timestampSpan.className = "badge text-muted"
+
         let timestampText = document.createTextNode(this.timestamp)
-        timestampSpan.appendChild(timestampText)
 
-        let contentP = document.createElement("span")
+        let contentSpan = document.createElement("span")
         let contentText = document.createTextNode(this.content)
-        contentP.appendChild(contentText)
 
-        authorP.appendChild(timestampSpan)
-        cardBodyDiv.appendChild(authorP)
-        cardBodyDiv.appendChild(contentP)
-        cardDiv.appendChild(cardBodyDiv)
 
-        return cardDiv
+        timestampSpan.appendChild(timestampText)
+        contentSpan.appendChild(contentText)
+
+        titleP.appendChild(authorText)
+        titleP.appendChild(timestampSpan)
+
+        messageBodyDiv.appendChild(titleP)
+        messageBodyDiv.appendChild(contentSpan)
+
+        messageDiv.appendChild(messageBodyDiv)
+
+        return messageDiv
     }
 
     formattedCurrentDate() {
@@ -61,9 +65,9 @@ export default class ChatMessage {
         this.container.appendChild(document.createElement("br"))
 
         if (this.lightBackground) {
-            let messageCards = document.getElementById("message-div")
+            let messageCards = document.getElementsByClassName("chat-message")
             let lastMessageCard = [].slice.call(messageCards).pop()
-            lastMessageCard.className = "img-thumbnail d-inline-flex bg-light"
+            lastMessageCard.className = "chat-message img-thumbnail d-inline-flex bg-light"
         }
     }
 }

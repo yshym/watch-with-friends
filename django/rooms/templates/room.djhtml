@@ -61,7 +61,6 @@
                         class="video-active w-100 h-100"
                         controls="controls"
                         preload="auto">
-                        <source src="{{ room.video.url }}" type="video/mp4">
                     </video>
                 {% elif room.youtube_link %}
                     <div
@@ -112,13 +111,12 @@
                             <br />
                         {% endif %}
                         <div
-                            id="message-div"
-                            class="img-thumbnail d-inline-flex
+                            class="chat-message img-thumbnail d-inline-flex
                                 {% if not message.author == user %}
                                     bg-light
                                 {% endif %}
                                 ">
-                            <div class="">
+                            <div>
                                 <p class="font-weight-bold">
                                     {{ message.author }}
                                     <span
