@@ -152,10 +152,10 @@ if (roomAuthor === user) {
     }
 }
 
-if (videoElement) {
-    if(Hls.isSupported()) {
-        var hls = new Hls()
-        hls.loadSource(videoURL)
-        hls.attachMedia(videoElement)
-    }
-}
+// if (videoElement) {
+//     if(Hls.isSupported()) {
+//         var hls = new Hls()
+//         hls.loadSource(videoURL)
+//         hls.attachMedia(videoElement)
+//     }
+// }
