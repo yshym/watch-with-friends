@@ -24,6 +24,7 @@ if (user === roomAuthor) {
     var clickToPlay = false
 }
 
+// FIXME Video occupies full RAM
 export const video = new Plyr("#video-active", {
     controls: controls,
     clickToPlay: clickToPlay,

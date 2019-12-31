@@ -11,7 +11,7 @@ from .models import Room
 class ChatTests(ChannelsLiveServerTestCase):
     serve_static = True  # emulate StaticLiveServerTestCase
 
-    # FIXME Fix User does not exist on login after logout
+    # FIXME User does not exist on login after logout
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
