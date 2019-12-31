@@ -1,4 +1,4 @@
-import {selectedText} from "./selectTools"
+import {selectedValue} from "./selectTools"
 
 
 export default function showVideoField() {
@@ -6,7 +6,7 @@ export default function showVideoField() {
     let divIdVideo = document.getElementById("div_id_video")
     let divIdYoutubeLink = document.getElementById("div_id_youtube_link")
 
-    let videoType = selectedText(videoTypeSelectElement)
+    let videoType = selectedValue(videoTypeSelectElement)
 
     switch(videoType) {
         case "local":
@@ -16,5 +16,6 @@ export default function showVideoField() {
         case "yt":
             divIdVideo.style.display = "none"
             divIdYoutubeLink.style.display = "block"
+            break
     }
 }
