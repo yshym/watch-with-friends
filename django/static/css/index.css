@@ -15,7 +15,8 @@
     overflow-x: hidden;
 }
 
-#message-div {
+.chat-message {
+    min-width: 120px;
     max-width: 40vw;
     word-wrap: anywhere;
 }
