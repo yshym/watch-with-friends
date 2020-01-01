@@ -154,8 +154,9 @@ if (roomAuthor === user) {
 
 if (videoElement) {
     if(Hls.isSupported()) {
-        var hls = new Hls()
-        hls.loadSource(videoURL)
+        const hls = new Hls()
+        let [videoName, _videoExt] = videoURL.split('.')
+        hls.loadSource(`${videoName}.m3u8`)
         hls.attachMedia(videoElement)
     }
 }

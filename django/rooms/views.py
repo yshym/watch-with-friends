@@ -4,8 +4,6 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
-import json
-
 from .models import (
     Room,
     Message,
@@ -16,6 +14,8 @@ from .forms import (
     RoomVideoUpdateForm,
     RoomEnterForm,
 )
+
+import json
 
 
 class IndexView(generic.TemplateView):
