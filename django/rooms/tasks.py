@@ -37,9 +37,6 @@ def convert_for_hls(video_path):
     subprocess.check_call([
         'ffmpeg',
         '-i', video_path,
-        '-g', '60',
         '-hls_time', '10',
-        '-hls_list_size', '0',
-        '-hls_segment_size', '500000',
         f'{file_name}.m3u8',
     ])
