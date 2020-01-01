@@ -3,12 +3,18 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
 import uuid
+import os
+
+
+def video_location(instance, filename):
+    ext = os.path.splitext(instance.video.path)[1]
+    return f'videos/{instance.name}/{instance.name + ext}'
 
 
 class Room(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.SlugField(max_length=100, unique=True)
-    video = models.FileField(upload_to='videos/', blank=True, null=True)
+    video = models.FileField(upload_to=video_location, blank=True, null=True)
     youtube_link = models.URLField(blank=True, null=True)
     author = models.ForeignKey(
         get_user_model(),
