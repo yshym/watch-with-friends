@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Local
-    'rooms',
+    'rooms.apps.RoomsConfig',
     'users',
 
     # Third-party
