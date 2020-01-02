@@ -1,7 +1,5 @@
 const path = require("path")
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const webpack = require("webpack")
 const TerserPlugin = require("terser-webpack-plugin")
 
 module.exports = {
@@ -18,9 +16,9 @@ module.exports = {
     },
     entry: {
         main: "./main.js",
-        room: "../static/js/rooms/room.js",
-        index: "../static/js/rooms/index.js",
-        roomCreate: "../static/js/rooms/roomCreate.js",
+        room: "../static/coffee/rooms/_build/room.js",
+        index: "../static/coffee/rooms/_build/index.js",
+        roomCreate: "../static/coffee/rooms/_build/roomCreate.js",
     },
     output: {
         filename: "[name].js",
