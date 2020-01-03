@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
+from django.conf import settings
 
 from .validators import validate_video_extension
 
 import uuid
 import os
+import shutil
 
 
 def video_location(instance, filename):
@@ -35,6 +37,9 @@ class Room(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('room_detail', kwargs={'pk': str(self.id)})
+
+    def remove_video_files(self):
+        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'videos', self.name))
 
 
 class Message(models.Model):
