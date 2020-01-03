@@ -19,6 +19,7 @@ module.exports = {
         room: "../static/coffee/rooms/_build/room.js",
         index: "../static/coffee/rooms/_build/index.js",
         roomCreate: "../static/coffee/rooms/_build/roomCreate.js",
+        HLSFileWaiter: "../static/coffee/rooms/_build/HLSFileWaiter.js",
     },
     output: {
         filename: "[name].js",
