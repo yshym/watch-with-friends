@@ -115,23 +115,13 @@ if roomAuthor == user
         roomVideoChangeForm.style.display = "none"
         roomVideoChangeButton.style.display = "block"
 
-URLExists = (url) ->
-    http = new XMLHttpRequest()
-    http.open "HEAD", url, false
-    http.send()
-    http.status != 404
-
-# Wait for m3u8 file
-Hls::waitForHLSFile = (url) ->
-    if URLExists url
-        @loadSource url
-    else
-        setTimeout @waitForHLSFile(url), 1000
-
 # Load m3u8 file into player
-if videoURL
-    if Hls.isSupported()
-        hls = new Hls()
-        [videoName, _videoExt] = videoURL.split "."
-        hls.waitForHLSFile "#{videoName}.m3u8"
+if videoURL and Hls.isSupported()
+    hls = new Hls()
+    [videoName, _videoExt] = videoURL.split "."
+
+    HLSFileWaiter = new Worker("/static/coffee/rooms/_build/HLSFileWaiter.js")
+    HLSFileWaiter.postMessage { videoName }
+    HLSFileWaiter.addEventListener "message", (_e) ->
+        hls.loadSource "#{videoName}.m3u8"
         hls.attachMedia videoElement
