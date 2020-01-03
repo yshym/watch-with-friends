@@ -129,9 +129,11 @@ if videoURL and Hls.isSupported()
 
         videoSpinner.style.display = "none"
         videoDiv.style.display = "block"
+        roomVideoChangeButton.style.display = "block"
 
 
     HLSFileWaiter.postMessage { videoName }
 else
     videoSpinner.style.display = "none"
     videoDiv.style.display = "block"
+    roomVideoChangeButton.style.display = "block"
