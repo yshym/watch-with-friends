@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
+from .validators import validate_video_extension
+
 import uuid
 import os
 
@@ -14,7 +16,11 @@ def video_location(instance, filename):
 class Room(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.SlugField(max_length=100, unique=True)
-    video = models.FileField(upload_to=video_location, blank=True, null=True)
+    video = models.FileField(
+        upload_to=video_location,
+        validators=[validate_video_extension],
+        blank=True,
+        null=True)
     youtube_link = models.URLField(blank=True, null=True)
     author = models.ForeignKey(
         get_user_model(),
