@@ -76,3 +76,11 @@ form#room-video-change {
 #div_id_name {
     width: 100%;
 }
+
+div#video-player, #room-video-change-form-show {
+    display: none;
+}
+
+#video-spinner {
+    margin-top: 23vh;
+}
