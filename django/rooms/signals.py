@@ -9,6 +9,7 @@ def post_save_room_receiver(sender, instance, *args, **kwargs):
     convert_for_hls.delay(video_path=instance.video.path)
 
 def pre_delete_room_receiver(sender, instance, *args, **kwargs):
+    # remove room video files
     instance.remove_video_files()
 
 
