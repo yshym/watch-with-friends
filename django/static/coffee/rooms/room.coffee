@@ -9,6 +9,7 @@ unless roomName? or roomAuthor? or user? or videoURL?
     throw "DTL varaibles are not initialized correctly!"
 
 # Get necessary DOM elements
+videoDiv = document.getElementById "video-player"
 videoElement = document.getElementById "video-active"
 chatLogBody = document.getElementById "chat-log-body"
 messageInput = document.getElementById "chat-message-input"
@@ -30,6 +31,7 @@ roomVideoChangeButton = document.getElementById(
 roomVideoChangeCancelButton = document.getElementById(
     "room-video-change-cancel"
 )
+videoSpinner = document.getElementById "video-spinner"
 
 # Remove alert message
 AlertMessage.removeFrom container
@@ -124,4 +126,9 @@ if videoURL and Hls.isSupported()
     HLSFileWaiter.addEventListener "message", (_e) ->
         hls.loadSource "#{videoName}.m3u8"
         hls.attachMedia videoElement
+
+        videoSpinner.style.display = "none"
+        videoDiv.style.display = "block"
+
+
     HLSFileWaiter.postMessage { videoName }
