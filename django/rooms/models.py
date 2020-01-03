@@ -20,7 +20,7 @@ class Room(models.Model):
         upload_to=video_location,
         validators=[validate_video_extension],
         blank=True,
-        null=True
+        null=True,
     )
     youtube_link = models.URLField(blank=True, null=True)
     author = models.ForeignKey(
