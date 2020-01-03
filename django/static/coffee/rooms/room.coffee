@@ -118,10 +118,10 @@ if roomAuthor == user
 # Load m3u8 file into player
 if videoURL and Hls.isSupported()
     hls = new Hls()
-    [videoName, _videoExt] = videoURL.split "."
-
     HLSFileWaiter = new Worker("/static/coffee/rooms/_build/HLSFileWaiter.js")
-    HLSFileWaiter.postMessage { videoName }
+
+    [videoName, _videoExt] = videoURL.split "."
     HLSFileWaiter.addEventListener "message", (_e) ->
         hls.loadSource "#{videoName}.m3u8"
         hls.attachMedia videoElement
+    HLSFileWaiter.postMessage { videoName }
