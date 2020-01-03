@@ -38,5 +38,6 @@ def convert_for_hls(video_path):
         'ffmpeg',
         '-i', video_path,
         '-hls_time', '10',
+        '-hls_list_size', '0',
         f'{file_name}.m3u8',
     ])
