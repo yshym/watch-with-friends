@@ -1,31 +1,26 @@
 {% extends 'base.djhtml' %}
-
 {% load crispy_forms_tags %}
 
-{% block title %}Login - {{ block.super }}{% endblock title %}
 
+{% block title %}Log In{% endblock title %}
 
 {% block content %}
-    {% if not user.is_authenticated %}
-        <div class="card">
+    <div class="card">
             <div class="card-body">
-                <h1>Login</h1>
+                <h1>Log In</h1>
                 <hr />
                 <form method="post">{% csrf_token %}
                     {{ form|crispy }}
                     <hr />
                     <button name="submit" type="submit" class="btn btn-primary">
-                        Login
+                        Confirm
                     </button>
                     <a
-                        href="{% url 'users:signup' %}"
+                        href="{% url 'account_signup' %}"
                         class="btn btn-success">
                         Sign Up
                     </a>
                 </form>
             </div>
         </div>
-    {% else %}
-        <p>You are already logged in as {{ user.username }}.</p>
-    {% endif %}
 {% endblock content %}
