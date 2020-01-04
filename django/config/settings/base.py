@@ -17,10 +17,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Local
     'rooms.apps.RoomsConfig',
-    'users',
 
     # Third-party
     'crispy_forms',
@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'debug_toolbar',
     'django_select2',
+    'allauth',
+    'allauth.account',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -123,8 +125,17 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+# allauth
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+ACCOUNT_SESSION_REMEMBER = True
+
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_REDIRECT_URL = '/'
 
 
 # Celery
