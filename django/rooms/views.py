@@ -37,7 +37,7 @@ class IndexView(generic.TemplateView):
 class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     model = Room
     template_name = 'room.djhtml'
-    login_url = 'users:login'
+    login_url = 'account_login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,7 +75,7 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
 class RoomCreateView(SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView):
     template_name = 'room_create.djhtml'
     form_class = RoomCreateForm
-    login_url = 'users:login'
+    login_url = 'account_login'
     success_message = 'Room was successfully created!'
 
     def form_valid(self, form):
