@@ -59,6 +59,12 @@ if roomAuthor == user
             type: "seeked_video",
             currentTime: video.currentTime,
         })
+        if videoURL
+            video.pause()
+            setTimeout(
+                -> video.play(),
+                1000
+            )
 
 # Change state of the yt video player event
 video.on "statechange", (e) ->
