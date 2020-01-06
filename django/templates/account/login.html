@@ -6,21 +6,21 @@
 
 {% block content %}
     <div class="card">
-            <div class="card-body">
-                <h1>Log In</h1>
+        <div class="card-body">
+            <h1>Log In</h1>
+            <hr />
+            <form method="post">{% csrf_token %}
+                {{ form|crispy }}
                 <hr />
-                <form method="post">{% csrf_token %}
-                    {{ form|crispy }}
-                    <hr />
-                    <button name="submit" type="submit" class="btn btn-primary">
-                        Confirm
-                    </button>
-                    <a
-                        href="{% url 'account_signup' %}"
-                        class="btn btn-success">
-                        Sign Up
-                    </a>
-                </form>
-            </div>
+                <button name="submit" type="submit" class="btn btn-primary">
+                    Confirm
+                </button>
+                <a
+                    href="{% url 'account_signup' %}"
+                    class="btn btn-success">
+                    Sign Up
+                </a>
+            </form>
         </div>
+    </div>
 {% endblock content %}
