@@ -44,7 +44,6 @@ def convert_for_hls(video_path):
         '-acodec', 'aac',
         '-sn',
         video_output_path,
-        '-y',
     ])
     # remove original video
     os.remove(video_path)
