@@ -19,8 +19,6 @@ services:
     container_name: wwf_web
     build: .
     command: ./web_entrypoint.sh
-    environment:
-      - ENVIRONMENT=development
     volumes:
       - .:/code
     ports:
