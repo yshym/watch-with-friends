@@ -105,10 +105,6 @@ class ChatTests(ChannelsLiveServerTestCase):
 
     # === Utility ===
 
-    # TODO Add _create_room method
-    def _create_room(self):
-        pass
-
     def _signup(self, username, password):
         self.driver.get(self.live_server_url + '/users/signup/')
 
