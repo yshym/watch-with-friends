@@ -39,7 +39,8 @@ class Room(models.Model):
         return reverse_lazy('room_detail', kwargs={'pk': str(self.id)})
 
     def remove_video_files(self):
-        shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'videos', self.name))
+        if self.video:
+            shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'videos', self.name))
 
 
 class Message(models.Model):
