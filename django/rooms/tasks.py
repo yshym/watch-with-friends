@@ -45,8 +45,6 @@ def convert_for_hls(video_path):
         '-sn',
         video_output_path,
     ])
-    # # remove original video
-    # os.remove(video_path)
     # Convert to m3u8 format
     subprocess.check_call([
         'ffmpeg',
