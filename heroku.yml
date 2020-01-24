@@ -7,6 +7,6 @@ build:
 release:
   image: web
   command:
-    - python manage.py collectstatic --noinput
+    - ./web_entrypoint_heroku.sh
 run:
   web: gunicorn config.wsgi
