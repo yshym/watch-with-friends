@@ -7,4 +7,4 @@ build:
 release:
   image: web
 run:
-  web: python manage.py runserver 0.0.0.0:8000
+  web: gunicorn config.wsgi
