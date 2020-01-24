@@ -7,4 +7,4 @@ build:
 release:
   image: web
 run:
-  web: gunicorn config.wsgi
+  web: ./web_entrypoint_heroku.sh
