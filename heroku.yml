@@ -7,4 +7,4 @@ build:
 release:
   image: web
   command:
-    - ./django/web_entrypoint_prod.sh
+    - python django/manage.py collectstatic --noinput
