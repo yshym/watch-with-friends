@@ -6,7 +6,5 @@ build:
     web: django/Dockerfile
 release:
   image: web
-  command:
-    - python manage.py collectstatic --noinput
 run:
-  web: python manage.py runserver 0.0.0.0:8000
+  web: python django/manage.py runserver 0.0.0.0:8000
