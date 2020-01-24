@@ -9,4 +9,4 @@ release:
   command:
     - python manage.py collectstatic --noinput
 run:
-  web: gunicorn django/config.wsgi
+  web: python manage.py runserver 0.0.0.0:8000
