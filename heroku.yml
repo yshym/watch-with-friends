@@ -1,0 +1,12 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+build:
+  docker:
+    web: django/Dockerfile
+release:
+  image: web
+  command:
+    - python django/manage.py collectstatic --noinput
+run:
+  web: gunicorn django/config.wsgi
