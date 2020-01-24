@@ -7,6 +7,4 @@ build:
 release:
   image: web
   command:
-    - python manage.py collectstatic --noinput
-run:
-  web: gunicorn django/config.wsgi
+    - ./web_entrypoint_prod.sh
