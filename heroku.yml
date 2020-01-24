@@ -6,7 +6,5 @@ build:
     web: django/Dockerfile
 release:
   image: web
-  command:
-    - ./web_entrypoint_heroku.sh
 run:
   web: gunicorn config.wsgi
