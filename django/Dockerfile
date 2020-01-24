@@ -9,7 +9,7 @@ COPY pyproject.toml poetry.lock /code/
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
+RUN apt-get install -y ffmpeg coffeescript
 RUN pip install poetry \
     && poetry config virtualenvs.create false \
     && poetry install
