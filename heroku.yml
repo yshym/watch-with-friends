@@ -7,4 +7,4 @@ build:
 release:
   image: web
   command:
-    - ./web_entrypoint_prod.sh
+    - ./django/web_entrypoint_prod.sh
