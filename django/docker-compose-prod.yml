@@ -19,7 +19,7 @@ services:
     container_name: wwf_web
     build: .
     command: ./web_entrypoint_prod.sh
-    environment_file:
+    env_file:
       - ./config/settings/.env
     volumes:
       - .:/code
