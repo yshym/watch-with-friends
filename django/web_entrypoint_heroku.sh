@@ -13,6 +13,3 @@ make bundles
 
 # Collect static files
 python manage.py collectstatic --no-input
-
-# Run server
-gunicorn config.wsgi
