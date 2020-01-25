@@ -13,3 +13,6 @@ cd ..
 
 # Make webpack bundles
 make bundles
+
+# Run server
+gunicorn config.wsgi
