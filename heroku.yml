@@ -9,4 +9,4 @@ release:
   command:
     - ./web_entrypoint_heroku.sh
 run:
-  web: gunicorn config.wsgi
+  web: python manage.py runserver 0.0.0.0:$PORT
