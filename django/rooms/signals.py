@@ -5,8 +5,9 @@ from .tasks import convert_for_hls
 
 
 def post_save_room_receiver(sender, instance, *args, **kwargs):
-    # convert video file to m3u8 format
-    convert_for_hls.delay(video_path=instance.video.path)
+    if instance.video:
+        # convert video file to m3u8 format
+        convert_for_hls.delay(video_path=instance.video.path)
 
 def pre_delete_room_receiver(sender, instance, *args, **kwargs):
     # remove room video files
