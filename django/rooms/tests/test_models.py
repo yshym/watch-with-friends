@@ -17,7 +17,7 @@ class RoomModelsTestCase(TestCase):
 
     def test_create_room_with_youtube_video(self):
         room_name = 'room1'
-        youtube_link = 'https://www.youtube.com/watch?v=1cQh1ccqu8M',
+        youtube_link = 'https://www.youtube.com/watch?v=1cQh1ccqu8M'
 
         room = Room.objects.create(
             name=room_name,
