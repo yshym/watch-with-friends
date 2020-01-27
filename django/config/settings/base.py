@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'channels',
     'django_celery_results',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'django_select2',
     'allauth',
     'allauth.account',
