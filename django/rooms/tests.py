@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model, login
 from .models import Room
 
 
-class ChatTests(ChannelsLiveServerTestCase):
+class RoomTests(ChannelsLiveServerTestCase):
     serve_static = True  # emulate StaticLiveServerTestCase
 
     # FIXME User does not exist on login after logout
@@ -51,7 +51,7 @@ class ChatTests(ChannelsLiveServerTestCase):
         super().tearDownClass()
 
     def setUp(self):
-        self.client.login(username=self.username, password=self.password)
+        self._login(username=self.username, password=self.password)
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
@@ -108,29 +108,29 @@ class ChatTests(ChannelsLiveServerTestCase):
     def _signup(self, username, password):
         self.driver.get(self.live_server_url + '/users/signup/')
 
-        username_input = self.driver.find_element_by_id("id_username")
-        password_input1 = self.driver.find_element_by_id("id_password1")
-        password_input2 = self.driver.find_element_by_id("id_password2")
+        username_input = self.driver.find_element_by_id('id_username')
+        password_input1 = self.driver.find_element_by_id('id_password1')
+        password_input2 = self.driver.find_element_by_id('id_password2')
 
         username_input.send_keys(username)
         password_input1.send_keys(password)
         password_input2.send_keys(password)
 
-        self.driver.find_element_by_name("submit").click()
+        self.driver.find_element_by_name('submit').click()
         WebDriverWait(self.driver, 2).until(
             lambda _: 'signup' not in self.driver.current_url
         )
 
     def _login(self, username, password):
-        self.driver.get(self.live_server_url + '/users/login/')
+        self.driver.get(self.live_server_url + '/accounts/login/')
 
-        username_input = self.driver.find_element_by_id("id_username")
-        password_input = self.driver.find_element_by_id("id_password")
+        username_input = self.driver.find_element_by_id('id_login')
+        password_input = self.driver.find_element_by_id('id_password')
 
         username_input.send_keys(username)
         password_input.send_keys(password)
 
-        self.driver.find_element_by_name("submit").click()
+        self.driver.find_element_by_name('submit').click()
         WebDriverWait(self.driver, 2).until(
             lambda _: 'login' not in self.driver.current_url
         )
@@ -142,14 +142,15 @@ class ChatTests(ChannelsLiveServerTestCase):
         )
 
     def _enter_chat_room(self, room_name):
-        self.driver.get(self.live_server_url + '')
-        ActionChains(self.driver).send_keys(room_name + '\n').perform()
+        room = Room.objects.get(name=room_name)
+        room_id_str = str(room.id)
+        self.driver.get(self.live_server_url + '/' + room_id_str)
         WebDriverWait(self.driver, 2).until(
-            lambda _: room_name in self.driver.current_url
+            lambda _: room_id_str in self.driver.current_url
         )
 
     def _open_new_window(self):
-        self.driver.execute_script('window.open("about:blank", "_blank");')
+        self.driver.execute_script("window.open('about:blank', '_blank');")
         self.driver.switch_to_window(self.driver.window_handles[-1])
 
     def _close_all_new_windows(self):
