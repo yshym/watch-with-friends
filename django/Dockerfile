@@ -15,4 +15,4 @@ RUN pip install poetry \
     && poetry install
 
 # Heroku
-COPY . /code/
+# COPY . /code/
