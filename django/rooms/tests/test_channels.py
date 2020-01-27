@@ -5,10 +5,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from django.contrib.auth import get_user_model, login
 
-from .models import Room
+from ..models import Room
 
 
-class RoomTests(ChannelsLiveServerTestCase):
+class RoomChannelsTestCase(ChannelsLiveServerTestCase):
     serve_static = True  # emulate StaticLiveServerTestCase
 
     # FIXME User does not exist on login after logout
