@@ -2,6 +2,7 @@ from channels.testing import ChannelsLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from webdriver_manager.chrome import ChromeDriverManager
 from django.contrib.auth import get_user_model, login
 
@@ -138,9 +139,17 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         )
 
     def _enter_chat_room(self, room_name):
+        self.driver.get(self.live_server_url + '')
+
         room = Room.objects.get(name=room_name)
         room_id_str = str(room.id)
-        self.driver.get(self.live_server_url + '/' + room_id_str)
+
+        room_name_select = Select(self.driver.find_element_by_id('id_name'))
+        room_enter_button = self.driver.find_element_by_id('room-name-submit')
+
+        room_name_select.select_by_visible_text(room_name)
+        room_enter_button.click()
+
         WebDriverWait(self.driver, 2).until(
             lambda _: room_id_str in self.driver.current_url
         )
