@@ -26,6 +26,8 @@ class RoomModelTestCase(TestCase):
         self.assertEqual(room.author, self.user)
         self.assertEqual(room.youtube_link, youtube_link)
         self.assertEqual(room.video, None)
+        self.assertEqual(room.__str__(), room_name)
+        self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
 
 
 class MessageModelTestCase(TestCase):
@@ -52,3 +54,4 @@ class MessageModelTestCase(TestCase):
         self.assertEqual(message.content, '123')
         self.assertEqual(message.author, self.user)
         self.assertEqual(message.room, self.room)
+        self.assertEqual(message.__str__(), '123')
