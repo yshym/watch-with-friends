@@ -1,7 +1,10 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from ..models import Room, Message
+
+import os
 
 
 class RoomModelTestCase(TestCase):
@@ -26,6 +29,23 @@ class RoomModelTestCase(TestCase):
         self.assertEqual(room.author, self.user)
         self.assertEqual(room.youtube_link, youtube_link)
         self.assertEqual(room.video, None)
+        self.assertEqual(room.__str__(), room_name)
+        self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
+
+    def test_create_room_with_local_video(self):
+        room_name = 'room1'
+        upload_file = open('media/testfiles/video.mp4', 'rb')
+        video = SimpleUploadedFile(upload_file.name, upload_file.read())
+        video_ext = os.path.splitext(video.name)[1]
+
+        room = Room.objects.create(
+            name=room_name, author=self.user, video=video,
+        )
+
+        self.assertEqual(room.name, room_name)
+        self.assertEqual(room.author, self.user)
+        self.assertEqual(room.youtube_link, None)
+        self.assertEqual(room.video.name, f'videos/{room_name}/{room_name}{video_ext}')
         self.assertEqual(room.__str__(), room_name)
         self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
 
