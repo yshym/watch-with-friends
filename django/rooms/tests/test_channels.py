@@ -52,10 +52,10 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
-            self._enter_chat_room('room1')
+            self._enter_room('room1')
 
             self._open_new_window()
-            self._enter_chat_room('room1')
+            self._enter_room('room1')
 
             self._switch_to_window(0)
             self._post_message('hello')
@@ -75,10 +75,10 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         self,
     ):
         try:
-            self._enter_chat_room('room1')
+            self._enter_room('room1')
 
             self._open_new_window()
-            self._enter_chat_room('room2')
+            self._enter_room('room2')
 
             self._switch_to_window(0)
             self._post_message('hello')
@@ -138,7 +138,7 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
             lambda _: 'logout' not in self.driver.current_url
         )
 
-    def _enter_chat_room(self, room_name):
+    def _enter_room(self, room_name):
         self.driver.get(self.live_server_url + '')
 
         room = Room.objects.get(name=room_name)
