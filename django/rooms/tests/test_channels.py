@@ -31,24 +31,19 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         self.username = 'testuser1'
         self.password = 'testpass123'
 
-        User = get_user_model()
-        self.user = User(username=self.username, password=self.password)
-        self.user.set_password(self.password)
-        self.user.save()
+        self._signup(self.username, self.password)
+        # self._login(username=self.username, password=self.password)
 
         # Create rooms
-        self.room1 = Room.objects.create(
+        self._create_room(
             name='room1',
-            author=self.user,
             youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
         )
-        self.room2 = Room.objects.create(
+
+        self._create_room(
             name='room2',
-            author=self.user,
             youtube_link='https://www.youtube.com/watch?v=DmeUuoxyt_E',
         )
-
-        self._login(username=self.username, password=self.password)
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
@@ -103,7 +98,7 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
     # === Utility ===
 
     def _signup(self, username, password):
-        self.driver.get(self.live_server_url + '/users/signup/')
+        self.driver.get(self.live_server_url + '/accounts/signup/')
 
         username_input = self.driver.find_element_by_id('id_username')
         password_input1 = self.driver.find_element_by_id('id_password1')
@@ -133,10 +128,26 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         )
 
     def _logout(self):
-        self.driver.get(self.live_server_url + '/users/logout/')
+        self.driver.get(self.live_server_url + '/accounts/logout/')
         WebDriverWait(self.driver, 2).until(
             lambda _: 'logout' not in self.driver.current_url
         )
+
+    def _create_room(self, name, youtube_link=None, video=None):
+        self.driver.get(self.live_server_url + '/create')
+
+        name_input = self.driver.find_element_by_id('id_name')
+        video_type_select = Select(self.driver.find_element_by_id('id_video_type'))
+        video_input = self.driver.find_element_by_id('id_video')
+        youtube_link_input = self.driver.find_element_by_id('id_youtube_link')
+        submit_button = self.driver.find_element_by_name('submit')
+
+        name_input.send_keys(name)
+        if youtube_link:
+            video_type_select.select_by_visible_text('YouTube')
+            youtube_link_input.send_keys(youtube_link)
+
+        submit_button.click()
 
     def _enter_room(self, room_name):
         self.driver.get(self.live_server_url + '')
