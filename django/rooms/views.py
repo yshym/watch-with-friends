@@ -23,15 +23,8 @@ class IndexView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(room_names=self.room_names())
         context.update(form=RoomEnterForm())
         return context
-
-    def room_names(self):
-        return mark_safe({
-            room.get('name'): str(room.get('id'))
-            for room in Room.objects.all().values('name', 'id')
-        })
 
 
 class RoomDetailView(LoginRequiredMixin, generic.DetailView):
