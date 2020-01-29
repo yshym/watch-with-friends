@@ -11,8 +11,7 @@ class RoomModelTestCase(TestCase):
 
         User = get_user_model()
         cls.user = User.objects.create(
-            username='testuser1',
-            password='testpass123',
+            username='testuser1', password='testpass123',
         )
 
     def test_create_room_with_youtube_video(self):
@@ -20,9 +19,7 @@ class RoomModelTestCase(TestCase):
         youtube_link = 'https://www.youtube.com/watch?v=1cQh1ccqu8M'
 
         room = Room.objects.create(
-            name=room_name,
-            author=self.user,
-            youtube_link=youtube_link,
+            name=room_name, author=self.user, youtube_link=youtube_link,
         )
 
         self.assertEqual(room.name, room_name)
@@ -38,8 +35,7 @@ class MessageModelTestCase(TestCase):
 
         User = get_user_model()
         cls.user = User.objects.create(
-            username='testuser1',
-            password='testpass123',
+            username='testuser1', password='testpass123',
         )
 
         cls.room = Room.objects.create(
@@ -50,9 +46,7 @@ class MessageModelTestCase(TestCase):
 
     def test_create_message(self):
         message = Message.objects.create(
-            content='123',
-            author=self.user,
-            room=self.room,
+            content='123', author=self.user, room=self.room,
         )
 
         self.assertEqual(message.content, '123')
