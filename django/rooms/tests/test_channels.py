@@ -11,36 +11,11 @@ from ..models import Room
 class RoomChannelsTestCase(ChannelsLiveServerTestCase):
     serve_static = True  # emulate StaticLiveServerTestCase
 
-    # FIXME User does not exist on login after logout
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         try:
             cls.driver = webdriver.Chrome()
-
-            # Create user
-            cls.username = 'testuser1'
-            cls.password = 'testpass123'
-
-            User = get_user_model()
-            cls.user = User(
-                username=cls.username,
-                password=cls.password
-            )
-            cls.user.set_password(cls.password)
-            cls.user.save()
-
-            # Create rooms
-            cls.room1 = Room.objects.create(
-                name='room_1',
-                author=cls.user,
-                youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
-            )
-            cls.room2 = Room.objects.create(
-                name='room_2',
-                author=cls.user,
-                youtube_link='https://www.youtube.com/watch?v=DmeUuoxyt_E',
-            )
         except:
             super().tearDownClass()
             raise
@@ -51,14 +26,35 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         super().tearDownClass()
 
     def setUp(self):
+        # Create user
+        self.username = 'testuser1'
+        self.password = 'testpass123'
+
+        User = get_user_model()
+        self.user = User(username=self.username, password=self.password)
+        self.user.set_password(self.password)
+        self.user.save()
+
+        # Create rooms
+        self.room1 = Room.objects.create(
+            name='room1',
+            author=self.user,
+            youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
+        )
+        self.room2 = Room.objects.create(
+            name='room2',
+            author=self.user,
+            youtube_link='https://www.youtube.com/watch?v=DmeUuoxyt_E',
+        )
+
         self._login(username=self.username, password=self.password)
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
-            self._enter_chat_room('room_1')
+            self._enter_chat_room('room1')
 
             self._open_new_window()
-            self._enter_chat_room('room_1')
+            self._enter_chat_room('room1')
 
             self._switch_to_window(0)
             self._post_message('hello')
@@ -78,10 +74,10 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         self,
     ):
         try:
-            self._enter_chat_room('room_1')
+            self._enter_chat_room('room1')
 
             self._open_new_window()
-            self._enter_chat_room('room_2')
+            self._enter_chat_room('room2')
 
             self._switch_to_window(0)
             self._post_message('hello')
@@ -167,15 +163,18 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         self.driver.switch_to_window(self.driver.window_handles[window_index])
 
     def _post_message(self, message):
-        chat_message_input = self.driver.find_element_by_id('chat-message-input')
-        chat_message_submit_button = self.driver.find_element_by_id('chat-message-submit')
+        chat_message_input = self.driver.find_element_by_id(
+            'chat-message-input'
+        )
+        chat_message_submit_button = self.driver.find_element_by_id(
+            'chat-message-submit'
+        )
 
         chat_message_input.send_keys(message)
         # WebDriverWait(self.driver, 2).until(
         #     lambda _: message in self._chat_input_value
         # )
         chat_message_submit_button.click()
-
 
     @property
     def _chat_log_value(self):
