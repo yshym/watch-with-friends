@@ -18,7 +18,7 @@
                 enctype="multipart/form-data">{% csrf_token %}
                 {{ form|crispy }}
                 <hr/>
-                <button type="sumbit" class="btn btn-success">Create</button>
+                <button type="sumbit" name="submit" class="btn btn-success">Create</button>
                 <a href="{% url 'index' %}" class="btn btn-info">Back to lobby</a>
             </form>
         </div>
