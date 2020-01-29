@@ -1,9 +1,14 @@
 from dotenv import load_dotenv, find_dotenv
 
 import os
+import sys
 
 
 load_dotenv(find_dotenv())
+
+# Check for testing environment
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -72,7 +77,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [('redis', 6379)],
+            'hosts': [('localhost' if TESTING else 'redis', 6379)],
         },
     },
 }
