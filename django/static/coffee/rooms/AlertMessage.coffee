@@ -11,10 +11,10 @@ export default class AlertMessage
             messageText = document.createTextNode @text
 
             messageDiv.appendChild messageText
-            this.container.prepend messageDiv
+            @container.prepend messageDiv
 
             setTimeout(
-                -> @container.removeChild messageDiv,
+                => @container.removeChild messageDiv,
                 5000
             )
 
@@ -23,6 +23,6 @@ export default class AlertMessage
 
         if alertElement
             setTimeout(
-                -> container.removeChild alertElement,
+                => container.removeChild alertElement,
                 5000
             )
