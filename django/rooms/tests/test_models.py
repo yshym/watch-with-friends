@@ -49,6 +49,8 @@ class RoomModelTestCase(TestCase):
         self.assertEqual(room.__str__(), room_name)
         self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
 
+        room.remove_video_files()
+
 
 class MessageModelTestCase(TestCase):
     @classmethod
