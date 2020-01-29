@@ -137,7 +137,9 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         self.driver.get(self.live_server_url + '/create')
 
         name_input = self.driver.find_element_by_id('id_name')
-        video_type_select = Select(self.driver.find_element_by_id('id_video_type'))
+        video_type_select = Select(
+            self.driver.find_element_by_id('id_video_type')
+        )
         video_input = self.driver.find_element_by_id('id_video')
         youtube_link_input = self.driver.find_element_by_id('id_youtube_link')
         submit_button = self.driver.find_element_by_name('submit')
