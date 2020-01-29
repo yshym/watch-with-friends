@@ -161,7 +161,7 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
     def _close_all_new_windows(self):
         while len(self.driver.window_handles) > 1:
             self.driver.switch_to_window(self.driver.window_handles[-1])
-            self.driver.execute_script('window.close();')
+            self._close_window()
         if len(self.driver.window_handles) == 1:
             self.driver.switch_to_window(self.driver.window_handles[0])
 
@@ -180,9 +180,6 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         )
 
         chat_message_input.send_keys(message)
-        # WebDriverWait(self.driver, 2).until(
-        #     lambda _: message in self._chat_input_value
-        # )
         chat_message_submit_button.click()
 
     @property
