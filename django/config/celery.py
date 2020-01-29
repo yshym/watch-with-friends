@@ -1,11 +1,14 @@
-import os
 from celery import Celery
+from django.conf import settings
+
+import os
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 app = Celery(
     'config',
-    broker='redis://redis',
+    broker='redis://localhost' if settings.TESTING else 'redis://redis',
     backend='rpc://',
 )
 
