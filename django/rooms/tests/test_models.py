@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.exceptions import ValidationError
 
 from ..models import Room, Message
+from ..validators import validate_video_extension
 
 import os
 
@@ -34,8 +36,10 @@ class RoomModelTestCase(TestCase):
 
     def test_create_room_with_local_video(self):
         room_name = 'room1'
-        upload_file = open('media/testfiles/video.mp4', 'rb')
-        video = SimpleUploadedFile(upload_file.name, upload_file.read())
+        upload_video_file = open('media/testfiles/video.mp4', 'rb')
+        upload_audio_file = open('media/testfiles/audio.mp3', 'rb')
+        video = SimpleUploadedFile(upload_video_file.name, upload_video_file.read())
+        audio = SimpleUploadedFile(upload_audio_file.name, upload_audio_file.read())
         video_ext = os.path.splitext(video.name)[1]
 
         room = Room.objects.create(
@@ -48,6 +52,9 @@ class RoomModelTestCase(TestCase):
         self.assertEqual(room.video.name, f'videos/{room_name}/{room_name}{video_ext}')
         self.assertEqual(room.__str__(), room_name)
         self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
+        validate_video_extension(video)
+        with self.assertRaises(ValidationError):
+            validate_video_extension(audio)
 
         room.remove_video_files()
 
