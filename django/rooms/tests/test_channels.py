@@ -197,12 +197,12 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
     @property
     def _chat_log_value(self):
-        return self.driver.find_element_by_css_selector(
-            '#chat-log'
-        ).get_property('textContent')
+        return self.driver.find_element_by_id('chat-log').get_property(
+            'textContent'
+        )
 
     @property
     def _chat_input_value(self):
-        return self.driver.find_element_by_css_selector(
-            '#chat-message-input'
+        return self.driver.find_element_by_id(
+            'chat-message-input'
         ).get_property('value')
