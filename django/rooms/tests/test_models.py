@@ -38,8 +38,12 @@ class RoomModelTestCase(TestCase):
         room_name = 'room1'
         upload_video_file = open('media/testfiles/video.mp4', 'rb')
         upload_audio_file = open('media/testfiles/audio.mp3', 'rb')
-        video = SimpleUploadedFile(upload_video_file.name, upload_video_file.read())
-        audio = SimpleUploadedFile(upload_audio_file.name, upload_audio_file.read())
+        video = SimpleUploadedFile(
+            upload_video_file.name, upload_video_file.read()
+        )
+        audio = SimpleUploadedFile(
+            upload_audio_file.name, upload_audio_file.read()
+        )
         video_ext = os.path.splitext(video.name)[1]
 
         room = Room.objects.create(
@@ -49,7 +53,9 @@ class RoomModelTestCase(TestCase):
         self.assertEqual(room.name, room_name)
         self.assertEqual(room.author, self.user)
         self.assertEqual(room.youtube_link, None)
-        self.assertEqual(room.video.name, f'videos/{room_name}/{room_name}{video_ext}')
+        self.assertEqual(
+            room.video.name, f'videos/{room_name}/{room_name}{video_ext}'
+        )
         self.assertEqual(room.__str__(), room_name)
         self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
         validate_video_extension(video)
