@@ -26,9 +26,7 @@ class Room(models.Model):
     )
     youtube_link = models.URLField(blank=True, null=True)
     author = models.ForeignKey(
-        get_user_model(),
-        related_name='room',
-        on_delete=models.CASCADE,
+        get_user_model(), related_name='room', on_delete=models.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -40,26 +38,30 @@ class Room(models.Model):
 
     def remove_video_files(self):
         if self.video:
-            shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'videos', self.name))
+            shutil.rmtree(
+                os.path.join(settings.MEDIA_ROOT, 'videos', self.name)
+            )
 
 
 class Message(models.Model):
     content = models.CharField(max_length=200)
     author = models.ForeignKey(
-        get_user_model(),
-        related_name='messages',
-        on_delete=models.CASCADE,
+        get_user_model(), related_name='messages', on_delete=models.CASCADE,
     )
     room = models.ForeignKey(
-        Room,
-        related_name='messages',
-        on_delete=models.CASCADE,
+        Room, related_name='messages', on_delete=models.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
-        sliced_content = f'{self.content[:60]}...' if len(self.content) > 40 else self.content
+        sliced_content = (
+            f'{self.content[:60]}...'
+            if len(self.content) > 40
+            else self.content
+        )
         return sliced_content
 
     class Meta:
-        ordering = ['timestamp',]
+        ordering = [
+            'timestamp',
+        ]
