@@ -8,12 +8,22 @@ from .models import (
 
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('sliced_content', 'author', 'room', 'timestamp')
-    list_filter = ('timestamp', 'author', 'room',)
-    search_fields = ('content', 'author',)
+    list_filter = (
+        'timestamp',
+        'author',
+        'room',
+    )
+    search_fields = (
+        'content',
+        'author',
+    )
 
     def sliced_content(self, obj):
-        sliced_content = f'{obj.content[:60]}...' if len(obj.content) > 40 else obj.content
+        sliced_content = (
+            f'{obj.content[:60]}...' if len(obj.content) > 40 else obj.content
+        )
         return sliced_content
+
 
 admin.site.register(Message, MessageAdmin)
 
@@ -29,8 +39,7 @@ class RoomAdmin(admin.ModelAdmin):
     list_filter = ('timestamp', 'author')
     search_fields = ('name', 'author')
 
-    inlines = (
-        MessagesInline,
-    )
+    inlines = (MessagesInline,)
+
 
 admin.site.register(Room, RoomAdmin)

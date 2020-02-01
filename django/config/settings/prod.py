@@ -4,8 +4,8 @@ from decouple import config
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default = [],
-    cast=lambda v: [s.strip() for s in v.split(',')]
+    default=[],
+    cast=lambda v: [s.strip() for s in v.split(',')],
 )
 
 
@@ -32,6 +32,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Heroku
 import dj_database_url
+
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 

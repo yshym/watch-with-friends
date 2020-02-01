@@ -15,14 +15,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(
-            BASE_DIR,
-            'watch-with-friends.sqlite3'.replace('-', '_')
+            BASE_DIR, 'watch-with-friends.sqlite3'.replace('-', '_')
         ),
         'TEST': {
             'NAME': os.path.join(
                 BASE_DIR,
-                f"{'watch-with-friends.sqlite3'.replace('-', '_')}_test.sqlite3"
+                f"{'watch-with-friends.sqlite3'.replace('-', '_')}_test.sqlite3",
             )
-        }
+        },
     }
 }

@@ -11,7 +11,9 @@ TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 
 
 # Applications
@@ -23,10 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
     # Local
     'rooms.apps.RoomsConfig',
-
     # Third-party
     'crispy_forms',
     'channels',
@@ -76,9 +76,7 @@ ASGI_APPLICATION = 'config.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('localhost' if TESTING else 'redis', 6379)],
-        },
+        'CONFIG': {'hosts': [('localhost' if TESTING else 'redis', 6379)],},
     },
 }
 
@@ -90,9 +88,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
@@ -150,5 +146,6 @@ CELERY_CACHE_BACKEND = 'django-cache'
 
 # django-debug-toolbar
 import socket
+
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
