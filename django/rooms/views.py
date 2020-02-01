@@ -45,8 +45,6 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
             video = request.FILES.get('video')
             youtube_link = request.POST.get('youtube_link')
 
-            print(video, request.FILES)
-
             if name:
                 obj.name = name
             elif video:
