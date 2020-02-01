@@ -12,9 +12,7 @@ from .widgets import CustomFileUpload
 class MessageCreateForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = (
-            'content',
-        )
+        fields = ('content',)
 
 
 class RoomCreateForm(forms.ModelForm):
@@ -55,9 +53,13 @@ class RoomCreateForm(forms.ModelForm):
 
     def clean(self):
         super().clean()
-        if self.cleaned_data.get('video_type') == 'local' and not self.cleaned_data.get('video'):
+        if self.cleaned_data.get(
+            'video_type'
+        ) == 'local' and not self.cleaned_data.get('video'):
             self.add_error('video', 'This field is required.')
-        elif self.cleaned_data.get('video_type') == 'yt' and not self.cleaned_data.get('youtube_link'):
+        elif self.cleaned_data.get(
+            'video_type'
+        ) == 'yt' and not self.cleaned_data.get('youtube_link'):
             self.add_error('youtube_link', 'This field is required.')
         return self.cleaned_data
 
@@ -68,6 +70,7 @@ class RoomVideoUpdateForm(forms.ModelForm):
         ('yt', 'YouTube'),
     )
     video_type = forms.ChoiceField(choices=VIDEO_TYPES, label='')
+
     class Meta:
         model = Room
         fields = (
