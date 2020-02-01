@@ -3,10 +3,10 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 import rooms.routing
 
 
-application = ProtocolTypeRouter({
-   'websocket': AuthMiddlewareStack(
-       URLRouter(
-           rooms.routing.websocket_urlpatterns,
-       )
-   )
-})
+application = ProtocolTypeRouter(
+    {
+        'websocket': AuthMiddlewareStack(
+            URLRouter(rooms.routing.websocket_urlpatterns,)
+        )
+    }
+)

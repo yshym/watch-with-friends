@@ -65,7 +65,9 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
         return redirect(request.build_absolute_uri())
 
 
-class RoomCreateView(SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView):
+class RoomCreateView(
+    SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView
+):
     template_name = 'room_create.djhtml'
     form_class = RoomCreateForm
     login_url = 'account_login'

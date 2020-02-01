@@ -13,8 +13,10 @@ import os
 
 logger = get_task_logger(__name__)
 
+
 def cut_content(content):
     return content if len(content) <= 10 else f'{content[:6]}...'
+
 
 @shared_task
 def create_message(room_name, username, content):
@@ -31,27 +33,38 @@ def create_message(room_name, username, content):
         content=content,
     )
 
+
 @shared_task
 def convert_for_hls(video_path):
     file_name, ext = os.path.splitext(video_path)
     video_output_path = f'{file_name}_out{ext}'
 
     # Change audio codec to AAC
-    subprocess.check_call([
-        'ffmpeg',
-        '-i', video_path,
-        '-vcodec', 'copy',
-        '-acodec', 'aac',
-        '-sn',
-        video_output_path,
-    ])
+    subprocess.check_call(
+        [
+            'ffmpeg',
+            '-i',
+            video_path,
+            '-vcodec',
+            'copy',
+            '-acodec',
+            'aac',
+            '-sn',
+            video_output_path,
+        ]
+    )
     # Convert to m3u8 format
-    subprocess.check_call([
-        'ffmpeg',
-        '-i', video_output_path,
-        '-hls_time', '10',
-        '-hls_list_size', '0',
-        f'{file_name}.m3u8',
-    ])
+    subprocess.check_call(
+        [
+            'ffmpeg',
+            '-i',
+            video_output_path,
+            '-hls_time',
+            '10',
+            '-hls_list_size',
+            '0',
+            f'{file_name}.m3u8',
+        ]
+    )
     # remove outputed video
     os.remove(video_output_path)
