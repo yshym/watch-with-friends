@@ -1,6 +1,7 @@
 from django.test import TestCase, SimpleTestCase, Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from ..models import Room
 
@@ -14,10 +15,7 @@ class RoomViewTestCase(TestCase):
         cls.password = 'testpass123'
 
         User = get_user_model()
-        cls.user = User(
-            username=cls.username,
-            password=cls.password,
-        )
+        cls.user = User(username=cls.username, password=cls.password,)
         cls.user.set_password(cls.password)
         cls.user.save()
 
@@ -42,5 +40,26 @@ class RoomViewTestCase(TestCase):
         )
 
         response = self.client.get(room.get_absolute_url())
-
         self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(room.get_absolute_url(), {'name': 'room2'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Room.objects.filter(name='room2').exists())
+
+        # upload_video_file = open('media/testfiles/video.mp4', 'rb')
+        # video = SimpleUploadedFile(
+        #     upload_video_file.name, upload_video_file.read()
+        # )
+        # response = self.client.post(room.get_absolute_url(), {'video': video})
+        # self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(
+            room.get_absolute_url(),
+            {'youtube_link': 'https://www.youtube.com/watch?v=DmeUuoxyt_E'},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            Room.objects.filter(
+                youtube_link='https://www.youtube.com/watch?v=DmeUuoxyt_E'
+            ).exists()
+        )
