@@ -5,6 +5,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from ..models import Room
 
+import os
+
 
 class RoomViewTestCase(TestCase):
     @classmethod
@@ -42,7 +44,10 @@ class RoomViewTestCase(TestCase):
         response = self.client.get(room.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post(room.get_absolute_url(), {'name': 'room2'})
+        new_room_name = 'room2'
+        response = self.client.post(
+            room.get_absolute_url(), {'name': new_room_name}
+        )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Room.objects.filter(name='room2').exists())
 
@@ -50,8 +55,14 @@ class RoomViewTestCase(TestCase):
         video = SimpleUploadedFile(
             upload_video_file.name, upload_video_file.read()
         )
+        video_ext = os.path.splitext(video.name)[1]
         response = self.client.post(room.get_absolute_url(), {'video': video})
         self.assertEqual(response.status_code, 302)
+        new_room = Room.objects.get(name=new_room_name)
+        self.assertEqual(
+            new_room.video.name,
+            f'videos/{new_room_name}/{new_room_name}{video_ext}',
+        )
 
         response = self.client.post(
             room.get_absolute_url(),
