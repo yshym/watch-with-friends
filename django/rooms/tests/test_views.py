@@ -46,12 +46,12 @@ class RoomViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Room.objects.filter(name='room2').exists())
 
-        # upload_video_file = open('media/testfiles/video.mp4', 'rb')
-        # video = SimpleUploadedFile(
-        #     upload_video_file.name, upload_video_file.read()
-        # )
-        # response = self.client.post(room.get_absolute_url(), {'video': video})
-        # self.assertEqual(response.status_code, 302)
+        upload_video_file = open('media/testfiles/video.mp4', 'rb')
+        video = SimpleUploadedFile(
+            upload_video_file.name, upload_video_file.read()
+        )
+        response = self.client.post(room.get_absolute_url(), {'video': video})
+        self.assertEqual(response.status_code, 302)
 
         response = self.client.post(
             room.get_absolute_url(),
