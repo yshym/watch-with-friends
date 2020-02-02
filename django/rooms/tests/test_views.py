@@ -12,14 +12,17 @@ class RoomViewTestCase(TestCase):
 
         cls.username = 'testuser1'
         cls.password = 'testpass123'
-        User = get_user_model()
-        cls.user = User.objects.create(
-            username=cls.username, password=cls.password,
-        )
 
-        cls.client = Client()
-        # FIXME: Logging in in setUpClass
-        cls.client.login(username=cls.username, password=cls.password)
+        User = get_user_model()
+        cls.user = User(
+            username=cls.username,
+            password=cls.password,
+        )
+        cls.user.set_password(cls.password)
+        cls.user.save()
+
+    def setUp(self):
+        self.client.login(username=self.username, password=self.password)
 
     def test_index_view(self):
         response = self.client.get(reverse('index'))
