@@ -62,7 +62,7 @@ class RoomModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             validate_video_extension(audio)
 
-        room.remove_video_files()
+        room.delete()
 
 
 class MessageModelTestCase(TestCase):
