@@ -143,6 +143,8 @@ ACCOUNT_REDIRECT_URL = '/'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
 
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
 
 # django-debug-toolbar
 import socket
