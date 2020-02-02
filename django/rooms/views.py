@@ -47,18 +47,16 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
 
             if name:
                 obj.name = name
-            elif video:
+            else:
                 if obj.video:
                     obj.remove_video_files()
 
-                obj.youtube_link = None
-                obj.video = video
-            elif youtube_link:
-                if obj.video:
-                    obj.remove_video_files()
-
-                obj.video = None
-                obj.youtube_link = youtube_link
+                if video:
+                    obj.youtube_link = None
+                    obj.video = video
+                elif youtube_link:
+                    obj.video = None
+                    obj.youtube_link = youtube_link
 
             obj.save()
 
