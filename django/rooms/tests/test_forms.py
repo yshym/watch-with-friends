@@ -43,3 +43,13 @@ class RoomCreateFormTestCase(TestCase):
         )
 
         self.assertTrue(form.is_valid())
+
+    def test_form_without_local_video(self):
+        form = RoomCreateForm(data={'name': 'room1', 'video_type': 'local',},)
+
+        self.assertFalse(form.is_valid())
+
+    def test_form_without_youtube_video(self):
+        form = RoomCreateForm(data={'name': 'room1', 'video_type': 'yt',},)
+
+        self.assertFalse(form.is_valid())
