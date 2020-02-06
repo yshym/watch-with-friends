@@ -1,8 +1,11 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from ..models import Room, Message
-from ..tasks import create_message
+from ..tasks import create_message, convert_for_hls
+
+import os
 
 
 class RoomTasksTestCase(TestCase):
@@ -18,11 +21,18 @@ class RoomTasksTestCase(TestCase):
             username=cls.username, password=cls.password,
         )
 
-        cls.room = Room.objects.create(
-            name='room1',
-            author=cls.user,
-            youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
+        upload_video_file = open('media/testfiles/video.mp4', 'rb')
+        video = SimpleUploadedFile(
+            upload_video_file.name, upload_video_file.read()
         )
+        cls.room = Room.objects.create(
+            name='room1', author=cls.user, video=video,
+        )
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.room.delete()
+        super().tearDownClass()
 
     def test_create_message_task(self):
         content = '123'
@@ -36,3 +46,12 @@ class RoomTasksTestCase(TestCase):
         )
 
         self.assertTrue(result.successful())
+
+    def test_convert_for_hls_task(self):
+        video_path = self.room.video.path
+        file_name, ext = os.path.splitext(video_path)
+
+        result = convert_for_hls.apply(args=[video_path])
+
+        self.assertTrue(result.successful())
+        self.assertTrue(os.path.isfile(f'{file_name}.m3u8'))
