@@ -55,3 +55,4 @@ class RoomTasksTestCase(TestCase):
 
         self.assertTrue(result.successful())
         self.assertTrue(os.path.isfile(f'{file_name}.m3u8'))
+        self.assertTrue(os.path.isfile(f'{file_name}0.ts'))
