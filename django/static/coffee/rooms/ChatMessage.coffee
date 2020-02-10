@@ -41,6 +41,8 @@ export default class ChatMessage
 
     formattedCurrentDate: ->
         current_datetime = new Date()
+        pad = (n) => if n < 10 then "0" + n else n
+
         [
             year,
             month,
@@ -49,11 +51,12 @@ export default class ChatMessage
             minutes,
         ] = [
             current_datetime.getFullYear(),
-            current_datetime.getMonth() + 1,
-            current_datetime.getDate(),
-            current_datetime.getHours(),
-            current_datetime.getMinutes(),
+            pad(current_datetime.getMonth() + 1),
+            pad(current_datetime.getDate()),
+            pad(current_datetime.getHours()),
+            pad(current_datetime.getMinutes()),
         ]
+
         "#{day}.#{month}.#{year}, #{hours}:#{minutes}"
 
     post: ->
