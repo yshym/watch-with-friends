@@ -1,6 +1,6 @@
 # Watch with friends
 
-1) Use YouTube link or upload a video from your PC.
+1) Use YouTube link or upload a video from your hard drive.
 
 ![Screenshot1](readme_images/screenshot1.png)
 
