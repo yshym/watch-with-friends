@@ -32,6 +32,7 @@ class RoomCreateForm(forms.ModelForm):
         )
         widgets = {
             'video': CustomFileUpload,
+            'youtube_link': forms.TextInput(attrs={'placeholder': 'YouTube link'}),
         }
         error_messages = {
             'name': {
