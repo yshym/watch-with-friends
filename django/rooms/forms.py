@@ -81,6 +81,7 @@ class RoomVideoUpdateForm(forms.ModelForm):
         )
         widgets = {
             'video': CustomFileUpload,
+            'youtube_link': forms.TextInput(attrs={'placeholder': 'YouTube link'}),
         }
         labels = {
             'video': '',
