@@ -36,6 +36,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'user_connected',
+                'username': self.user.username,
                 'connected_users': ','.join(self.users.get(self.room_name)),
             },
         )
@@ -151,11 +152,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def user_connected(self, event):
+        username = event.get('username')
         connected_users = event.get('connected_users')
 
         await self.send(
             text_data=json.dumps(
-                {'type': 'user_connected', 'connected_users': connected_users,}
+                {
+                    'type': 'user_connected',
+                    'username': username,
+                    'connected_users': connected_users,
+                }
             )
         )
 
