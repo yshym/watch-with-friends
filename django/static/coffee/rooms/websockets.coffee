@@ -32,8 +32,6 @@ chatSocket.onmessage = (e) ->
             connectedUsersDataSet = new Set(data.connected_users.split(","))
             connectedUserUsername = data.username
 
-            console.log connectedUsers, connectedUsersDataSet, connectedUserUsername
-
             if not connectedUsers.includes(connectedUserUsername)
                 connectedUsersContainer.removeChildren()
 
