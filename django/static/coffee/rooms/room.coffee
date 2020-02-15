@@ -1,4 +1,4 @@
-import {chatSocket} from "./websockets"
+import {roomSocket} from "./websockets"
 import {video} from "./video"
 import AlertMessage from "./AlertMessage"
 import showVideoField from "./showVideoField"
@@ -49,13 +49,13 @@ HTMLElement::removeChildren = ->
 # HTML5 video events for room author
 if roomAuthor == user
     video.on "pause", (_e) ->
-        chatSocket.send JSON.stringify type: "pause_video"
+        roomSocket.send JSON.stringify type: "pause_video"
 
     video.on "play", (_e) ->
-        chatSocket.send JSON.stringify type: "play_video"
+        roomSocket.send JSON.stringify type: "play_video"
 
     video.on "seeked", (_e) ->
-        chatSocket.send JSON.stringify({
+        roomSocket.send JSON.stringify({
             type: "seeked_video",
             currentTime: video.currentTime,
         })
@@ -69,11 +69,11 @@ if roomAuthor == user
 # Change state of the yt video player event
 video.on "statechange", (e) ->
     if e.detail.code == 3
-        chatSocket.send JSON.stringify type: "buffering_video"
+        roomSocket.send JSON.stringify type: "buffering_video"
     else
-        chatSocket.send JSON.stringify type: "buffered_video"
+        roomSocket.send JSON.stringify type: "buffered_video"
 
-chatSocket.onclose = (_e) ->
+roomSocket.onclose = (_e) ->
     console.error "Chat socket closed unexpectedly"
 
 # Focus chat message input
@@ -88,7 +88,7 @@ messageSubmitButton.onclick = (_e) ->
     if messageInput.value.trim() != ""
         message = messageInput.value
 
-        chatSocket.send JSON.stringify({
+        roomSocket.send JSON.stringify({
                 type: "message",
                 room_name: roomName,
                 username: user,
