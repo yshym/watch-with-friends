@@ -52,6 +52,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 text_data=json.dumps(
                     {
                         'type': 'user_connected',
+                        'username': self.user.username,
                         'is_new_user': self.is_new_user,
                     },
                 )
