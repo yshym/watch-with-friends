@@ -38,10 +38,12 @@ roomSocket.onmessage = (e) ->
         when "user_connected", "user_disconnected"
             connectedUsersUsernames = connectedUsersContainer.textContent.trim().split(" ")
 
+            usernameData = data.username
             isNewUserData = data.is_new_user
 
+            console.log data.type
+
             if isNewUserData
-                usernameData = data.username
                 connectedUsersDataSet = new Set(data.connected_users.split(","))
 
                 connectedUsersContainer.removeChildren()
@@ -49,7 +51,7 @@ roomSocket.onmessage = (e) ->
                 connectedUsersDataSet.forEach (username) ->
                     connectedUser = new ConnectedUser username
                     connectedUser.addToContainer connectedUsersContainer
-            else
+            else if user == usernameData
                 container.removeChildren()
 
                 container.appendChild(
