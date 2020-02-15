@@ -35,13 +35,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if self.is_new_user:
             self.add_user(self.room_name, self.user)
+
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     'type': 'user_connected',
                     'username': self.user.username,
                     'is_new_user': self.is_new_user,
-                    'connected_users': ','.join(self.users.get(self.room_name, [])),
+                    'connected_users': ','.join(
+                        self.users.get(self.room_name, [])
+                    ),
                 },
             )
         else:
@@ -49,10 +52,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 text_data=json.dumps(
                     {
                         'type': 'user_connected',
-                        'username': self.user.username,
                         'is_new_user': self.is_new_user,
-                        'connected_users': ','.join(self.users.get(self.room_name, [])),
-                    }
+                    },
                 )
             )
             await self.disconnect(200)
@@ -60,6 +61,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         if self.is_new_user:
             self.remove_user(self.room_name, self.user)
+
             # Leave room group
             await self.channel_layer.group_send(
                 self.room_group_name,
@@ -68,6 +70,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'connected_users': ','.join(self.users.get(self.room_name)),
                 },
             )
+
         await self.channel_layer.group_discard(
             self.room_group_name, self.channel_name
         )
