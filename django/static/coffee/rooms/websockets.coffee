@@ -12,6 +12,14 @@ container = document.getElementsByClassName("container-xl")[0]
 chatLogBody = document.getElementById "chat-log-body"
 connectedUsersContainer = document.getElementById "connectedUsers"
 
+notNewUserWarningElement = (text) ->
+    warningH1 = document.createElement "h1"
+    warningText = document.createTextNode text
+
+    warningH1.appendChild warningText
+
+    warningH1
+
 roomSocket.onmessage = (e) ->
     console.log e
     data = JSON.parse e.data
@@ -44,12 +52,11 @@ roomSocket.onmessage = (e) ->
             else
                 container.removeChildren()
 
-                warningH1 = document.createElement "h1"
-                warningText = document.createTextNode "You are already in this room from the other tab/browser"
-
-                warningH1.appendChild warningText
-
-                container.appendChild warningH1
+                container.appendChild(
+                    notNewUserWarningElement(
+                        "You are already in this room from the other tab/browser"
+                    )
+                )
 
         when "buffering_video"
             video.pause()
