@@ -55,6 +55,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     }
                 )
             )
+            await self.disconnect(200)
 
     async def disconnect(self, close_code):
         if self.is_new_user:
