@@ -24,7 +24,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_group_name = f'room_{self.room_name}'
         self.user = self.scope.get('user')
 
-        self.add_user(self.room_name, self.user)
+        self.is_new_user = not self.user_exists(self.room_name, self.user)
+
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name, self.channel_name
@@ -32,25 +33,40 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'user_connected',
-                'username': self.user.username,
-                'connected_users': ','.join(self.users.get(self.room_name)),
-            },
-        )
+        if self.is_new_user:
+            self.add_user(self.room_name, self.user)
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'user_connected',
+                    'username': self.user.username,
+                    'is_new_user': self.is_new_user,
+                    'connected_users': ','.join(self.users.get(self.room_name, [])),
+                },
+            )
+        else:
+            await self.send(
+                text_data=json.dumps(
+                    {
+                        'type': 'user_connected',
+                        'username': self.user.username,
+                        'is_new_user': self.is_new_user,
+                        'connected_users': ','.join(self.users.get(self.room_name, [])),
+                    }
+                )
+            )
 
     async def disconnect(self, close_code):
-        self.remove_user(self.room_name, self.user)
-        # Leave room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'user_disconnected',
-                'connected_users': ','.join(self.users.get(self.room_name)),
-            },
-        )
+        if self.is_new_user:
+            self.remove_user(self.room_name, self.user)
+            # Leave room group
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'user_disconnected',
+                    'connected_users': ','.join(self.users.get(self.room_name)),
+                },
+            )
         await self.channel_layer.group_discard(
             self.room_group_name, self.channel_name
         )
@@ -153,6 +169,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def user_connected(self, event):
         username = event.get('username')
+        is_new_user = event.get('is_new_user')
         connected_users = event.get('connected_users')
 
         await self.send(
@@ -160,6 +177,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     'type': 'user_connected',
                     'username': username,
+                    'is_new_user': is_new_user,
                     'connected_users': connected_users,
                 }
             )
@@ -188,6 +206,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     def remove_user(self, room_name, user):
         self.users.get(room_name, []).remove(user.username)
+
+    def user_exists(self, room_name, user):
+        return user.username in self.users.get(room_name, [])
 
     def add_waiting_user(self, user):
         self.waiting_users.append(user)
