@@ -30,11 +30,12 @@ roomSocket.onmessage = (e) ->
         when "user_connected", "user_disconnected"
             connectedUsersUsernames = connectedUsersContainer.textContent.trim().split(" ")
 
-            usernameData = data.username
             isNewUserData = data.is_new_user
-            connectedUsersDataSet = new Set(data.connected_users.split(","))
 
             if isNewUserData
+                usernameData = data.username
+                connectedUsersDataSet = new Set(data.connected_users.split(","))
+
                 connectedUsersContainer.removeChildren()
 
                 connectedUsersDataSet.forEach (username) ->
