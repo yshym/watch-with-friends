@@ -4,7 +4,7 @@ import ConnectedUser from "./ConnectedUser"
 
 
 # Initialize WebSocket
-export chatSocket = new WebSocket(
+export roomSocket = new WebSocket(
     "ws://#{window.location.host}/ws/chat/#{roomName}/"
 )
 
@@ -12,7 +12,7 @@ container = document.getElementsByClassName("container-xl")[0]
 chatLogBody = document.getElementById "chat-log-body"
 connectedUsersContainer = document.getElementById "connectedUsers"
 
-chatSocket.onmessage = (e) ->
+roomSocket.onmessage = (e) ->
     console.log e
     data = JSON.parse e.data
     message_type = data.type
