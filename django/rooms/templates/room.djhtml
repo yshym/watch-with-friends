@@ -158,15 +158,17 @@
     </div>
     <br />
     <span id="connectedUsers"></span>
+
+    <script id="roomName" type="text">{{ room.name }}</script>
+    <script id="roomAuthorUsername" type="text">{{ room.author }}</script>
+    <script id="currentUserUsername" type="text">{{ user }}</script>
+    {% if room.video %}
+        <script id="videoURL" type="text">{{ room.video.url }}</script>
+    {% endif %}
 {% endblock content %}
 
+
 {% block script %}
-    <script>
-        const roomName = "{{ room.name }}"
-        const roomAuthor = "{{ room.author }}"
-        const user = "{{ user }}"
-        const videoURL = "{% if room.video %}{{ room.video.url }}{% endif %}"
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="{% static 'bundles/room.js' %}"></script>
 {% endblock script %}
