@@ -1,15 +1,22 @@
-import { roomSocket } from "./websockets";
-import { video } from "./video";
+import { initializeRoomSocket } from "./websockets";
+import { initializeVideo } from "./video";
 import AlertMessage from "./AlertMessage";
 import showVideoField from "./showVideoField";
 
+function getElementTextContent(id: string): string {
+    let element = document.getElementById(id);
+    return element ? element.textContent : null;
+}
+
 // Check if variables are correctly initialized using DTL
-let [roomName, roomAuthor, user, videoURL] = [
-    "roomName",
-    "roomAuthorUsername",
-    "currentUserUsername",
-    "videoURL",
+const [roomName, roomAuthor, user, videoURL] = [
+    getElementTextContent("roomName"),
+    getElementTextContent("roomAuthorUsername"),
+    getElementTextContent("currentUserUsername"),
+    getElementTextContent("videoURL"),
 ];
+
+console.log(roomName);
 
 // Get necessary DOM elements
 const videoDiv = document.getElementById("video-player");
@@ -47,6 +54,11 @@ AlertMessage.removeFrom(container);
 chatLogBody.scrollTop = chatLogBody.scrollHeight;
 
 // Remove all children of the element
+declare global {
+    interface HTMLElement {
+        removeChildren(): HTMLElement;
+    }
+}
 HTMLElement.prototype.removeChildren = function(): HTMLElement {
     while (this.firstChild) {
         this.removeChild(this.firstChild);
@@ -55,17 +67,22 @@ HTMLElement.prototype.removeChildren = function(): HTMLElement {
     return this;
 };
 
+// Initialize video player
+const video = initializeVideo(user, roomAuthor);
+// Initialize room websocket
+const roomSocket = initializeRoomSocket(roomName, roomAuthor, user, video);
+
 // HTML5 video events for room author
 if (roomAuthor == user) {
-    video.on("pause", _e =>
+    video.on("pause", (_e: any) =>
         roomSocket.send(JSON.stringify({ type: "pause_video" }))
     );
 
-    video.on("play", _e =>
+    video.on("play", (_e: any) =>
         roomSocket.send(JSON.stringify({ type: "play_video" }))
     );
 
-    video.on("seeked", _e => {
+    video.on("seeked", (_e: any) => {
         roomSocket.send(
             JSON.stringify({
                 type: "seeked_video",
@@ -80,7 +97,7 @@ if (roomAuthor == user) {
 }
 
 // Change state of the yt video player event
-video.on("statechange", e => {
+video.on("statechange", (e: any) => {
     if (e.detail.code == 3) {
         roomSocket.send(JSON.stringify({ type: "buffering_video" }));
     } else {
@@ -152,7 +169,7 @@ if (videoURL && Hls.isSupported()) {
     let hls = new Hls();
     let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.js");
 
-    let [videoName, _videoExt] = videoURL.split(".");
+    let videoName = videoURL.split(".")[0];
     HLSFileWaiter.addEventListener("message", _e => {
         hls.loadSource("${videoName}.m3u8");
         hls.attachMedia(videoElement);
