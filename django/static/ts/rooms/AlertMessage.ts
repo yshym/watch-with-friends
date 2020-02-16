@@ -5,7 +5,7 @@ export default class AlertMessage {
         public type_: string
     ) {}
 
-    post() {
+    post(): void {
         let alertElement = document.getElementsByClassName("alert")[0];
 
         if (alertElement != null) {
@@ -21,7 +21,7 @@ export default class AlertMessage {
         }
     }
 
-    removeFrom(container: HTMLElement) {
+    removeFrom(container: HTMLElement): void {
         let alertElement = document.getElementsByClassName("alert")[0];
 
         if (alertElement) {
