@@ -16,8 +16,6 @@ const [roomName, roomAuthor, user, videoURL] = [
     getElementTextContent("videoURL"),
 ];
 
-console.log(roomName);
-
 // Get necessary DOM elements
 const videoDiv = document.getElementById("video-player");
 const videoElement = document.getElementById("video-active");
