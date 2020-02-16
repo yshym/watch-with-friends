@@ -5,7 +5,7 @@ function URLExists(url: string): boolean {
     return http.status != 404;
 }
 
-function waitForHLSFile(url: string): void {
+function waitForHLSFile(url: string): any {
     if (URLExists(url)) {
         self.postMessage("m3u8 file was created.");
     } else {
@@ -13,6 +13,6 @@ function waitForHLSFile(url: string): void {
     }
 }
 
-self.addEventListener("message", (e: Event): void =>
+self.addEventListener("message", (e): void =>
     waitForHLSFile(`${e.data.videoName}.m3u8`)
 );

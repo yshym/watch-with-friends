@@ -10,7 +10,7 @@ export default class AlertMessage {
 
         if (alertElement != null) {
             let messageDiv = document.createElement("div");
-            messageDiv.className = `alert alert-${this.type}`;
+            messageDiv.className = `alert alert-${this.type_}`;
 
             let messageText = document.createTextNode(this.text);
 
@@ -21,7 +21,7 @@ export default class AlertMessage {
         }
     }
 
-    removeFrom(container: HTMLElement): void {
+    static removeFrom(container: HTMLElement): void {
         let alertElement = document.getElementsByClassName("alert")[0];
 
         if (alertElement) {
