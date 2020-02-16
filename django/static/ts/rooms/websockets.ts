@@ -11,7 +11,7 @@ let container = document.getElementsByClassName("container-xl")[0];
 let chatLogBody = document.getElementById("chat-log-body");
 let connectedUsersContainer = document.getElementById("connectedUsers");
 
-function notNewUserWarningElement(text: string): HTMLElement {
+function notNewUserWarningElement(text: string): Element {
     let warningH1 = document.createElement("h1");
     let warningText = document.createTextNode(text);
 
@@ -20,7 +20,7 @@ function notNewUserWarningElement(text: string): HTMLElement {
     return warningH1;
 }
 
-roomSocket.onmessage = e => {
+roomSocket.onmessage = (e: any) => {
     let data = JSON.parse(e.data);
     let messageType = data.type;
 
@@ -34,14 +34,11 @@ roomSocket.onmessage = e => {
             message.post();
 
             chatLogBody.scrollTop = chatLogBody.scrollHeight;
+
             break;
         }
         case "user_connected":
         case "user_disconnected": {
-            let connectedUsersUsernames = connectedUsersContainer.textContent
-                .trim()
-                .split(" ");
-
             let usernameData = data.username;
             let isNewUserData = data.is_new_user;
 
@@ -52,8 +49,11 @@ roomSocket.onmessage = e => {
 
                 connectedUsersContainer.removeChildren();
 
-                connectedUsersDataSet.forEach(function(username) {
-                    let connectedUser = new ConnectedUser(username);
+                connectedUsersDataSet.forEach(username => {
+                    let connectedUser = new ConnectedUser(
+                        <string>username,
+                        user
+                    );
                     connectedUser.addToContainer(connectedUsersContainer);
                 });
             } else if (user == usernameData) {
@@ -65,14 +65,17 @@ roomSocket.onmessage = e => {
                     )
                 );
             }
+
             break;
         }
         case "buffering_video": {
             video.pause();
+
             break;
         }
         case "all_players_buffered": {
             video.play();
+
             break;
         }
     }
@@ -81,14 +84,17 @@ roomSocket.onmessage = e => {
         switch (messageType) {
             case "seeked_video": {
                 video.currentTime = data.current_time;
+
                 break;
             }
             case "pause_video": {
                 video.pause();
+
                 break;
             }
             case "play_video": {
                 video.play();
+
                 break;
             }
         }
