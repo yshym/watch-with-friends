@@ -20,7 +20,7 @@ export default class ConnectedUser {
         return spanWrapper;
     }
 
-    addToContainer(container: HTMLElement) {
-        container.appendChild(this.createElement())
+    addToContainer(container: HTMLElement): void {
+        container.appendChild(this.createElement());
     }
 }
