@@ -159,11 +159,11 @@
     <br />
     <span id="connectedUsers"></span>
 
-    <script id="roomName" type="text">{{ room.name }}</script>
-    <script id="roomAuthorUsername" type="text">{{ room.author }}</script>
-    <script id="currentUserUsername" type="text">{{ user }}</script>
+    {{ room.name|text_script:"roomName" }}
+    {{ room.author|text_script:"roomAuthorUsername" }}
+    {{ user|text_script:"currentUserUsername" }}
     {% if room.video %}
-        <script id="videoURL" type="text">{{ room.video.url }}</script>
+        {{ room.video.url|text_script:"videoURL" }}
     {% endif %}
 {% endblock content %}
 
