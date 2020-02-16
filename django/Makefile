@@ -23,5 +23,5 @@ deploy:
 	ansible-playbook ansible/playbook.yml --inventory=ansible/inventory.yml
 
 bundles:
-	cd static/coffee/rooms && coffee -o _build -c *
+	cd static/ts/rooms && tsc -outDir _build *.ts
 	cd webpack && npm run build
