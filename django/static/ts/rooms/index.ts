@@ -3,7 +3,7 @@ import { selectedText, selectedValue } from "./selectTools";
 
 let roomNameInput = document.getElementsByTagName("select")[0];
 let roomNameSubmitButton = document.getElementById("room-name-submit");
-let container = document.getElementsByClassName("container-xl")[0];
+let container = <HTMLElement>document.getElementsByClassName("container-xl")[0];
 
 roomNameSubmitButton.onclick = _e => {
     let roomName = selectedText(roomNameInput);
