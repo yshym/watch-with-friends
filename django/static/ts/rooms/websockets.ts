@@ -42,7 +42,7 @@ export function initializeRoomSocket(roomName: string, roomAuthor: string, user:
                 let usernameData = data.username;
                 let isNewUserData = data.is_new_user;
 
-                if (isNewUserData) {
+                if (isNewUserData || messageType == "user_disconnected") {
                     let connectedUsersDataSet = new Set(
                         data.connected_users.split(",")
                     );
