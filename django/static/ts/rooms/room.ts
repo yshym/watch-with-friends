@@ -150,8 +150,8 @@ if (roomAuthor == user) {
     showVideoField();
     videoTypeSelectElement.onchange = showVideoField;
 
-    roomVideoChangeButton.onclick = _e => {
-        this.style.display = "none";
+    roomVideoChangeButton.onclick = function(_e) {
+        (this as any).style.display = "none";
         roomVideoChangeForm.style.display = "block";
     };
 
