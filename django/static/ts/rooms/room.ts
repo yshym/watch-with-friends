@@ -169,7 +169,7 @@ if (videoURL && Hls.isSupported()) {
 
     let videoName = videoURL.split(".")[0];
     HLSFileWaiter.addEventListener("message", _e => {
-        hls.loadSource("${videoName}.m3u8");
+        hls.loadSource(`${videoName}.m3u8`);
         hls.attachMedia(videoElement);
 
         videoSpinner.style.display = "none";
