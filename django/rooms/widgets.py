@@ -1,4 +1,4 @@
-from django.forms.widgets import Widget, FileInput, SelectMultiple
+from django.forms.widgets import FileInput
 
 
 class CustomFileUpload(FileInput):
