@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from django_select2.forms import Select2Widget
 
 from .models import (
@@ -32,7 +31,9 @@ class RoomCreateForm(forms.ModelForm):
         )
         widgets = {
             'video': CustomFileUpload,
-            'youtube_link': forms.TextInput(attrs={'placeholder': 'YouTube link'}),
+            'youtube_link': forms.TextInput(
+                attrs={'placeholder': 'YouTube link'}
+            ),
         }
         error_messages = {
             'name': {
@@ -81,7 +82,9 @@ class RoomVideoUpdateForm(forms.ModelForm):
         )
         widgets = {
             'video': CustomFileUpload,
-            'youtube_link': forms.TextInput(attrs={'placeholder': 'YouTube link'}),
+            'youtube_link': forms.TextInput(
+                attrs={'placeholder': 'YouTube link'}
+            ),
         }
         labels = {
             'video': '',

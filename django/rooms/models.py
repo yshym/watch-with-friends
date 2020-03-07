@@ -1,13 +1,13 @@
+import uuid
+import os
+import shutil
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.conf import settings
 
 from .validators import validate_video_extension
-
-import uuid
-import os
-import shutil
 
 
 def video_location(instance, filename):

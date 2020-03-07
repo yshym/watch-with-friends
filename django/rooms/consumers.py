@@ -1,14 +1,8 @@
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-from channels.generic.websocket import AsyncWebsocketConsumer
-from collections import deque
-
 import json
 
-from .models import (
-    Room,
-    Message,
-)
+from collections import deque
+from django.utils import timezone
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 from .tasks import create_message
 
