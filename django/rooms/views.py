@@ -1,21 +1,14 @@
 from django.shortcuts import redirect
 from django.views import generic
-from django.utils.safestring import mark_safe
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
-from .models import (
-    Room,
-    Message,
-)
+from .models import Room
 from .forms import (
-    MessageCreateForm,
     RoomCreateForm,
     RoomVideoUpdateForm,
     RoomEnterForm,
 )
-
-import json
 
 
 class IndexView(generic.TemplateView):

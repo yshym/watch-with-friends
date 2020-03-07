@@ -1,3 +1,6 @@
+import subprocess
+import os
+
 from django.contrib.auth import get_user_model
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -6,9 +9,6 @@ from .models import (
     Room,
     Message,
 )
-
-import subprocess
-import os
 
 
 logger = get_task_logger(__name__)
