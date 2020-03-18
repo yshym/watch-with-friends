@@ -29,6 +29,7 @@ django_select2 = "^7.1.2"
 django-allauth = "^0.41.0"
 
 [tool.poetry.dev-dependencies]
+pylint-django = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
