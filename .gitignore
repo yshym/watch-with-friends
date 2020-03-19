@@ -27,3 +27,6 @@ media/
 
 # static build
 _build/
+
+# direnv
+.envrc
