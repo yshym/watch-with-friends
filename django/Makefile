@@ -23,5 +23,5 @@ deploy:
 	ansible-playbook ansible/playbook.yml --inventory=ansible/inventory.yml
 
 bundles:
-	cd static/ts/rooms && tsc
+	cd static/ts/rooms && npx -p typescript tsc
 	cd webpack && npm run build
