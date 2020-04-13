@@ -9,7 +9,9 @@ COPY pyproject.toml poetry.lock /code/
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg coffeescript npm
+# Install npm
+RUN curl -L https://www.npmjs.com/install.sh | sh
+# Install poetry and its dependencies
 RUN pip install poetry \
     && poetry config virtualenvs.create false \
     && poetry install
