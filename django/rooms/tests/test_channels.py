@@ -28,11 +28,15 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
     def setUp(self):
         # Create user
-        self.username = 'testuser1'
-        self.password = 'testpass123'
+        self.username1 = 'testuser1'
+        self.password1 = 'testpass123'
 
-        self._signup(self.username, self.password)
-        # self._login(username=self.username, password=self.password)
+        self.username2 = 'testuser2'
+        self.password2 = 'testpass123'
+
+        self._signup(self.username2, self.password2)
+        self._logout()
+        self._signup(self.username1, self.password1)
 
         # Create rooms
         self._create_room(
@@ -50,6 +54,8 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
             self._enter_room('room1')
 
             self._open_new_window()
+            self._logout()
+            self._login(self.username2, self.password2)
             self._enter_room('room1')
 
             self._switch_to_window(0)
@@ -129,6 +135,10 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
     def _logout(self):
         self.driver.get(self.live_server_url + '/accounts/logout/')
+
+        submit_button = self.driver.find_element_by_name('submit')
+        submit_button.click()
+
         WebDriverWait(self.driver, 2).until(
             lambda _: 'logout' not in self.driver.current_url
         )
