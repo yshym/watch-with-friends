@@ -8,7 +8,8 @@ export default class AlertMessage {
     post(): void {
         let alertElement = document.getElementsByClassName("alert")[0];
 
-        if (alertElement != null) {
+        if (alertElement === undefined) {
+            console.log(123);
             let messageDiv = document.createElement("div");
             messageDiv.className = `alert alert-${this.type_}`;
 
