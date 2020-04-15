@@ -16,10 +16,10 @@ module.exports = {
     },
     entry: {
         main: "./main.js",
-        room: "../static/ts/rooms/_build/room.js",
-        index: "../static/ts/rooms/_build/index.js",
-        roomCreate: "../static/ts/rooms/_build/roomCreate.js",
-        HLSFileWaiter: "../static/ts/rooms/_build/HLSFileWaiter.js",
+        room: "../static/ts/rooms/room.ts",
+        index: "../static/ts/rooms/index.ts",
+        roomCreate: "../static/ts/rooms/roomCreate.ts",
+        HLSFileWaiter: "../static/ts/rooms/HLSFileWaiter.ts",
     },
     output: {
         filename: "[name].js",
@@ -51,6 +51,14 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                loader: "ts-loader",
+            },
         ],
+    },
+    resolve: {
+        extensions: [ '.tsx', '.ts', '.js' ],
     },
 }
