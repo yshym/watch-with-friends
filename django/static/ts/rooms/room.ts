@@ -173,7 +173,9 @@ if (roomAuthor == user) {
 }
 
 // Load m3u8 file into player
+// @ts-ignore
 if (videoURL && Hls.isSupported()) {
+    // @ts-ignore
     let hls = new Hls();
     let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.js");
 
