@@ -58,7 +58,7 @@ declare global {
         removeChildren(): HTMLElement;
     }
 }
-HTMLElement.prototype.removeChildren = function(): HTMLElement {
+HTMLElement.prototype.removeChildren = function (): HTMLElement {
     while (this.firstChild) {
         this.removeChild(this.firstChild);
     }
@@ -66,7 +66,7 @@ HTMLElement.prototype.removeChildren = function(): HTMLElement {
     return this;
 };
 
-copyURLButton.onclick = _e => {
+copyURLButton.onclick = (_e) => {
     navigator.clipboard.writeText(window.location.href);
     let alertMessage = new AlertMessage(
         container,
@@ -74,7 +74,7 @@ copyURLButton.onclick = _e => {
         "success"
     );
     alertMessage.post();
-}
+};
 // Initialize video player
 const video = initializeVideo(user, roomAuthor);
 // Initialize room websocket
@@ -113,18 +113,18 @@ video.on("statechange", (e: any) => {
     }
 });
 
-roomSocket.onclose = _e => console.error("Chat socket closed unexpectedly");
+roomSocket.onclose = (_e) => console.error("Chat socket closed unexpectedly");
 
 // Focus chat message input
 messageInput.focus();
-messageInput.onkeyup = e => {
+messageInput.onkeyup = (e) => {
     if (e.keyCode == 13) {
         // enter, return
         messageSubmitButton.click();
     }
 };
 
-messageSubmitButton.onclick = _e => {
+messageSubmitButton.onclick = (_e) => {
     if (messageInput.value.trim() != "") {
         let message = messageInput.value;
 
@@ -144,13 +144,13 @@ messageSubmitButton.onclick = _e => {
 // Show room change forms on button clicks
 if (roomAuthor == user) {
     // Change room name
-    roomNameChangeButton.onclick = _e => {
+    roomNameChangeButton.onclick = (_e) => {
         roomNameElement.className = "";
         roomNameElement.style.display = "none";
         roomNameChangeForm.style.display = "block";
     };
 
-    roomNameChangeCancelButton.onclick = e => {
+    roomNameChangeCancelButton.onclick = (e) => {
         e.preventDefault();
         roomNameChangeForm.style.display = "none";
         roomNameElement.className = "d-flex";
@@ -160,12 +160,12 @@ if (roomAuthor == user) {
     showVideoField();
     videoTypeSelectElement.onchange = showVideoField;
 
-    roomVideoChangeButton.onclick = function(_e) {
+    roomVideoChangeButton.onclick = function (_e) {
         (this as any).style.display = "none";
         roomVideoChangeForm.style.display = "block";
     };
 
-    roomVideoChangeCancelButton.onclick = e => {
+    roomVideoChangeCancelButton.onclick = (e) => {
         e.preventDefault();
         roomVideoChangeForm.style.display = "none";
         roomVideoChangeButton.style.display = "block";
@@ -180,7 +180,7 @@ if (videoURL && Hls.isSupported()) {
     let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.ts");
 
     let videoName = videoURL.split(".")[0];
-    HLSFileWaiter.addEventListener("message", _e => {
+    HLSFileWaiter.addEventListener("message", (_e) => {
         hls.loadSource(`${videoName}.m3u8`);
         hls.attachMedia(videoElement);
 

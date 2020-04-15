@@ -2,12 +2,19 @@ import ChatMessage from "./ChatMessage";
 import ConnectedUser from "./ConnectedUser";
 
 // Initialize WebSocket
-export function initializeRoomSocket(roomName: string, roomAuthor: string, user: string, video: any): WebSocket {
+export function initializeRoomSocket(
+    roomName: string,
+    roomAuthor: string,
+    user: string,
+    video: any
+): WebSocket {
     const roomSocket = new WebSocket(
         `ws://${window.location.host}/ws/chat/${roomName}/`
     );
 
-    let container = <HTMLElement>document.getElementsByClassName("container-xl")[0];
+    let container = <HTMLElement>(
+        document.getElementsByClassName("container-xl")[0]
+    );
     let chatLogBody = document.getElementById("chat-log-body");
     let connectedUsersContainer = document.getElementById("connectedUsers");
 
@@ -29,7 +36,12 @@ export function initializeRoomSocket(roomName: string, roomAuthor: string, user:
             case "message": {
                 let username = data.username;
                 let content = data.message;
-                let message = new ChatMessage(chatLogBody, username, content, user);
+                let message = new ChatMessage(
+                    chatLogBody,
+                    username,
+                    content,
+                    user
+                );
 
                 message.post();
 
@@ -49,7 +61,7 @@ export function initializeRoomSocket(roomName: string, roomAuthor: string, user:
 
                     connectedUsersContainer.removeChildren();
 
-                    connectedUsersDataSet.forEach(username => {
+                    connectedUsersDataSet.forEach((username) => {
                         let connectedUser = new ConnectedUser(
                             <string>username,
                             roomAuthor
