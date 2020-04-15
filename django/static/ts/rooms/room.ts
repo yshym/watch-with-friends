@@ -177,7 +177,7 @@ if (roomAuthor == user) {
 if (videoURL && Hls.isSupported()) {
     // @ts-ignore
     let hls = new Hls();
-    let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.js");
+    let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.ts");
 
     let videoName = videoURL.split(".")[0];
     HLSFileWaiter.addEventListener("message", _e => {
