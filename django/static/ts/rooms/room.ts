@@ -44,6 +44,7 @@ const roomVideoChangeCancelButton = document.getElementById(
     "room-video-change-cancel"
 );
 const videoSpinner = document.getElementById("video-spinner");
+const copyURLButton = document.getElementById("copy-url");
 
 // Remove alert message
 AlertMessage.removeFrom(container);
@@ -65,6 +66,15 @@ HTMLElement.prototype.removeChildren = function(): HTMLElement {
     return this;
 };
 
+copyURLButton.onclick = _e => {
+    navigator.clipboard.writeText(window.location.href);
+    let alertMessage = new AlertMessage(
+        container,
+        "Current URL was copied to the clipboard",
+        "success"
+    );
+    alertMessage.post();
+}
 // Initialize video player
 const video = initializeVideo(user, roomAuthor);
 // Initialize room websocket

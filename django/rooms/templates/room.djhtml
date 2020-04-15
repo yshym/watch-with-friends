@@ -18,7 +18,12 @@
     {% if user == room.author  %}
         <div id="room-name" class="d-flex">
             <h3 class="w-100 mb-0">{{ room.name }}</h3>
-            <h3 id="room-name-change-form-show" class="mb-0"><i class="fas fa-pencil-alt"></i></h3>
+            <h3 id="room-name-change-form-show" class="mb-0 mr-2">
+                <i class="fas fa-pencil-alt"></i>
+            </h3>
+            <h3 id="copy-url" class="mb-0">
+                <i class="fas fa-share"></i>
+            </h3>
         </div>
         <!-- Change room name form -->
         <form
@@ -45,7 +50,12 @@
             </div>
         </form>
     {% else %}
-        <h3 id="room-name-public">{{ room.name }}</h3>
+        <div id="room-name" class="d-flex">
+            <h3 class="w-100 mb-0" id="room-name-public">{{ room.name }}</h3>
+            <h3 id="copy-url" class="mb-0">
+                <i class="fas fa-share"></i>
+            </h3>
+        </div>
     {% endif %}
 
     <hr />
