@@ -27,6 +27,7 @@ export function initializeVideo(user: string, roomAuthor: string) {
         clickToPlay = false;
     }
 
+    // @ts-ignore
     const video = new Plyr("#video-active", {
         controls: controls,
         clickToPlay: clickToPlay,
