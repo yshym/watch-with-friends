@@ -19,7 +19,6 @@ module.exports = {
         room: "../static/ts/rooms/room.ts",
         index: "../static/ts/rooms/index.ts",
         roomCreate: "../static/ts/rooms/roomCreate.ts",
-        HLSFileWaiter: "../static/ts/rooms/HLSFileWaiter.ts",
     },
     output: {
         filename: "[name].js",
