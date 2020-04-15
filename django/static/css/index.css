@@ -53,7 +53,7 @@ form#room-name-change {
     display: none;
 }
 
-h3#room-name-change-form-show:hover {
+h3#room-name-change-form-show:hover, h3#copy-url:hover {
     color: gray;
     cursor: pointer;
 }
