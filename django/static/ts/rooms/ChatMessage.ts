@@ -67,9 +67,12 @@ export default class ChatMessage {
 
         if (this.lightBackground) {
             let messageCards = document.getElementsByClassName("chat-message");
-            let lastMessageCard = [].slice.call(messageCards).pop();
-            lastMessageCard.className =
-                "chat-message img-thumbnail d-inline-flex bg-light";
+            let lastMessageCard: HTMLElement | undefined = [].slice.call(messageCards).pop();
+
+            if (lastMessageCard) {
+                lastMessageCard!.className =
+                    "chat-message img-thumbnail d-inline-flex bg-light";
+            }
         }
     }
 }

@@ -3,17 +3,17 @@ import { initializeVideo } from "./video";
 import AlertMessage from "./AlertMessage";
 import showVideoField from "./showVideoField";
 
-function getElementTextContent(id: string): string {
+function getElementTextContent(id: string): string | null {
     let element = document.getElementById(id);
     return element ? element.textContent : null;
 }
 
 // Check if variables are correctly initialized using DTL
 const [roomName, roomAuthor, user, videoURL] = [
-    getElementTextContent("roomName"),
-    getElementTextContent("roomAuthorUsername"),
-    getElementTextContent("currentUserUsername"),
-    getElementTextContent("videoURL"),
+    getElementTextContent("roomName") || "",
+    getElementTextContent("roomAuthorUsername") || "",
+    getElementTextContent("currentUserUsername") || "",
+    getElementTextContent("videoURL") || "",
 ];
 
 // Get necessary DOM elements
@@ -50,7 +50,9 @@ const copyURLButton = document.getElementById("copy-url");
 AlertMessage.removeFrom(container);
 
 // Scroll down chat log
-chatLogBody.scrollTop = chatLogBody.scrollHeight;
+if (chatLogBody) {
+    chatLogBody.scrollTop = chatLogBody.scrollHeight;
+}
 
 // Remove all children of the element
 declare global {
@@ -66,15 +68,17 @@ HTMLElement.prototype.removeChildren = function (): HTMLElement {
     return this;
 };
 
-copyURLButton.onclick = (_e) => {
-    navigator.clipboard.writeText(window.location.href);
-    let alertMessage = new AlertMessage(
-        container,
-        "Current URL was copied to the clipboard",
-        "success"
-    );
-    alertMessage.post();
-};
+if (copyURLButton) {
+    copyURLButton.onclick = (_e) => {
+        navigator.clipboard.writeText(window.location.href);
+        let alertMessage = new AlertMessage(
+            container,
+            "Current URL was copied to the clipboard",
+            "success"
+        );
+        alertMessage.post();
+    };
+}
 // Initialize video player
 const video = initializeVideo(user, roomAuthor);
 // Initialize room websocket
@@ -116,63 +120,89 @@ video.on("statechange", (e: any) => {
 roomSocket.onclose = (_e) => console.error("Chat socket closed unexpectedly");
 
 // Focus chat message input
-messageInput.focus();
-messageInput.onkeyup = (e) => {
-    if (e.keyCode == 13) {
-        // enter, return
-        messageSubmitButton.click();
-    }
-};
+if (messageSubmitButton) {
+    messageInput.focus();
+    messageInput.onkeyup = (e) => {
+        if (e.keyCode == 13) {
+            // enter, return
+            messageSubmitButton.click();
+        }
+    };
 
-messageSubmitButton.onclick = (_e) => {
-    if (messageInput.value.trim() != "") {
-        let message = messageInput.value;
+    messageSubmitButton.onclick = (_e) => {
+        if (messageInput.value.trim() != "") {
+            let message = messageInput.value;
 
-        roomSocket.send(
-            JSON.stringify({
-                type: "message",
-                room_name: roomName,
-                username: user,
-                message: message,
-            })
-        );
+            roomSocket.send(
+                JSON.stringify({
+                    type: "message",
+                    room_name: roomName,
+                    username: user,
+                    message: message,
+                })
+            );
 
-        messageInput.value = "";
-    }
-};
+            messageInput.value = "";
+        }
+    };
+}
 
 // Show room change forms on button clicks
 if (roomAuthor == user) {
     // Change room name
-    roomNameChangeButton.onclick = (_e) => {
-        roomNameElement.className = "";
-        roomNameElement.style.display = "none";
-        roomNameChangeForm.style.display = "block";
-    };
+    if (
+        roomNameElement &&
+        roomNameChangeButton &&
+        roomNameChangeCancelButton &&
+        roomNameChangeForm
+    ) {
+        roomNameChangeButton.onclick = (_e) => {
+            roomNameElement.className = "";
+            roomNameElement.style.display = "none";
+            roomNameChangeForm.style.display = "block";
+        };
 
-    roomNameChangeCancelButton.onclick = (e) => {
-        e.preventDefault();
-        roomNameChangeForm.style.display = "none";
-        roomNameElement.className = "d-flex";
-    };
+        roomNameChangeCancelButton.onclick = (e) => {
+            e.preventDefault();
+            roomNameChangeForm.style.display = "none";
+            roomNameElement.className = "d-flex";
+        };
+    }
 
     // Change room video
-    showVideoField();
-    videoTypeSelectElement.onchange = showVideoField;
+    if (
+        videoTypeSelectElement &&
+        roomVideoChangeButton &&
+        roomVideoChangeCancelButton &&
+        roomVideoChangeForm
+    ) {
+        showVideoField();
+        videoTypeSelectElement.onchange = showVideoField;
 
-    roomVideoChangeButton.onclick = function (_e) {
-        (this as any).style.display = "none";
-        roomVideoChangeForm.style.display = "block";
-    };
+        roomVideoChangeButton.onclick = function (_e) {
+            (this as any).style.display = "none";
+            roomVideoChangeForm.style.display = "block";
+        };
 
-    roomVideoChangeCancelButton.onclick = (e) => {
-        e.preventDefault();
-        roomVideoChangeForm.style.display = "none";
-        roomVideoChangeButton.style.display = "block";
-    };
+        roomVideoChangeCancelButton.onclick = (e) => {
+            e.preventDefault();
+            roomVideoChangeForm.style.display = "none";
+            roomVideoChangeButton.style.display = "block";
+        };
+    }
 }
 
 // Load m3u8 file into player
+function initializeVideoElements() {
+    if (videoDiv && videoSpinner) {
+        videoSpinner.style.display = "none";
+        videoDiv.style.display = "block";
+        if (roomVideoChangeButton) {
+            roomVideoChangeButton.style.display = "block";
+        }
+    }
+}
+
 // @ts-ignore
 if (videoURL && Hls.isSupported()) {
     // @ts-ignore
@@ -184,14 +214,10 @@ if (videoURL && Hls.isSupported()) {
         hls.loadSource(`${videoName}.m3u8`);
         hls.attachMedia(videoElement);
 
-        videoSpinner.style.display = "none";
-        videoDiv.style.display = "block";
-        roomVideoChangeButton.style.display = "block";
+        initializeVideoElements();
     });
 
     HLSFileWaiter.postMessage({ videoName });
 } else {
-    videoSpinner.style.display = "none";
-    videoDiv.style.display = "block";
-    roomVideoChangeButton.style.display = "block";
+    initializeVideoElements();
 }
