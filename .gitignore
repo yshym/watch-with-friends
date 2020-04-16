@@ -30,3 +30,6 @@ _build/
 
 # direnv
 .envrc
+
+# logs
+.log/

@@ -7,18 +7,20 @@ export default function showVideoField() {
 
     let videoType = selectedValue(<HTMLSelectElement>videoTypeSelectElement);
 
-    switch (videoType) {
-        case "local": {
-            divIdYoutubeLink.style.display = "none";
-            divIdVideo.style.display = "block";
+    if (divIdVideo && divIdYoutubeLink) {
+        switch (videoType) {
+            case "local": {
+                divIdYoutubeLink.style.display = "none";
+                divIdVideo.style.display = "block";
 
-            break;
-        }
-        case "yt": {
-            divIdVideo.style.display = "none";
-            divIdYoutubeLink.style.display = "block";
+                break;
+            }
+            case "yt": {
+                divIdVideo.style.display = "none";
+                divIdYoutubeLink.style.display = "block";
 
-            break;
+                break;
+            }
         }
     }
 }
