@@ -36,16 +36,19 @@ export function initializeRoomSocket(
             case "message": {
                 let username = data.username;
                 let content = data.message;
-                let message = new ChatMessage(
-                    chatLogBody,
-                    username,
-                    content,
-                    user
-                );
 
-                message.post();
+                if (chatLogBody) {
+                    let message = new ChatMessage(
+                        chatLogBody,
+                        username,
+                        content,
+                        user
+                    );
 
-                chatLogBody.scrollTop = chatLogBody.scrollHeight;
+                    message.post();
+
+                    chatLogBody.scrollTop = chatLogBody.scrollHeight;
+                }
 
                 break;
             }
@@ -59,15 +62,17 @@ export function initializeRoomSocket(
                         data.connected_users.split(",")
                     );
 
-                    connectedUsersContainer.removeChildren();
+                    if (connectedUsersContainer) {
+                        connectedUsersContainer.removeChildren();
 
-                    connectedUsersDataSet.forEach((username) => {
-                        let connectedUser = new ConnectedUser(
-                            <string>username,
-                            roomAuthor
-                        );
-                        connectedUser.addToContainer(connectedUsersContainer);
-                    });
+                        connectedUsersDataSet.forEach((username) => {
+                            let connectedUser = new ConnectedUser(
+                                <string>username,
+                                roomAuthor
+                            );
+                            connectedUser.addToContainer(<HTMLElement>connectedUsersContainer);
+                        });
+                    }
                 } else if (user == usernameData) {
                     container.removeChildren();
 

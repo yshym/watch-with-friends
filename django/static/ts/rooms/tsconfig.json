@@ -7,7 +7,7 @@
 
         "strict": true,
         "noImplicitAny": true,
-        "strictNullChecks": false,
+        "strictNullChecks": true,
         "strictFunctionTypes": true,
         "strictBindCallApply": true,
         "strictPropertyInitialization": false,
