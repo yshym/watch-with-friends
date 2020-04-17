@@ -7,3 +7,5 @@ import "@fortawesome/fontawesome-free/js/regular";
 import "@fortawesome/fontawesome-free/js/brands";
 
 import "jquery";
+
+import "hls.js";
