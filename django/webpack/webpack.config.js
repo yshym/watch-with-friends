@@ -7,6 +7,7 @@ module.exports = {
         minimizer: [
             new OptimizeCSSAssetsPlugin({}),
             new TerserPlugin({
+                cache: true,
                 parallel: true,
                 terserOptions: {
                     ecma: 6,
