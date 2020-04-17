@@ -179,6 +179,5 @@
 
 
 {% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="{% static 'bundles/room.js' %}"></script>
 {% endblock script %}
