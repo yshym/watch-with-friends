@@ -16,10 +16,10 @@ module.exports = {
         ],
     },
     entry: {
-        main: "./main.js",
-        room: "../static/ts/rooms/room.ts",
-        index: "../static/ts/rooms/index.ts",
-        roomCreate: "../static/ts/rooms/roomCreate.ts",
+        main: "./js/main.js",
+        room: "./ts/rooms/room.ts",
+        index: "./ts/rooms/index.ts",
+        roomCreate: "./ts/rooms/roomCreate.ts",
     },
     output: {
         filename: "[name].js",
