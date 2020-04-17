@@ -23,4 +23,4 @@ deploy:
 	ansible-playbook ansible/playbook.yml --inventory=ansible/inventory.yml
 
 bundles:
-	cd webpack && npm run build
+	cd static && npm run build
