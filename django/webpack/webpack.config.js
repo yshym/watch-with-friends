@@ -1,6 +1,6 @@
-const path = require("path")
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const TerserPlugin = require("terser-webpack-plugin")
+const path = require("path");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     optimization: {
@@ -58,6 +58,6 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: [ '.tsx', '.ts', '.js' ],
+        extensions: [".tsx", ".ts", ".js"],
     },
-}
+};
