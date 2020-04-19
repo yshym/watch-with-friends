@@ -1,3 +1,5 @@
+import Plyr from "plyr";
+
 // Initialize Plyr player
 let controls: string[], clickToPlay: boolean;
 
@@ -27,16 +29,11 @@ export function initializeVideo(user: string, roomAuthor: string) {
         clickToPlay = false;
     }
 
-    // @ts-ignore
     const video = new Plyr("#video-active", {
         controls: controls,
         clickToPlay: clickToPlay,
         fullscreen: {
-            iosNative: true,
-        },
-        youtube: {
-            cc_load_policy: 3,
-            playsinline: true,
+            enabled: true,
         },
     });
 

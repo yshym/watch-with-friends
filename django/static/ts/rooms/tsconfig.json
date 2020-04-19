@@ -5,6 +5,7 @@
         "lib": ["es6", "dom"],
         "outDir": "./_build",
 
+        "esModuleInterop": true,
         "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,

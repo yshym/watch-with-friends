@@ -1,3 +1,5 @@
+import Hls from "hls.js";
+
 import { initializeRoomSocket } from "./websockets";
 import { initializeVideo } from "./video";
 import AlertMessage from "./AlertMessage";
@@ -203,16 +205,14 @@ function initializeVideoElements() {
     }
 }
 
-// @ts-ignore
 if (videoURL && Hls.isSupported()) {
-    // @ts-ignore
     let hls = new Hls();
     let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.ts");
 
     let videoName = videoURL.split(".")[0];
     HLSFileWaiter.addEventListener("message", (_e) => {
         hls.loadSource(`${videoName}.m3u8`);
-        hls.attachMedia(videoElement);
+        videoElement && hls.attachMedia(<HTMLVideoElement>videoElement);
 
         initializeVideoElements();
     });
