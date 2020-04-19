@@ -1,10 +1,8 @@
-from django.test import TestCase, SimpleTestCase, Client
+from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from ..forms import RoomCreateForm
-
-import os
 
 
 class RoomCreateFormTestCase(TestCase):
