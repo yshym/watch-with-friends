@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from ..models import Room, Message
+from ..models import Room
 from ..tasks import create_message, convert_for_hls
 
 import os
