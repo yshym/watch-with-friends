@@ -1,4 +1,5 @@
 # Watch with friends
+[![Code Coverage](https://codecov.io/gh/yevhenshymotiuk/watch-with-friends/coverage.svg)](https://codecov.io/gh/ceddlyburge/codecov-on-appveyor)
 
 1) Use YouTube link or upload a video from your hard drive.
 
