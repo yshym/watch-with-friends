@@ -33,7 +33,7 @@
     "expose-loader": "^0.7.5",
     "font-awesome": "^4.7.0",
     "hls.js": "^0.13.2",
-    "jquery": "^3.5.0",
+    "jquery": "3.4.0",
     "popper.js": "^1.15.0"
   }
 }
