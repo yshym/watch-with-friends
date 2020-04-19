@@ -20,8 +20,13 @@ export function initializeRoomSocket(
 
     function notNewUserWarningElement(text: string): Element {
         let warningH1 = document.createElement("h1");
-        let warningText = document.createTextNode(text);
 
+        let surpriseIcon = document.createElement("i");
+        surpriseIcon.className = "far fa-surprise";
+
+        let warningText = document.createTextNode(" " + text);
+
+        warningH1.appendChild(surpriseIcon);
         warningH1.appendChild(warningText);
 
         return warningH1;
