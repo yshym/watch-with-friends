@@ -159,7 +159,6 @@
             {% endblock content %}
         </div>
 
-        <script src="{% static 'js/plyr.polyfilled.js' %}"></script>
         {% block script %}
         {% endblock script %}
         {{ form.media.js }}
