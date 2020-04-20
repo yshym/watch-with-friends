@@ -87,7 +87,7 @@ const video = initializeVideo(user, roomAuthor);
 const roomSocket = initializeRoomSocket(roomName, roomAuthor, user, video);
 
 // HTML5 video events for room author
-if (roomAuthor == user) {
+if (roomAuthor === user) {
     video.on("pause", (_e: any) =>
         roomSocket.send(JSON.stringify({ type: "pause_video" }))
     );
@@ -112,7 +112,7 @@ if (roomAuthor == user) {
 
 // Change state of the yt video player event
 video.on("statechange", (e: any) => {
-    if (e.detail.code == 3) {
+    if (e.detail.code === 3) {
         roomSocket.send(JSON.stringify({ type: "buffering_video" }));
     } else {
         roomSocket.send(JSON.stringify({ type: "buffered_video" }));
@@ -125,14 +125,14 @@ roomSocket.onclose = (_e) => console.error("Chat socket closed unexpectedly");
 if (messageSubmitButton) {
     messageInput.focus();
     messageInput.onkeyup = (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             // enter, return
             messageSubmitButton.click();
         }
     };
 
     messageSubmitButton.onclick = (_e) => {
-        if (messageInput.value.trim() != "") {
+        if (messageInput.value.trim() !== "") {
             let message = messageInput.value;
 
             roomSocket.send(
@@ -150,7 +150,7 @@ if (messageSubmitButton) {
 }
 
 // Show room change forms on button clicks
-if (roomAuthor == user) {
+if (roomAuthor === user) {
     // Change room name
     if (
         roomNameElement &&
