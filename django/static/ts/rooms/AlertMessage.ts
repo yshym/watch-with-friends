@@ -9,7 +9,6 @@ export default class AlertMessage {
         let alertElement = document.getElementsByClassName("alert")[0];
 
         if (alertElement === undefined) {
-            console.log(123);
             let messageDiv = document.createElement("div");
             messageDiv.className = `alert alert-${this.type_}`;
 
