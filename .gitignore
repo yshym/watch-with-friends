@@ -23,7 +23,6 @@ build/
 
 # static root
 static_root/
-media/
 
 # static build
 _build/
