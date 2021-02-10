@@ -10,7 +10,7 @@ from django.conf import settings
 from .validators import validate_video_extension
 
 
-def video_location(instance, filename):
+def video_location(instance, _filename):
     ext = os.path.splitext(instance.video.path)[1]
     return f"videos/{instance.name}/{instance.name + ext}"
 
@@ -32,6 +32,7 @@ class Room(models.Model):
     )
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    # pylint: disable=invalid-str-returned
     def __str__(self):
         return self.name
 
@@ -59,6 +60,7 @@ class Message(models.Model):
     )
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    # pylint: disable=unsubscriptable-object
     def __str__(self):
         sliced_content = (
             f"{self.content[:60]}..."
