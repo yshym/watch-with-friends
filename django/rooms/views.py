@@ -20,6 +20,7 @@ class IndexView(generic.TemplateView):
         return context
 
 
+# pylint: disable=too-many-ancestors
 class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     model = Room
     template_name = "room.djhtml"
@@ -56,6 +57,7 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
         return redirect(request.build_absolute_uri())
 
 
+# pylint: disable=too-many-ancestors
 class RoomCreateView(
     SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView
 ):

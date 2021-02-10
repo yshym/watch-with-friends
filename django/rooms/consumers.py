@@ -1,4 +1,5 @@
 import json
+from typing import Deque, Dict, List
 
 from collections import deque
 from django.utils import timezone
@@ -8,8 +9,8 @@ from .tasks import create_message
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    users = {}
-    waiting_users = deque()
+    users: Dict[str, List[str]] = {}
+    waiting_users: Deque[str] = deque()
 
     async def connect(self):
         self.room_name = (
@@ -53,7 +54,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
             await self.disconnect(200)
 
-    async def disconnect(self, close_code):
+    async def disconnect(self, code):
         if self.is_new_user:
             self.remove_user(self.room_name, self.user)
 
@@ -73,7 +74,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
+    async def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
         message_type = text_data_json.get("type")
 
@@ -155,10 +156,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
         )
 
-    async def pause_video(self, event):
+    async def pause_video(self, _event):
         await self.send(text_data=json.dumps({"type": "pause_video"}))
 
-    async def play_video(self, event):
+    async def play_video(self, _event):
         await self.send(text_data=json.dumps({"type": "play_video"}))
 
     async def seeked_video(self, event):
@@ -198,10 +199,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
         )
 
-    async def buffering_video(self, event):
+    async def buffering_video(self, _event):
         await self.send(text_data=json.dumps({"type": "buffering_video"}))
 
-    async def all_players_buffered(self, event):
+    async def all_players_buffered(self, _event):
         await self.send(text_data=json.dumps({"type": "all_players_buffered"}))
 
     def add_user(self, room_name, user):

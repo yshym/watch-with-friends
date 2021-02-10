@@ -18,6 +18,7 @@ class MessageAdmin(admin.ModelAdmin):
         "author",
     )
 
+    # pylint: disable=no-self-use
     def sliced_content(self, obj):
         sliced_content = (
             f"{obj.content[:60]}..." if len(obj.content) > 40 else obj.content

@@ -8,6 +8,7 @@ except ImportError:  # django < 1.10
 
 
 class RangesMiddleware(MiddlewareMixin):
+    # pylint: disable=no-self-use
     def process_response(self, request, response):
         if response.status_code != 200 or not hasattr(
             response, "file_to_stream"

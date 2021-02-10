@@ -21,11 +21,10 @@ def cut_content(content):
 @shared_task
 def create_message(room_name, username, content):
     logger.info(
-        "Creating Message("
-        f'room_name="{room_name}", '
-        f'author_username="{username}", '
-        f'content="{cut_content(content)}"'
-        ")"
+        "Creating Message(room_name='%s', author_username='%s', content='%s')",
+        room_name,
+        username,
+        cut_content(content),
     )
     Message.objects.create(
         room=Room.objects.get(name=room_name),
