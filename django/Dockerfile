@@ -7,8 +7,9 @@ WORKDIR /code
 
 COPY pyproject.toml poetry.lock /code/
 
-RUN apt-get -y update
-RUN apt-get -y upgrade
+RUN apt -y update
+RUN apt -y upgrade
+RUN apt install nodejs -y
 # Install npm
 RUN curl -L https://www.npmjs.com/install.sh | sh
 # Install poetry and its dependencies
