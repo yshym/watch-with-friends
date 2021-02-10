@@ -6,5 +6,7 @@ from django.utils.safestring import mark_safe
 @register.filter
 def text_script(value, element_id):
     return format_html(
-        '<script id="{}" type="text">{}</script>', element_id, mark_safe(value),
+        '<script id="{}" type="text">{}</script>',
+        element_id,
+        mark_safe(value),
     )

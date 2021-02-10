@@ -7,20 +7,20 @@ from .models import (
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('sliced_content', 'author', 'room', 'timestamp')
+    list_display = ("sliced_content", "author", "room", "timestamp")
     list_filter = (
-        'timestamp',
-        'author',
-        'room',
+        "timestamp",
+        "author",
+        "room",
     )
     search_fields = (
-        'content',
-        'author',
+        "content",
+        "author",
     )
 
     def sliced_content(self, obj):
         sliced_content = (
-            f'{obj.content[:60]}...' if len(obj.content) > 40 else obj.content
+            f"{obj.content[:60]}..." if len(obj.content) > 40 else obj.content
         )
         return sliced_content
 
@@ -34,10 +34,10 @@ class MessagesInline(admin.TabularInline):
 
 
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author', 'timestamp')
-    readonly_fields = ('id',)
-    list_filter = ('timestamp', 'author')
-    search_fields = ('name', 'author')
+    list_display = ("name", "author", "timestamp")
+    readonly_fields = ("id",)
+    list_filter = ("timestamp", "author")
+    search_fields = ("name", "author")
 
     inlines = (MessagesInline,)
 

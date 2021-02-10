@@ -12,7 +12,7 @@ from .forms import (
 
 
 class IndexView(generic.TemplateView):
-    template_name = 'index.djhtml'
+    template_name = "index.djhtml"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -22,8 +22,8 @@ class IndexView(generic.TemplateView):
 
 class RoomDetailView(LoginRequiredMixin, generic.DetailView):
     model = Room
-    template_name = 'room.djhtml'
-    login_url = 'account_login'
+    template_name = "room.djhtml"
+    login_url = "account_login"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,9 +34,9 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
         obj = super().get_object()
 
         if request.user == obj.author:
-            name = request.POST.get('name')
-            video = request.FILES.get('video')
-            youtube_link = request.POST.get('youtube_link')
+            name = request.POST.get("name")
+            video = request.FILES.get("video")
+            youtube_link = request.POST.get("youtube_link")
 
             if name:
                 obj.name = name
@@ -59,10 +59,10 @@ class RoomDetailView(LoginRequiredMixin, generic.DetailView):
 class RoomCreateView(
     SuccessMessageMixin, LoginRequiredMixin, generic.edit.CreateView
 ):
-    template_name = 'room_create.djhtml'
+    template_name = "room_create.djhtml"
     form_class = RoomCreateForm
-    login_url = 'account_login'
-    success_message = 'Room was successfully created!'
+    login_url = "account_login"
+    success_message = "Room was successfully created!"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
