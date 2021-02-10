@@ -13,20 +13,23 @@ class RoomTasksTestCase(TestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.username = 'testuser1'
-        cls.password = 'testpass123'
+        cls.username = "testuser1"
+        cls.password = "testpass123"
 
         User = get_user_model()
         cls.user = User.objects.create(
-            username=cls.username, password=cls.password,
+            username=cls.username,
+            password=cls.password,
         )
 
-        upload_video_file = open('media/testfiles/video.mp4', 'rb')
+        upload_video_file = open("media/testfiles/video.mp4", "rb")
         video = SimpleUploadedFile(
             upload_video_file.name, upload_video_file.read()
         )
         cls.room = Room.objects.create(
-            name='room1', author=cls.user, video=video,
+            name="room1",
+            author=cls.user,
+            video=video,
         )
 
     @classmethod
@@ -35,13 +38,13 @@ class RoomTasksTestCase(TestCase):
         super().tearDownClass()
 
     def test_create_message_task(self):
-        content = '123'
+        content = "123"
 
         result = create_message.apply(
             kwargs={
-                'room_name': self.room.name,
-                'username': self.user.username,
-                'content': content,
+                "room_name": self.room.name,
+                "username": self.user.username,
+                "content": content,
             }
         )
 
@@ -54,5 +57,5 @@ class RoomTasksTestCase(TestCase):
         result = convert_for_hls.apply(args=[video_path])
 
         self.assertTrue(result.successful())
-        self.assertTrue(os.path.isfile(f'{file_name}.m3u8'))
-        self.assertTrue(os.path.isfile(f'{file_name}0.ts'))
+        self.assertTrue(os.path.isfile(f"{file_name}.m3u8"))
+        self.assertTrue(os.path.isfile(f"{file_name}0.ts"))

@@ -25,11 +25,11 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
     def setUp(self):
         # Create user
-        self.username1 = 'testuser1'
-        self.password1 = 'testpass123'
+        self.username1 = "testuser1"
+        self.password1 = "testpass123"
 
-        self.username2 = 'testuser2'
-        self.password2 = 'testpass123'
+        self.username2 = "testuser2"
+        self.password2 = "testpass123"
 
         self._signup(self.username2, self.password2)
         self._logout()
@@ -37,34 +37,34 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
         # Create rooms
         self._create_room(
-            name='room1',
-            youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
+            name="room1",
+            youtube_link="https://www.youtube.com/watch?v=1cQh1ccqu8M",
         )
 
         self._create_room(
-            name='room2',
-            youtube_link='https://www.youtube.com/watch?v=DmeUuoxyt_E',
+            name="room2",
+            youtube_link="https://www.youtube.com/watch?v=DmeUuoxyt_E",
         )
 
     def test_when_chat_message_posted_then_seen_by_everyone_in_same_room(self):
         try:
-            self._enter_room('room1')
+            self._enter_room("room1")
 
             self._open_new_window()
             self._logout()
             self._login(self.username2, self.password2)
-            self._enter_room('room1')
+            self._enter_room("room1")
 
             self._switch_to_window(0)
-            self._post_message('hello')
+            self._post_message("hello")
             WebDriverWait(self.driver, 2).until(
-                lambda _: 'hello' in self._chat_log_value,
-                'Message was not received by window 1 from window 1',
+                lambda _: "hello" in self._chat_log_value,
+                "Message was not received by window 1 from window 1",
             )
             self._switch_to_window(1)
             WebDriverWait(self.driver, 2).until(
-                lambda _: 'hello' in self._chat_log_value,
-                'Message was not received by window 2 from window 1',
+                lambda _: "hello" in self._chat_log_value,
+                "Message was not received by window 2 from window 1",
             )
         finally:
             self._close_all_new_windows()
@@ -73,27 +73,27 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
         self,
     ):
         try:
-            self._enter_room('room1')
+            self._enter_room("room1")
 
             self._open_new_window()
-            self._enter_room('room2')
+            self._enter_room("room2")
 
             self._switch_to_window(0)
-            self._post_message('hello')
+            self._post_message("hello")
             WebDriverWait(self.driver, 2).until(
-                lambda _: 'hello' in self._chat_log_value,
-                'Message was not received by window 1 from window 1',
+                lambda _: "hello" in self._chat_log_value,
+                "Message was not received by window 1 from window 1",
             )
 
             self._switch_to_window(1)
-            self._post_message('world')
+            self._post_message("world")
             WebDriverWait(self.driver, 2).until(
-                lambda _: 'world' in self._chat_log_value,
-                'Message was not received by window 2 from window 2',
+                lambda _: "world" in self._chat_log_value,
+                "Message was not received by window 2 from window 2",
             )
             self.assertTrue(
-                'hello' not in self._chat_log_value,
-                'Message was improperly received by window 2 from window 1',
+                "hello" not in self._chat_log_value,
+                "Message was improperly received by window 2 from window 1",
             )
         finally:
             self._close_all_new_windows()
@@ -101,69 +101,69 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
     # === Utility ===
 
     def _signup(self, username, password):
-        self.driver.get(self.live_server_url + '/accounts/signup/')
+        self.driver.get(self.live_server_url + "/accounts/signup/")
 
-        username_input = self.driver.find_element_by_id('id_username')
-        password_input1 = self.driver.find_element_by_id('id_password1')
-        password_input2 = self.driver.find_element_by_id('id_password2')
+        username_input = self.driver.find_element_by_id("id_username")
+        password_input1 = self.driver.find_element_by_id("id_password1")
+        password_input2 = self.driver.find_element_by_id("id_password2")
 
         username_input.send_keys(username)
         password_input1.send_keys(password)
         password_input2.send_keys(password)
 
-        self.driver.find_element_by_name('submit').click()
+        self.driver.find_element_by_name("submit").click()
         WebDriverWait(self.driver, 2).until(
-            lambda _: 'signup' not in self.driver.current_url
+            lambda _: "signup" not in self.driver.current_url
         )
 
     def _login(self, username, password):
-        self.driver.get(self.live_server_url + '/accounts/login/')
+        self.driver.get(self.live_server_url + "/accounts/login/")
 
-        username_input = self.driver.find_element_by_id('id_login')
-        password_input = self.driver.find_element_by_id('id_password')
+        username_input = self.driver.find_element_by_id("id_login")
+        password_input = self.driver.find_element_by_id("id_password")
 
         username_input.send_keys(username)
         password_input.send_keys(password)
 
-        self.driver.find_element_by_name('submit').click()
+        self.driver.find_element_by_name("submit").click()
         WebDriverWait(self.driver, 2).until(
-            lambda _: 'login' not in self.driver.current_url
+            lambda _: "login" not in self.driver.current_url
         )
 
     def _logout(self):
-        self.driver.get(self.live_server_url + '/accounts/logout/')
+        self.driver.get(self.live_server_url + "/accounts/logout/")
 
-        submit_button = self.driver.find_element_by_name('submit')
+        submit_button = self.driver.find_element_by_name("submit")
         submit_button.click()
 
         WebDriverWait(self.driver, 2).until(
-            lambda _: 'logout' not in self.driver.current_url
+            lambda _: "logout" not in self.driver.current_url
         )
 
     def _create_room(self, name, youtube_link=None, video=None):
-        self.driver.get(self.live_server_url + '/create')
+        self.driver.get(self.live_server_url + "/create")
 
-        name_input = self.driver.find_element_by_id('id_name')
+        name_input = self.driver.find_element_by_id("id_name")
         video_type_select = Select(
-            self.driver.find_element_by_id('id_video_type')
+            self.driver.find_element_by_id("id_video_type")
         )
-        youtube_link_input = self.driver.find_element_by_id('id_youtube_link')
-        submit_button = self.driver.find_element_by_name('submit')
+        youtube_link_input = self.driver.find_element_by_id("id_youtube_link")
+        submit_button = self.driver.find_element_by_name("submit")
 
         name_input.send_keys(name)
         if youtube_link:
-            video_type_select.select_by_visible_text('YouTube')
+            video_type_select.select_by_visible_text("YouTube")
             youtube_link_input.send_keys(youtube_link)
 
         submit_button.click()
 
     def _enter_room(self, room_name):
-        self.driver.get(self.live_server_url + '')
+        self.driver.get(self.live_server_url + "")
 
         room = Room.objects.get(name=room_name)
 
-        room_name_select = Select(self.driver.find_element_by_id('id_name'))
-        room_enter_button = self.driver.find_element_by_id('room-name-submit')
+        room_name_select = Select(self.driver.find_element_by_id("id_name"))
+        room_enter_button = self.driver.find_element_by_id("room-name-submit")
 
         room_name_select.select_by_visible_text(room_name)
         room_enter_button.click()
@@ -184,17 +184,17 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
             self.driver.switch_to_window(self.driver.window_handles[0])
 
     def _close_window(self):
-        self.driver.execute_script('window.close();')
+        self.driver.execute_script("window.close();")
 
     def _switch_to_window(self, window_index):
         self.driver.switch_to_window(self.driver.window_handles[window_index])
 
     def _post_message(self, message):
         chat_message_input = self.driver.find_element_by_id(
-            'chat-message-input'
+            "chat-message-input"
         )
         chat_message_submit_button = self.driver.find_element_by_id(
-            'chat-message-submit'
+            "chat-message-submit"
         )
 
         chat_message_input.send_keys(message)
@@ -202,12 +202,12 @@ class RoomChannelsTestCase(ChannelsLiveServerTestCase):
 
     @property
     def _chat_log_value(self):
-        return self.driver.find_element_by_id('chat-log').get_property(
-            'textContent'
+        return self.driver.find_element_by_id("chat-log").get_property(
+            "textContent"
         )
 
     @property
     def _chat_input_value(self):
         return self.driver.find_element_by_id(
-            'chat-message-input'
-        ).get_property('value')
+            "chat-message-input"
+        ).get_property("value")

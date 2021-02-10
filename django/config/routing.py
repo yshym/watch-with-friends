@@ -5,8 +5,10 @@ import rooms.routing
 
 application = ProtocolTypeRouter(
     {
-        'websocket': AuthMiddlewareStack(
-            URLRouter(rooms.routing.websocket_urlpatterns,)
+        "websocket": AuthMiddlewareStack(
+            URLRouter(
+                rooms.routing.websocket_urlpatterns,
+            )
         )
     }
 )

@@ -3,28 +3,28 @@ import sys
 import django
 
 
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath("../.."))
 sys.setrecursionlimit(1500)
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings"
 django.setup()
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'watch-with-friends'
-copyright = ''
-author = ''
+project = "watch-with-friends"
+copyright = ""
+author = ""
 
 
 # -- General configuration ---------------------------------------------------
 
 extensions = [
-    'sphinx.ext.autodoc',
+    "sphinx.ext.autodoc",
 ]
 
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 
 exclude_patterns = []
@@ -32,7 +32,7 @@ exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
-html_theme = 'alabaster'
+html_theme = "alabaster"
 
 
-html_static_path = ['_static']
+html_static_path = ["_static"]

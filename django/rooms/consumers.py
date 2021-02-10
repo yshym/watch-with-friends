@@ -13,10 +13,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.room_name = (
-            self.scope.get('url_route').get('kwargs').get('room_name')
+            self.scope.get("url_route").get("kwargs").get("room_name")
         )
-        self.room_group_name = f'room_{self.room_name}'
-        self.user = self.scope.get('user')
+        self.room_group_name = f"room_{self.room_name}"
+        self.user = self.scope.get("user")
 
         self.is_new_user = not self.user_exists(self.room_name, self.user)
 
@@ -33,10 +33,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
-                    'type': 'user_connected',
-                    'username': self.user.username,
-                    'is_new_user': self.is_new_user,
-                    'connected_users': ','.join(
+                    "type": "user_connected",
+                    "username": self.user.username,
+                    "is_new_user": self.is_new_user,
+                    "connected_users": ",".join(
                         self.users.get(self.room_name, [])
                     ),
                 },
@@ -45,9 +45,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(
                 text_data=json.dumps(
                     {
-                        'type': 'user_connected',
-                        'username': self.user.username,
-                        'is_new_user': self.is_new_user,
+                        "type": "user_connected",
+                        "username": self.user.username,
+                        "is_new_user": self.is_new_user,
                     },
                 )
             )
@@ -61,8 +61,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
-                    'type': 'user_disconnected',
-                    'connected_users': ','.join(self.users.get(self.room_name)),
+                    "type": "user_disconnected",
+                    "connected_users": ",".join(
+                        self.users.get(self.room_name)
+                    ),
                 },
             )
 
@@ -73,132 +75,134 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message_type = text_data_json.get('type')
+        message_type = text_data_json.get("type")
 
-        if message_type == 'message':
-            room_name = text_data_json.get('room_name')
-            username = text_data_json.get('username')
-            message = text_data_json.get('message')
+        if message_type == "message":
+            room_name = text_data_json.get("room_name")
+            username = text_data_json.get("username")
+            message = text_data_json.get("message")
 
             create_message.delay(
-                room_name=room_name, username=username, content=message,
+                room_name=room_name,
+                username=username,
+                content=message,
             )
 
             timestamp = timezone.localtime(timezone.now()).strftime(
-                '%d.%m.%Y, %H:%M'
+                "%d.%m.%Y, %H:%M"
             )
 
             # Send message to room group
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
-                    'type': 'chat_message',
-                    'room_name': room_name,
-                    'username': username,
-                    'message': message,
-                    'timestamp': timestamp,
+                    "type": "chat_message",
+                    "room_name": room_name,
+                    "username": username,
+                    "message": message,
+                    "timestamp": timestamp,
                 },
             )
-        elif message_type == 'pause_video':
+        elif message_type == "pause_video":
             # Send message to room group
             await self.channel_layer.group_send(
-                self.room_group_name, {'type': 'pause_video'}
+                self.room_group_name, {"type": "pause_video"}
             )
-        elif message_type == 'play_video':
+        elif message_type == "play_video":
             # Send message to room group
             await self.channel_layer.group_send(
-                self.room_group_name, {'type': 'play_video'}
+                self.room_group_name, {"type": "play_video"}
             )
-        elif message_type == 'seeked_video':
-            current_time = text_data_json.get('currentTime')
+        elif message_type == "seeked_video":
+            current_time = text_data_json.get("currentTime")
 
             await self.channel_layer.group_send(
                 self.room_group_name,
-                {'type': 'seeked_video', 'current_time': current_time},
+                {"type": "seeked_video", "current_time": current_time},
             )
-        elif message_type == 'buffering_video':
+        elif message_type == "buffering_video":
             self.add_waiting_user(self.user)
 
             await self.channel_layer.group_send(
-                self.room_group_name, {'type': 'buffering_video'}
+                self.room_group_name, {"type": "buffering_video"}
             )
-        elif message_type == 'buffered_video':
+        elif message_type == "buffered_video":
             if self.user in self.waiting_users:
                 self.remove_waiting_user(self.user)
 
                 if len(self.waiting_users) == 0:
                     await self.channel_layer.group_send(
-                        self.room_group_name, {'type': 'all_players_buffered'}
+                        self.room_group_name, {"type": "all_players_buffered"}
                     )
 
     # Receive message from room group
     async def chat_message(self, event):
-        username = event.get('username')
-        message = event.get('message')
-        room_name = event.get('room_name')
-        timestamp = event.get('timestamp')
+        username = event.get("username")
+        message = event.get("message")
+        room_name = event.get("room_name")
+        timestamp = event.get("timestamp")
 
         # Send message to WebSocket
         await self.send(
             text_data=json.dumps(
                 {
-                    'type': 'message',
-                    'room_name': room_name,
-                    'username': username,
-                    'message': message,
-                    'timestamp': timestamp,
+                    "type": "message",
+                    "room_name": room_name,
+                    "username": username,
+                    "message": message,
+                    "timestamp": timestamp,
                 }
             )
         )
 
     async def pause_video(self, event):
-        await self.send(text_data=json.dumps({'type': 'pause_video'}))
+        await self.send(text_data=json.dumps({"type": "pause_video"}))
 
     async def play_video(self, event):
-        await self.send(text_data=json.dumps({'type': 'play_video'}))
+        await self.send(text_data=json.dumps({"type": "play_video"}))
 
     async def seeked_video(self, event):
-        current_time = event.get('current_time')
+        current_time = event.get("current_time")
 
         await self.send(
             text_data=json.dumps(
-                {'type': 'seeked_video', 'current_time': current_time}
+                {"type": "seeked_video", "current_time": current_time}
             )
         )
 
     async def user_connected(self, event):
-        username = event.get('username')
-        is_new_user = event.get('is_new_user')
-        connected_users = event.get('connected_users')
+        username = event.get("username")
+        is_new_user = event.get("is_new_user")
+        connected_users = event.get("connected_users")
 
         await self.send(
             text_data=json.dumps(
                 {
-                    'type': 'user_connected',
-                    'username': username,
-                    'is_new_user': is_new_user,
-                    'connected_users': connected_users,
+                    "type": "user_connected",
+                    "username": username,
+                    "is_new_user": is_new_user,
+                    "connected_users": connected_users,
                 }
             )
         )
 
     async def user_disconnected(self, event):
-        connected_users = event.get('connected_users')
+        connected_users = event.get("connected_users")
 
         await self.send(
             text_data=json.dumps(
                 {
-                    'type': 'user_disconnected',
-                    'connected_users': connected_users,
+                    "type": "user_disconnected",
+                    "connected_users": connected_users,
                 }
             )
         )
 
     async def buffering_video(self, event):
-        await self.send(text_data=json.dumps({'type': 'buffering_video'}))
+        await self.send(text_data=json.dumps({"type": "buffering_video"}))
 
     async def all_players_buffered(self, event):
-        await self.send(text_data=json.dumps({'type': 'all_players_buffered'}))
+        await self.send(text_data=json.dumps({"type": "all_players_buffered"}))
 
     def add_user(self, room_name, user):
         self.users.setdefault(room_name, []).append(user.username)

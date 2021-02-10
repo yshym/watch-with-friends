@@ -8,7 +8,7 @@ from .views import (
 
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('create/', RoomCreateView.as_view(), name='room_create'),
-    path('<uuid:pk>/', RoomDetailView.as_view(), name='room_detail'),
+    path("", IndexView.as_view(), name="index"),
+    path("create/", RoomCreateView.as_view(), name="room_create"),
+    path("<uuid:pk>/", RoomDetailView.as_view(), name="room_detail"),
 ]

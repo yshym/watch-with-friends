@@ -15,17 +15,17 @@ logger = get_task_logger(__name__)
 
 
 def cut_content(content):
-    return content if len(content) <= 10 else f'{content[:6]}...'
+    return content if len(content) <= 10 else f"{content[:6]}..."
 
 
 @shared_task
 def create_message(room_name, username, content):
     logger.info(
-        'Creating Message('
+        "Creating Message("
         f'room_name="{room_name}", '
         f'author_username="{username}", '
         f'content="{cut_content(content)}"'
-        ')'
+        ")"
     )
     Message.objects.create(
         room=Room.objects.get(name=room_name),
@@ -37,33 +37,33 @@ def create_message(room_name, username, content):
 @shared_task
 def convert_for_hls(video_path):
     file_name, ext = os.path.splitext(video_path)
-    video_output_path = f'{file_name}_out{ext}'
+    video_output_path = f"{file_name}_out{ext}"
 
     # Change audio codec to AAC
     subprocess.check_call(
         [
-            'ffmpeg',
-            '-i',
+            "ffmpeg",
+            "-i",
             video_path,
-            '-vcodec',
-            'copy',
-            '-acodec',
-            'aac',
-            '-sn',
+            "-vcodec",
+            "copy",
+            "-acodec",
+            "aac",
+            "-sn",
             video_output_path,
         ]
     )
     # Convert to m3u8 format
     subprocess.check_call(
         [
-            'ffmpeg',
-            '-i',
+            "ffmpeg",
+            "-i",
             video_output_path,
-            '-hls_time',
-            '10',
-            '-hls_list_size',
-            '0',
-            f'{file_name}.m3u8',
+            "-hls_time",
+            "10",
+            "-hls_list_size",
+            "0",
+            f"{file_name}.m3u8",
         ]
     )
     # remove outputed video

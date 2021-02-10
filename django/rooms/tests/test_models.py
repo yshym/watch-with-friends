@@ -16,15 +16,18 @@ class RoomModelTestCase(TestCase):
 
         User = get_user_model()
         cls.user = User.objects.create(
-            username='testuser1', password='testpass123',
+            username="testuser1",
+            password="testpass123",
         )
 
     def test_create_room_with_youtube_video(self):
-        room_name = 'room1'
-        youtube_link = 'https://www.youtube.com/watch?v=1cQh1ccqu8M'
+        room_name = "room1"
+        youtube_link = "https://www.youtube.com/watch?v=1cQh1ccqu8M"
 
         room = Room.objects.create(
-            name=room_name, author=self.user, youtube_link=youtube_link,
+            name=room_name,
+            author=self.user,
+            youtube_link=youtube_link,
         )
 
         self.assertEqual(room.name, room_name)
@@ -32,12 +35,12 @@ class RoomModelTestCase(TestCase):
         self.assertEqual(room.youtube_link, youtube_link)
         self.assertEqual(room.video, None)
         self.assertEqual(room.__str__(), room_name)
-        self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
+        self.assertEqual(room.get_absolute_url(), f"/{room.id}/")
 
     def test_create_room_with_local_video(self):
-        room_name = 'room1'
-        upload_video_file = open('media/testfiles/video.mp4', 'rb')
-        upload_audio_file = open('media/testfiles/audio.mp3', 'rb')
+        room_name = "room1"
+        upload_video_file = open("media/testfiles/video.mp4", "rb")
+        upload_audio_file = open("media/testfiles/audio.mp3", "rb")
         video = SimpleUploadedFile(
             upload_video_file.name, upload_video_file.read()
         )
@@ -47,17 +50,19 @@ class RoomModelTestCase(TestCase):
         video_ext = os.path.splitext(video.name)[1]
 
         room = Room.objects.create(
-            name=room_name, author=self.user, video=video,
+            name=room_name,
+            author=self.user,
+            video=video,
         )
 
         self.assertEqual(room.name, room_name)
         self.assertEqual(room.author, self.user)
         self.assertEqual(room.youtube_link, None)
         self.assertEqual(
-            room.video.name, f'videos/{room_name}/{room_name}{video_ext}'
+            room.video.name, f"videos/{room_name}/{room_name}{video_ext}"
         )
         self.assertEqual(room.__str__(), room_name)
-        self.assertEqual(room.get_absolute_url(), f'/{room.id}/')
+        self.assertEqual(room.get_absolute_url(), f"/{room.id}/")
         validate_video_extension(video)
         with self.assertRaises(ValidationError):
             validate_video_extension(audio)
@@ -72,21 +77,24 @@ class MessageModelTestCase(TestCase):
 
         User = get_user_model()
         cls.user = User.objects.create(
-            username='testuser1', password='testpass123',
+            username="testuser1",
+            password="testpass123",
         )
 
         cls.room = Room.objects.create(
-            name='room1',
+            name="room1",
             author=cls.user,
-            youtube_link='https://www.youtube.com/watch?v=1cQh1ccqu8M',
+            youtube_link="https://www.youtube.com/watch?v=1cQh1ccqu8M",
         )
 
     def test_create_message(self):
         message = Message.objects.create(
-            content='123', author=self.user, room=self.room,
+            content="123",
+            author=self.user,
+            room=self.room,
         )
 
-        self.assertEqual(message.content, '123')
+        self.assertEqual(message.content, "123")
         self.assertEqual(message.author, self.user)
         self.assertEqual(message.room, self.room)
-        self.assertEqual(message.__str__(), '123')
+        self.assertEqual(message.__str__(), "123")

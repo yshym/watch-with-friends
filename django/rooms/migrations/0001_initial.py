@@ -16,10 +16,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Room',
+            name="Room",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.UUIDField(
                         default=uuid.uuid4,
                         editable=False,
@@ -27,56 +27,58 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ('name', models.SlugField(max_length=100, unique=True)),
+                ("name", models.SlugField(max_length=100, unique=True)),
                 (
-                    'video',
+                    "video",
                     models.FileField(
-                        blank=True, null=True, upload_to='videos/'
+                        blank=True, null=True, upload_to="videos/"
                     ),
                 ),
-                ('youtube_link', models.URLField(blank=True, null=True)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ("youtube_link", models.URLField(blank=True, null=True)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
                 (
-                    'author',
+                    "author",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='room',
+                        related_name="room",
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
             ],
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('content', models.CharField(max_length=200)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ("content", models.CharField(max_length=200)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
                 (
-                    'author',
+                    "author",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='messages',
+                        related_name="messages",
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
                 (
-                    'room',
+                    "room",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='messages',
-                        to='rooms.Room',
+                        related_name="messages",
+                        to="rooms.Room",
                     ),
                 ),
             ],
-            options={'ordering': ['timestamp'],},
+            options={
+                "ordering": ["timestamp"],
+            },
         ),
     ]
