@@ -35,3 +35,6 @@ _build/
 
 # codecov
 coverage.xml
+
+# flycheck
+flycheck_*.py
