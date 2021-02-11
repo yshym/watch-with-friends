@@ -1,7 +1,6 @@
 import json
-from typing import Deque, Dict, List
+from typing import Dict, List, Set
 
-from collections import deque
 from django.utils import timezone
 from channels.generic.websocket import AsyncWebsocketConsumer
 
@@ -10,7 +9,7 @@ from .tasks import create_message
 
 class ChatConsumer(AsyncWebsocketConsumer):
     users: Dict[str, List[str]] = {}
-    waiting_users: Deque[str] = deque()
+    waiting_users: Set[str] = set()
 
     async def connect(self):
         self.room_name = (
@@ -215,7 +214,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         return user.username in self.users.get(room_name, [])
 
     def add_waiting_user(self, user):
-        self.waiting_users.append(user)
+        self.waiting_users.add(user)
 
     def remove_waiting_user(self, user):
-        self.waiting_users.remove(user)
+        self.waiting_users.discard(user)
