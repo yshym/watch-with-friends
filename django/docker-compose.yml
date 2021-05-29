@@ -9,7 +9,9 @@ services:
       - 6379:6379
   celery_worker:
     container_name: wwf_celery_worker
-    build: .
+    build:
+      context: .
+      dockerfile: ./celery_worker/Dockerfile
     command: celery worker -A config -l info
     volumes:
       - .:/code

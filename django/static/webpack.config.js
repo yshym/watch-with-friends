@@ -20,6 +20,7 @@ module.exports = {
         room: "./ts/rooms/room.ts",
         index: "./ts/rooms/index.ts",
         roomCreate: "./ts/rooms/roomCreate.ts",
+        HLSFileWaiter: "../static/ts/rooms/_build/HLSFileWaiter.js",
     },
     output: {
         filename: "[name].js",
