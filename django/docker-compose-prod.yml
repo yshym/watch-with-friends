@@ -9,10 +9,10 @@ services:
       - 6379:6379
   celery_worker:
     container_name: wwf_celery_worker
-    build: .
+    build:
+      context: .
+      dockerfile: ./celery_worker/Dockerfile
     command: celery worker -A config -l info
-    volumes:
-      - .:/code
     depends_on:
       - redis
   web:
@@ -21,8 +21,6 @@ services:
     command: ./web_entrypoint_prod.sh
     env_file:
       - ./config/settings/.env
-    volumes:
-      - .:/code
     ports:
       - 8000:8000
     depends_on:
@@ -34,8 +32,6 @@ services:
     image: postgres
     ports:
       - 5432:5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
 
 volumes:
   postgres_data:

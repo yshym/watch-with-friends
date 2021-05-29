@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
 
-COPY pyproject.toml poetry.lock /code/
+COPY . /code/
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
@@ -14,7 +14,8 @@ RUN apt-get upgrade -y
 RUN apt-get install -y nodejs
 RUN curl -L https://www.npmjs.com/install.sh | sh
 
-RUN cd static && npm run build
+RUN npm --prefix ./static install
+RUN npm --prefix ./static run build
 
 # Install poetry and its dependencies
 RUN pip install poetry \
