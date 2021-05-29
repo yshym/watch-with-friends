@@ -19,7 +19,7 @@ RUN cd static && npm run build
 # Install poetry and its dependencies
 RUN pip install poetry \
     && poetry config virtualenvs.create false \
-    && poetry install
+    && poetry install --no-dev
 
 # Heroku
 # COPY . /code/
