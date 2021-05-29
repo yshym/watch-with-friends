@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM debian:stable
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -9,13 +9,8 @@ COPY pyproject.toml poetry.lock /code/
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y nodejs
-# Install npm
-RUN curl -L https://www.npmjs.com/install.sh | sh
-# Install poetry and its dependencies
-RUN pip install poetry \
+RUN apt-get install -y python3 python3-pip ffmpeg
+
+RUN pip3 install poetry \
     && poetry config virtualenvs.create false \
     && poetry install
-
-# Heroku
-# COPY . /code/
