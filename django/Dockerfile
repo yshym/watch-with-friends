@@ -9,9 +9,13 @@ COPY pyproject.toml poetry.lock /code/
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
+
+# Install nodejs and npm
 RUN apt-get install -y nodejs
-# Install npm
 RUN curl -L https://www.npmjs.com/install.sh | sh
+
+RUN cd static && npm run build
+
 # Install poetry and its dependencies
 RUN pip install poetry \
     && poetry config virtualenvs.create false \
