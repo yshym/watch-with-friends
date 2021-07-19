@@ -1,22 +1,25 @@
+import Plyr from "plyr";
 import ChatMessage from "./ChatMessage";
 import ConnectedUser from "./ConnectedUser";
+import { buildHandlers, enableEvents, withoutHandlers } from "./video";
 
 // Initialize WebSocket
 export function initializeRoomSocket(
     roomName: string,
     roomAuthor: string,
     user: string,
-    video: any
+    video: Plyr,
+    videoURL: string
 ): WebSocket {
     const roomSocket = new WebSocket(
         `ws://${window.location.host}/ws/chat/${roomName}/`
     );
 
-    let container = <HTMLElement>(
+    const container = <HTMLElement>(
         document.getElementsByClassName("container-xl")[0]
     );
-    let chatLogBody = document.getElementById("chat-log-body");
-    let connectedUsersContainer = document.getElementById("connectedUsers");
+    const chatLogBody = document.getElementById("chat-log-body");
+    const connectedUsersContainer = document.getElementById("connectedUsers");
 
     function notNewUserWarningElement(text: string): Element {
         let warningH1 = document.createElement("h1");
@@ -32,14 +35,18 @@ export function initializeRoomSocket(
         return warningH1;
     }
 
+    // Enable HTML5 video events
+    const handlers = buildHandlers(video, videoURL, roomSocket);
+    enableEvents(video, handlers);
+
     roomSocket.onmessage = (e: any) => {
         let data = JSON.parse(e.data);
         let messageType = data.type;
+        let username = data.username;
 
-        // Messages for all users
+        // general messages
         switch (messageType) {
             case "message": {
-                let username = data.username;
                 let content = data.message;
 
                 if (chatLogBody) {
@@ -59,7 +66,6 @@ export function initializeRoomSocket(
             }
             case "user_connected":
             case "user_disconnected": {
-                let usernameData = data.username;
                 let isNewUserData = data.is_new_user;
 
                 if (isNewUserData || messageType == "user_disconnected") {
@@ -75,10 +81,12 @@ export function initializeRoomSocket(
                                 <string>username,
                                 roomAuthor
                             );
-                            connectedUser.addToContainer(<HTMLElement>connectedUsersContainer);
+                            connectedUser.addToContainer(
+                                <HTMLElement>connectedUsersContainer
+                            );
                         });
                     }
-                } else if (user == usernameData) {
+                } else if (user === username) {
                     container.removeChildren();
 
                     container.appendChild(
@@ -90,38 +98,59 @@ export function initializeRoomSocket(
 
                 break;
             }
-            case "buffering_video": {
-                video.pause();
+        }
 
+        switch (messageType) {
+            case "buffering_video": {
+                withoutHandlers(video, "pause", handlers, () => video.pause());
                 break;
             }
             case "all_players_buffered": {
-                video.play();
-
+                withoutHandlers(video, "play", handlers, () => video.play());
                 break;
             }
         }
-        // Messages for all users, except the room creator
-        if (user != roomAuthor) {
-            switch (messageType) {
-                case "seeked_video": {
-                    video.currentTime = data.current_time;
 
-                    break;
-                }
-                case "pause_video": {
-                    video.pause();
+        if (username && username === user) {
+            return;
+        }
 
-                    break;
-                }
-                case "play_video": {
-                    video.play();
+        console.log(
+            `websocket video message to ${user}: ${JSON.stringify(data)}`
+        );
 
-                    break;
-                }
+        // video messages
+        switch (messageType) {
+            case "seeked_video": {
+                withoutHandlers(
+                    video,
+                    "seeked",
+                    handlers,
+                    () => (video.currentTime = data.current_time),
+                    true
+                );
+                break;
+            }
+            case "pause_video": {
+                withoutHandlers(video, "pause", handlers, () => video.pause());
+                withoutHandlers(
+                    video,
+                    "seeked",
+                    handlers,
+                    () => (video.currentTime = data.current_time),
+                    true
+                );
+                break;
+            }
+            case "play_video": {
+                withoutHandlers(video, "play", handlers, () => video.play());
+                break;
             }
         }
     };
+
+    roomSocket.onclose = (_e) =>
+        console.error("Chat socket closed unexpectedly");
 
     return roomSocket;
 }

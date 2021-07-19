@@ -1,14 +1,10 @@
 import Hls from "hls.js";
 
+import { getElementTextContent } from "./documentTools";
 import { initializeRoomSocket } from "./websockets";
 import { initializeVideo } from "./video";
 import AlertMessage from "./AlertMessage";
 import showVideoField from "./showVideoField";
-
-function getElementTextContent(id: string): string | null {
-    let element = document.getElementById(id);
-    return element ? element.textContent : null;
-}
 
 // Check if variables are correctly initialized using DTL
 const [roomName, roomAuthor, user, videoURL] = [
@@ -82,44 +78,15 @@ if (copyURLButton) {
     };
 }
 // Initialize video player
-const video = initializeVideo(user, roomAuthor);
+const video = initializeVideo();
 // Initialize room websocket
-const roomSocket = initializeRoomSocket(roomName, roomAuthor, user, video);
-
-// HTML5 video events for room author
-if (roomAuthor === user) {
-    video.on("pause", (_e: any) =>
-        roomSocket.send(JSON.stringify({ type: "pause_video" }))
-    );
-
-    video.on("play", (_e: any) =>
-        roomSocket.send(JSON.stringify({ type: "play_video" }))
-    );
-
-    video.on("seeked", (_e: any) => {
-        roomSocket.send(
-            JSON.stringify({
-                type: "seeked_video",
-                currentTime: video.currentTime,
-            })
-        );
-        if (videoURL) {
-            video.pause();
-            setTimeout(() => video.play(), 1000);
-        }
-    });
-}
-
-// Change state of the yt video player event
-video.on("statechange", (e: any) => {
-    if (e.detail.code === 3) {
-        roomSocket.send(JSON.stringify({ type: "buffering_video" }));
-    } else {
-        roomSocket.send(JSON.stringify({ type: "buffered_video" }));
-    }
-});
-
-roomSocket.onclose = (_e) => console.error("Chat socket closed unexpectedly");
+const roomSocket = initializeRoomSocket(
+    roomName,
+    roomAuthor,
+    user,
+    video,
+    videoURL
+);
 
 // Focus chat message input
 if (messageSubmitButton) {

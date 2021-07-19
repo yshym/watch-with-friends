@@ -67,7 +67,9 @@ export default class ChatMessage {
 
         if (this.lightBackground) {
             let messageCards = document.getElementsByClassName("chat-message");
-            let lastMessageCard: HTMLElement | undefined = [].slice.call(messageCards).pop();
+            let lastMessageCard: HTMLElement | undefined = [].slice
+                .call(messageCards)
+                .pop();
 
             if (lastMessageCard) {
                 lastMessageCard!.className =

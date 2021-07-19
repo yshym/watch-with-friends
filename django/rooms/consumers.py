@@ -104,27 +104,40 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 },
             )
         elif message_type == "pause_video":
+            current_time = text_data_json.get("currentTime")
+
             # Send message to room group
             await self.channel_layer.group_send(
-                self.room_group_name, {"type": "pause_video"}
+                self.room_group_name,
+                {
+                    "type": "pause_video",
+                    "username": self.user.username,
+                    "current_time": current_time,
+                },
             )
         elif message_type == "play_video":
             # Send message to room group
             await self.channel_layer.group_send(
-                self.room_group_name, {"type": "play_video"}
+                self.room_group_name,
+                {"type": "play_video", "username": self.user.username},
             )
         elif message_type == "seeked_video":
             current_time = text_data_json.get("currentTime")
 
             await self.channel_layer.group_send(
                 self.room_group_name,
-                {"type": "seeked_video", "current_time": current_time},
+                {
+                    "type": "seeked_video",
+                    "current_time": current_time,
+                    "username": self.user.username,
+                },
             )
         elif message_type == "buffering_video":
             self.add_waiting_user(self.user)
 
             await self.channel_layer.group_send(
-                self.room_group_name, {"type": "buffering_video"}
+                self.room_group_name,
+                {"type": "buffering_video", "username": self.user.username},
             )
         elif message_type == "buffered_video":
             if self.user in self.waiting_users:
@@ -155,18 +168,38 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
         )
 
-    async def pause_video(self, _event):
-        await self.send(text_data=json.dumps({"type": "pause_video"}))
-
-    async def play_video(self, _event):
-        await self.send(text_data=json.dumps({"type": "play_video"}))
-
-    async def seeked_video(self, event):
+    async def pause_video(self, event):
         current_time = event.get("current_time")
+        username = event.get("username")
 
         await self.send(
             text_data=json.dumps(
-                {"type": "seeked_video", "current_time": current_time}
+                {
+                    "type": "pause_video",
+                    "current_time": current_time,
+                    "username": username,
+                }
+            )
+        )
+
+    async def play_video(self, event):
+        username = event.get("username")
+
+        await self.send(
+            text_data=json.dumps({"type": "play_video", "username": username})
+        )
+
+    async def seeked_video(self, event):
+        current_time = event.get("current_time")
+        username = event.get("username")
+
+        await self.send(
+            text_data=json.dumps(
+                {
+                    "type": "seeked_video",
+                    "current_time": current_time,
+                    "username": username,
+                }
             )
         )
 
@@ -198,8 +231,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
         )
 
-    async def buffering_video(self, _event):
-        await self.send(text_data=json.dumps({"type": "buffering_video"}))
+    async def buffering_video(self, event):
+        username = event.get("username")
+
+        await self.send(
+            text_data=json.dumps(
+                {"type": "buffering_video", "username": username}
+            )
+        )
 
     async def all_players_buffered(self, _event):
         await self.send(text_data=json.dumps({"type": "all_players_buffered"}))
