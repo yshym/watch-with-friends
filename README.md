@@ -7,13 +7,8 @@
 
 2) Share the link or the name of the room with your friends.
 
-3) Creator of the room can use progress bar, play/pause buttons and his actions
-will be propagated to all users in the room.
-
-Creator of the room:
+3) When a user plays/pauses a video or seeks to a point, 
+his actions will be propagated to all others in the room.
+Creator of the room is also able to change a video.
 
 ![Screenshot2](readme_images/screenshot2.png)
-
-Ordinary user:
-
-![Screenshot3](readme_images/screenshot3.png)
