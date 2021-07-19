@@ -1,0 +1,15 @@
+#+TITLE: Watch with friends
+
+[[https://codecov.io/gh/yevhenshymotiuk/watch-with-friends][https://codecov.io/gh/yevhenshymotiuk/watch-with-friends/coverage.svg]]
+
+* Table of contents :TOC_2:
+- [[#usage][Usage]]
+
+* Usage
+1. Use YouTube link or upload a video from your hard drive.
+   [[./readme_images/screenshot1.png]]
+1. Share the link or the name of the room with your friends.
+2. When a user plays/pauses a video or seeks to a point,
+   his actions will be propagated to all others in the room.
+   Creator of the room is able to change a video.
+   [[./readme_images/screenshot2.png]]
