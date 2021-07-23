@@ -7,7 +7,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from .tasks import create_message
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class RoomConsumer(AsyncWebsocketConsumer):
     users: Dict[str, List[str]] = {}
     waiting_users: Set[str] = set()
 
