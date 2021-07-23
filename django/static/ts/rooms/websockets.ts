@@ -115,10 +115,6 @@ export function initializeRoomSocket(
             return;
         }
 
-        console.log(
-            `websocket video message to ${user}: ${JSON.stringify(data)}`
-        );
-
         // video messages
         switch (messageType) {
             case "seeked_video": {
@@ -150,7 +146,7 @@ export function initializeRoomSocket(
     };
 
     roomSocket.onclose = (_e) =>
-        console.error("Chat socket closed unexpectedly");
+        console.error("Room socket closed unexpectedly");
 
     return roomSocket;
 }
