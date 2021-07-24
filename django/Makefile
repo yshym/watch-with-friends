@@ -4,7 +4,6 @@ help:
 	@echo "test - run tests"
 	@echo "coverage - generate a coverage HTML report and open it"
 	@echo "docs - generate Sphinx HTML documentation and open it"
-	@echo "deploy - deploy the app using Ansible"
 	@echo "bundles - create Webpack bundles"
 
 test:
@@ -18,9 +17,6 @@ coverage:
 docs:
 	cd docs && make html
 	xdg-open docs/build/html/index.html
-
-deploy:
-	ansible-playbook ansible/playbook.yml --inventory=ansible/inventory.yml
 
 bundles:
 	cd static && npm run build
