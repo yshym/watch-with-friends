@@ -32,10 +32,7 @@
             <a
                 class="navbar-brand text-dark"
                 href="{% url 'index' %}">
-                <div class="favicon">
-                    <img src="{% static 'favicon.ico' %}" height="35" />
-                    <img src="{% static 'wff_hover.png' %}" class="favicon-hover" height="35" />
-                </div>
+                <span class="title-icon">WWF</span>
             </a>
 
             <!-- Search collapse button -->
