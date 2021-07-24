@@ -1,6 +1,5 @@
 version: "3.3"
 
-
 services:
   redis:
     container_name: wwf_redis
@@ -36,6 +35,17 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+  proxy:
+    image: nginx:alpine
+    container_name: wwf_proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
