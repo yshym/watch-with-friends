@@ -12,7 +12,7 @@ export function initializeRoomSocket(
     videoURL: string
 ): WebSocket {
     const roomSocket = new WebSocket(
-        `ws://${window.location.host}/ws/chat/${roomName}/`
+        `ws://${window.location.host}/ws/room/${roomName}/`
     );
 
     const container = <HTMLElement>(
