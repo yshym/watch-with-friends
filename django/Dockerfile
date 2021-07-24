@@ -14,10 +14,14 @@ RUN apt-get upgrade -y
 RUN apt-get install -y nodejs libpq-dev
 RUN curl -L https://www.npmjs.com/install.sh | sh
 
+# Install nodejs dependencies
 RUN npm --prefix ./static install
+# Build Webpack bundles
 RUN npm --prefix ./static run build
 
 # Install poetry and its dependencies
 RUN pip install poetry \
     && poetry config virtualenvs.create false \
     && poetry install --no-dev
+# Collect static files
+RUN python manage.py collectstatic --no-input
