@@ -4,7 +4,7 @@ from decouple import config
 
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS",
-    default=[],
+    default="*",
     cast=lambda v: [s.strip() for s in v.split(",")],
 )
 
