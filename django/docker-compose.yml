@@ -13,20 +13,25 @@ services:
       context: .
       dockerfile: ./celery_worker/Dockerfile
     command: celery worker -A config -l info
-    volumes:
-      - .:/code
     depends_on:
       - redis
   web:
     container_name: wwf_web
     build: .
     command: ./web_entrypoint.sh
-    environment:
-      - ENVIRONMENT=development
-    volumes:
-      - .:/code
+    env_file:
+      - ./config/settings/.env
     ports:
       - 8000:8000
     depends_on:
       - celery_worker
       - redis
+      - db
+  db:
+    container_name: wwf_db
+    image: postgres
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres_data:
