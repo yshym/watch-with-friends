@@ -33,7 +33,11 @@
     height: 100% !important;
 }
 
-.title-icon:hover {
+.title-text {
+    font-weight: bold;
+}
+
+.title-text:hover {
     color: cyan;
 }
 

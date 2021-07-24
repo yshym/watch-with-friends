@@ -32,7 +32,7 @@
             <a
                 class="navbar-brand text-dark"
                 href="{% url 'index' %}">
-                <span class="title-icon">WWF</span>
+                <span class="title-text">WWF</span>
             </a>
 
             <!-- Search collapse button -->
