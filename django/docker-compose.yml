@@ -12,6 +12,8 @@ services:
       context: .
       dockerfile: ./celery_worker/Dockerfile
     command: celery worker -A config -l info
+    volumes:
+      - ./media:/code/media
     depends_on:
       - redis
   web:
@@ -22,6 +24,9 @@ services:
       - ./config/settings/.env
     ports:
       - 8000:8000
+    volumes:
+      - ./static_root:/code/static_root
+      - ./media:/code/media
     depends_on:
       - celery_worker
       - redis
@@ -34,7 +39,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data
   proxy:
     image: nginx:alpine
     container_name: wwf_proxy
@@ -42,8 +47,9 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./static_root:/var/www/static_root
+      - ./media:/var/www/media
+      - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - web
 
