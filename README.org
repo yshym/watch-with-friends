@@ -6,7 +6,7 @@
 - [[#usage][Usage]]
 
 * Usage
-1. Use YouTube link or upload a video from your hard drive.
+1. Use YouTube link or upload a video from your computer.
    [[./readme_images/screenshot1.png]]
 1. Share the link or the name of the room with your friends.
 2. When a user plays/pauses a video or seeks to a point,
