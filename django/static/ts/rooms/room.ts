@@ -1,7 +1,7 @@
 import Hls from "hls.js";
 
 import { getElementTextContent } from "./documentTools";
-import { initializeRoomSocket } from "./websockets";
+import { RoomSocket } from "./websockets";
 import { initializeVideo } from "./video";
 import AlertMessage from "./AlertMessage";
 import showVideoField from "./showVideoField";
@@ -80,13 +80,7 @@ if (copyURLButton) {
 // Initialize video player
 const video = initializeVideo();
 // Initialize room websocket
-const roomSocket = initializeRoomSocket(
-    roomName,
-    roomAuthor,
-    user,
-    video,
-    videoURL
-);
+const roomSocket = new RoomSocket(roomName, roomAuthor, user, video, videoURL);
 
 // Focus chat message input
 if (messageSubmitButton) {
@@ -102,7 +96,7 @@ if (messageSubmitButton) {
         if (messageInput.value.trim() !== "") {
             let message = messageInput.value;
 
-            roomSocket.send(
+            roomSocket.socket.send(
                 JSON.stringify({
                     type: "message",
                     room_name: roomName,
