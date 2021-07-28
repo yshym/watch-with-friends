@@ -1,11 +1,11 @@
 import { selectedValue } from "./selectTools";
 
-export default function showVideoField() {
-    let videoTypeSelectElement = document.getElementById("id_video_type");
-    let divIdVideo = document.getElementById("div_id_video");
-    let divIdYoutubeLink = document.getElementById("div_id_youtube_link");
+const showVideoField = () => {
+    const videoTypeSelectElement = document.getElementById("id_video_type");
+    const divIdVideo = document.getElementById("div_id_video");
+    const divIdYoutubeLink = document.getElementById("div_id_youtube_link");
 
-    let videoType = selectedValue(<HTMLSelectElement>videoTypeSelectElement);
+    const videoType = selectedValue(<HTMLSelectElement>videoTypeSelectElement);
 
     if (divIdVideo && divIdYoutubeLink) {
         switch (videoType) {
@@ -23,4 +23,6 @@ export default function showVideoField() {
             }
         }
     }
-}
+};
+
+export default showVideoField;

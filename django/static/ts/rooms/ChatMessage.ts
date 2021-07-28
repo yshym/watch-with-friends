@@ -1,4 +1,6 @@
-export default class ChatMessage {
+import Component from "./Component";
+
+export default class ChatMessage extends Component {
     lightBackground: boolean;
     timestamp: string;
 
@@ -8,11 +10,13 @@ export default class ChatMessage {
         public content: string,
         currentUserUsername: string
     ) {
+        super();
+
         this.lightBackground = currentUserUsername != username;
         this.timestamp = this.formattedCurrentDate();
     }
 
-    createElement(): HTMLElement {
+    createElement = (): HTMLElement => {
         let messageDiv = document.createElement("div");
         messageDiv.className = "chat-message img-thumbnail d-inline-flex";
 
@@ -43,9 +47,9 @@ export default class ChatMessage {
         messageDiv.appendChild(messageBodyDiv);
 
         return messageDiv;
-    }
+    };
 
-    formattedCurrentDate(): string {
+    private formattedCurrentDate = (): string => {
         let now = new Date();
         let pad = (n: number): string => (n < 10 ? "0" + n : n.toString());
 
@@ -58,15 +62,16 @@ export default class ChatMessage {
         ];
 
         return `${day}.${month}.${year}, ${hours}:${minutes}`;
-    }
+    };
 
-    post(): void {
+    mount = (): void => {
         this.container.appendChild(this.createElement());
         this.container.appendChild(document.createElement("br"));
         this.container.appendChild(document.createElement("br"));
 
         if (this.lightBackground) {
-            let messageCards = document.getElementsByClassName("chat-message");
+            const messageCards =
+                document.getElementsByClassName("chat-message");
             let lastMessageCard: HTMLElement | undefined = [].slice
                 .call(messageCards)
                 .pop();
@@ -76,5 +81,5 @@ export default class ChatMessage {
                     "chat-message img-thumbnail d-inline-flex bg-light";
             }
         }
-    }
+    };
 }

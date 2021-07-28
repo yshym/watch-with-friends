@@ -9,8 +9,8 @@ const container = <HTMLElement>(
 
 if (roomNameSubmitButton) {
     roomNameSubmitButton.onclick = (_e) => {
-        let roomName = selectedText(roomNameInput);
-        let roomValue = selectedValue(roomNameInput);
+        const roomName = selectedText(roomNameInput);
+        const roomValue = selectedValue(roomNameInput);
         if (roomName && roomName.trim()) {
             window.location.pathname = `/${roomValue}/`;
         } else {
@@ -19,7 +19,7 @@ if (roomNameSubmitButton) {
                 "Input the name of the room you want to enter!",
                 "warning"
             );
-            alertMessage.post();
+            alertMessage.mount();
         }
     };
 }

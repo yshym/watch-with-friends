@@ -1,30 +1,23 @@
 import Plyr from "plyr";
 import ChatMessage from "./ChatMessage";
 import ConnectedUser from "./ConnectedUser";
-import { buildHandlers, enableEvents, withoutHandlers } from "./video";
-
-function notNewUserWarningElement(text: string): Element {
-    let warningH1 = document.createElement("h1");
-
-    let surpriseIcon = document.createElement("i");
-    surpriseIcon.className = "far fa-surprise";
-
-    let warningText = document.createTextNode(" " + text);
-
-    warningH1.appendChild(surpriseIcon);
-    warningH1.appendChild(warningText);
-
-    return warningH1;
-}
+import NotNewUserWarning from "./NotNewUserWarning";
+import {
+    VideoEventHandlers,
+    buildHandlers,
+    enableEvents,
+    withoutHandlers,
+} from "./video";
 
 type WebSocketMessageCallback = (data: Object) => void;
 
 export class RoomSocket {
     socket: WebSocket;
     video: Plyr;
+    handlers: VideoEventHandlers;
+    roomName: string;
     roomAuthor: string;
     user: string;
-    handlers: Object;
     container: HTMLElement;
     chatLogBody: HTMLElement;
     connectedUsersContainer: HTMLElement;
@@ -33,27 +26,27 @@ export class RoomSocket {
         roomName: string,
         roomAuthor: string,
         user: string,
-        video: Plyr,
-        videoURL: string
+        video: Plyr
     ) {
+        this.roomName = roomName;
         this.roomAuthor = roomAuthor;
         this.user = user;
         this.video = video;
 
         this.socket = new WebSocket(
-            `ws://${window.location.host}/ws/room/${roomName}/`
+            `ws://${window.location.host}/ws/room/${this.roomName}/`
         );
 
         this.getElements();
 
         // Enable HTML5 video events
-        this.handlers = buildHandlers(video, videoURL, this.socket);
+        this.handlers = buildHandlers(video, this.socket);
         enableEvents(video, this.handlers);
 
         this.initializeHandlers();
     }
 
-    getElements = (): void => {
+    private getElements = (): void => {
         this.container = <HTMLElement>(
             document.getElementsByClassName("container-xl")[0]
         );
@@ -77,7 +70,7 @@ export class RoomSocket {
                 this.user
             );
 
-            chatMessage.post();
+            chatMessage.mount();
 
             this.chatLogBody.scrollTop = this.chatLogBody.scrollHeight;
         }
@@ -96,20 +89,19 @@ export class RoomSocket {
 
                 connectedUsersDataSet.forEach((username) => {
                     let connectedUser = new ConnectedUser(
+                        this.connectedUsersContainer,
                         <string>username,
                         this.roomAuthor
                     );
-                    connectedUser.addToContainer(this.connectedUsersContainer);
+                    connectedUser.mount();
                 });
             }
         } else if (this.user === <string>data.username) {
-            this.container.removeChildren();
-
-            this.container.appendChild(
-                notNewUserWarningElement(
-                    "You are already in this room from the other tab/browser"
-                )
+            let notNewUserWarning = new NotNewUserWarning(
+                this.container,
+                "You are already in this room from the other tab/browser"
             );
+            notNewUserWarning.mount();
         }
     };
 
@@ -154,7 +146,7 @@ export class RoomSocket {
         );
     };
 
-    initializeHandlers = (): void => {
+    private initializeHandlers = (): void => {
         this.socket.onmessage = (e: any) => {
             let data = JSON.parse(e.data);
             let messageType = data.type;
@@ -184,9 +176,6 @@ export class RoomSocket {
             if (username && username === this.user) {
                 return;
             }
-            console.log(
-                `websocket message to ${this.user}: ${JSON.stringify(data)}`
-            );
 
             // video messages
             switch (messageType) {
