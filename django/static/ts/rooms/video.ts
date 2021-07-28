@@ -1,15 +1,15 @@
 import Plyr from "plyr";
 
-// Initialize Plyr player
-let controls: string[], clickToPlay: boolean;
-
-type eventName = "pause" | "play" | "seeked" | "statechange";
+type VideoEventName = "pause" | "play" | "seeked" | "statechange";
+type VideoEventHandler = (e: any) => void;
+export type VideoEventHandlers = {
+    [eventName in VideoEventName]: VideoEventHandler;
+};
 
 export const buildHandlers = (
     video: Plyr,
-    videoURL: string,
     roomSocket: WebSocket
-) => ({
+): VideoEventHandlers => ({
     pause: (_e: any) =>
         roomSocket.send(
             JSON.stringify({
@@ -25,10 +25,6 @@ export const buildHandlers = (
                 currentTime: video.currentTime,
             })
         );
-        if (videoURL) {
-            // video.pause();
-            // setTimeout(() => video.play(), 1000);
-        }
     },
     // Change state of the yt video player event
     statechange: (e: any) => {
@@ -43,21 +39,21 @@ export const buildHandlers = (
     },
 });
 
-export const enableEvents = (video: Plyr, handlers: any) => {
+export const enableEvents = (video: Plyr, handlers: VideoEventHandlers) => {
     for (var e in handlers) {
-        video.on(e as eventName, handlers[e as eventName]);
+        video.on(<VideoEventName>e, handlers[<VideoEventName>e]);
     }
 };
 
-export const disableEvents = (video: Plyr, handlers: any) => {
+export const disableEvents = (video: Plyr, handlers: VideoEventHandlers) => {
     for (var e in handlers) {
-        video.off(e as eventName, handlers[e as eventName]);
+        video.off(<VideoEventName>e, handlers[<VideoEventName>e]);
     }
 };
 
 export const withoutHandlers = (
     video: Plyr,
-    name: eventName,
+    name: VideoEventName,
     handlers: any,
     callback: () => void,
     skipNext: boolean = false
@@ -76,8 +72,9 @@ export const withoutHandlers = (
     }
 };
 
+// Initialize Plyr player
 export const initializeVideo = () => {
-    controls = [
+    let controls = [
         "play-large",
         "play",
         "progress",
@@ -88,7 +85,7 @@ export const initializeVideo = () => {
         "airplay",
         "fullscreen",
     ];
-    clickToPlay = true;
+    let clickToPlay = true;
 
     const video = new Plyr("#video-active", {
         controls: controls,

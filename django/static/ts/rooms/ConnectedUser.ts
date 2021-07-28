@@ -1,7 +1,15 @@
-export default class ConnectedUser {
-    constructor(public username: string, public roomAuthorUsername: string) {}
+import Component from "./Component";
 
-    createElement(): HTMLElement {
+export default class ConnectedUser extends Component {
+    constructor(
+        public container: HTMLElement,
+        public username: string,
+        public roomAuthorUsername: string
+    ) {
+        super();
+    }
+
+    createElement = (): HTMLElement => {
         let spanWrapper = document.createElement("span");
         let userIcon = document.createElement("i");
 
@@ -18,9 +26,9 @@ export default class ConnectedUser {
         spanWrapper.appendChild(usernameText);
 
         return spanWrapper;
-    }
+    };
 
-    addToContainer(container: HTMLElement): void {
-        container.appendChild(this.createElement());
-    }
+    mount = (): void => {
+        this.container.appendChild(this.createElement());
+    };
 }
