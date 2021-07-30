@@ -9,18 +9,21 @@ export default class SizedSet<T> implements Serializable {
         this.n = n;
     }
 
-    add = (item: T): this => {
-        if (this.set_.size < this.n) {
-            this.set_.add(item);
-        } else {
-            let arr = Array.from(this.set_);
-            arr.shift();
-            arr.unshift(item);
+    prepend = (item: T): boolean => {
+        let arr = Array.from(this.set_);
 
-            this.set_ = new Set(arr);
+        if (arr.length > 0 && arr[0] === item) {
+            return false;
         }
 
-        return this;
+        if (this.set_.size >= this.n) {
+            arr.shift();
+        }
+
+        arr.unshift(item);
+        this.set_ = new Set(arr);
+
+        return true;
     };
 
     toJSON = () => JSON.stringify(Array.from(this.set_));
