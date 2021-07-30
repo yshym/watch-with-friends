@@ -74,3 +74,8 @@ div#video-player, #room-video-change-form-show {
 #video-spinner {
     margin-top: 23vh;
 }
+
+.recently-visited-rooms {
+    display: flex;
+    flex-direction: column;
+}

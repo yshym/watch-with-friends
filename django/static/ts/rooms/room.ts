@@ -1,5 +1,5 @@
 import Hls from "hls.js";
-import { getElementTextContent } from "./documentTools";
+import { getElementTextContent } from "../documentTools";
 import { RoomSocket } from "./websockets";
 import { initializeVideo } from "./video";
 import AlertMessage from "./AlertMessage";
@@ -7,12 +7,14 @@ import { initializeChat } from "./chat";
 import { initializeRoomNameChangeForm } from "./nameChangeForm";
 import { initializeVideoChangeForm } from "./videoChangeForm";
 import { initializeVideoElements, initializeLocalVideo } from "./localVideo";
+import RecentlyVisitedRooms from "./RecentlyVisitedRooms";
 
 declare global {
     interface HTMLElement {
         removeChildren(): HTMLElement;
     }
 }
+
 // Remove all children of the element
 HTMLElement.prototype.removeChildren = function (): HTMLElement {
     while (this.firstChild) {
@@ -70,3 +72,5 @@ if (videoURL && Hls.isSupported()) {
 } else {
     initializeVideoElements();
 }
+
+RecentlyVisitedRooms.onRoomVisit(roomName, window.location.href);

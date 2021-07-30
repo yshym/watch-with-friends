@@ -1,4 +1,4 @@
-import Component from "./Component";
+import Component from "../Component";
 
 export default class ChatMessage extends Component {
     lightBackground: boolean;
