@@ -58,8 +58,9 @@ export default class RecentlyVisitedRooms extends Component {
 
     static onRoomVisit = (roomName: string, roomLink: string): void => {
         let rooms = RecentlyVisitedRooms.rooms(5);
-        let room = {name: roomName, link: roomLink};
-        rooms.add(JSON.stringify(room))
-        localStorage.setItem("recentlyVisitedLinks", rooms.toJSON())
+        let roomString = JSON.stringify({ name: roomName, link: roomLink });
+        if (rooms.prepend(roomString)) {
+            localStorage.setItem("recentlyVisitedLinks", rooms.toJSON());
+        }
     };
 }
