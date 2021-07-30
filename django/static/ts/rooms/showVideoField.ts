@@ -1,4 +1,4 @@
-import { selectedValue } from "./selectTools";
+import { selectedValue } from "../selectTools";
 
 const showVideoField = () => {
     const videoTypeSelectElement = document.getElementById("id_video_type");

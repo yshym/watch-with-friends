@@ -58,7 +58,7 @@ export class RoomSocket {
         );
     };
 
-    onChatMessage: WebSocketMessageCallback = (data: Object): void => {
+    onChatMessage: WebSocketMessageCallback = (data: any): void => {
         const content = <string>data.message;
         const username = <string>data.username;
 
@@ -76,7 +76,7 @@ export class RoomSocket {
         }
     };
 
-    onUserConnected: WebSocketMessageCallback = (data: Object): void => {
+    onUserConnected: WebSocketMessageCallback = (data: any): void => {
         let isNewUserData = data.is_new_user;
 
         if (isNewUserData || data.type == "user_disconnected") {
@@ -117,7 +117,7 @@ export class RoomSocket {
         );
     };
 
-    onSeekedVideo: WebSocketMessageCallback = (data: Object): void => {
+    onSeekedVideo: WebSocketMessageCallback = (data: any): void => {
         withoutHandlers(
             this.video,
             "seeked",
@@ -127,7 +127,7 @@ export class RoomSocket {
         );
     };
 
-    onPauseVideo: WebSocketMessageCallback = (data: Object): void => {
+    onPauseVideo: WebSocketMessageCallback = (data: any): void => {
         withoutHandlers(this.video, "pause", this.handlers, () =>
             this.video.pause()
         );

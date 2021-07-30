@@ -25,3 +25,7 @@
         Or follow a link which you can receive from a room creator
     </h5>
 {% endblock content %}
+
+{% block script %}
+    <script src="{% static 'bundles/index.js' %}"></script>
+{% endblock script %}

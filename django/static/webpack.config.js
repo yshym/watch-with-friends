@@ -4,10 +4,10 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
     optimization: {
+        minimize: true,
         minimizer: [
             new OptimizeCSSAssetsPlugin({}),
             new TerserPlugin({
-                cache: true,
                 parallel: true,
                 terserOptions: {
                     ecma: 6,
@@ -18,6 +18,7 @@ module.exports = {
     entry: {
         main: "./js/main.js",
         room: "./ts/rooms/room.ts",
+        index: "./ts/rooms/index.ts",
         roomCreate: "./ts/rooms/roomCreate.ts",
         HLSFileWaiter: "./ts/rooms/HLSFileWaiter.ts",
     },
