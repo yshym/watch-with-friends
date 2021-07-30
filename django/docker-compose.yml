@@ -13,6 +13,7 @@ services:
       dockerfile: ./celery_worker/Dockerfile
     command: celery worker -A config -l info
     volumes:
+      - ./static_root:/code/static_root
       - ./media:/code/media
     depends_on:
       - redis

@@ -15,26 +15,13 @@
         {% endfor %}
     {% endif %}
 
-    <h3>What room would you like to enter?</h3>
+    <a
+        class="btn btn-outline-success w-100"
+        href="{% url 'room_create' %}">
+        Create new room
+    </a>
     <hr />
-    <form method="GET" action="">{% csrf_token %}
-        {{ form|crispy }}
-    </form>
-    <hr />
-    <div class="btn-group w-100" role="group" aria-label="Basic example">
-        <input
-            id="room-name-submit"
-            class="btn btn-primary"
-            type="button"
-            value="Enter" />
-        <a
-            class="btn btn-outline-success"
-            href="{% url 'room_create' %}">
-            Create new
-        </a>
-    </div>
+    <h5 class="font-weight-lighter">
+        Or follow a link which you can receive from a room creator
+    </h5>
 {% endblock content %}
-
-{% block script %}
-    <script src="{% static 'bundles/index.js' %}"></script>
-{% endblock script %}
