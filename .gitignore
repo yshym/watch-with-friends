@@ -17,6 +17,7 @@ bundles/
 # coverage
 htmlcov/
 .coverage
+coverage.xml
 
 # docs build
 build/
@@ -34,7 +35,6 @@ _build/
 .log/
 
 # codecov
-coverage.xml
 
 # flycheck
 flycheck_*.py

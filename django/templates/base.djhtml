@@ -30,22 +30,10 @@
 
             <!-- Navbar title -->
             <a
-                class="navbar-brand text-dark"
+                class="navbar-brand text-dark title-text"
                 href="{% url 'index' %}">
-                <span class="title-text">WWF</span>
+                WWF
             </a>
-
-            <!-- Search collapse button -->
-            <button
-                class="navbar-toggler ml-auto"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSearch"
-                aria-controls="navbarSearch"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="fa fa-search"></i>
-            </button>
 
             <!-- User collapse button -->
             <button
@@ -62,40 +50,6 @@
                 aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
-
-            <!-- Search collapse div -->
-            <div
-                class="collapse navbar-collapse"
-                id="navbarSearch">
-                <hr/>
-                <ul class="navbar-nav mr-auto w-100">
-                    <li class="nav-item">
-                        <form
-                            class="form-inline"
-                            method="GET"
-                            action="#">
-                            <div id="search" class="input-group w-100">
-                                <input
-                                    class="form-control"
-                                    type="search"
-                                    placeholder="Search"
-                                    aria-label="Search"
-                                    name="Search"
-                                    value="{{ request.GET.Search }}"
-                                    disabled>
-                                <span class="input-group-append">
-                                    <button
-                                        class="btn btn-outline-success"
-                                        type="submit"
-                                        disabled>
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
-                    </li>
-                </ul>
-            </div>
 
             {% if user.is_authenticated %}
                 <!-- User change password/log out collapse div -->

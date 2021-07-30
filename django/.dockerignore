@@ -1,0 +1,26 @@
+# media files
+media/
+
+# static root
+static_root/
+
+# git
+.git/
+
+# markdown and org mode
+*.md
+*.org
+
+# flycheck
+flycheck_*.py
+
+# npm
+node_modules/
+
+# coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# logs
+.log/

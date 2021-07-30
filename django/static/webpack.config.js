@@ -18,7 +18,6 @@ module.exports = {
     entry: {
         main: "./js/main.js",
         room: "./ts/rooms/room.ts",
-        index: "./ts/rooms/index.ts",
         roomCreate: "./ts/rooms/roomCreate.ts",
         HLSFileWaiter: "./ts/rooms/HLSFileWaiter.ts",
     },

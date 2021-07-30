@@ -34,11 +34,9 @@
 }
 
 .title-text {
+    margin: 0;
+    font-size: 1.5rem !important;
     font-weight: bold;
-}
-
-.title-text:hover {
-    color: cyan;
 }
 
 form#room-name-change {
