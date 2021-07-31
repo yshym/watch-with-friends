@@ -2,7 +2,7 @@ import Component from "../Component";
 import SizedSet from "../SizedSet";
 
 export default class RecentlyVisitedRooms extends Component {
-    n: number = 5;
+    static maxSize: number = 5;
 
     constructor(public container: HTMLElement) {
         super();
@@ -30,23 +30,28 @@ export default class RecentlyVisitedRooms extends Component {
         headingH5.appendChild(headingText);
         linksDiv.appendChild(headingH5);
 
-        RecentlyVisitedRooms.rooms(this.n).set_.forEach((v: string) => {
-            let room = JSON.parse(v);
+        RecentlyVisitedRooms.rooms(RecentlyVisitedRooms.maxSize).set_.forEach(
+            (v: string) => {
+                let room = JSON.parse(v);
 
-            let linkA = document.createElement("a");
-            let linkText = document.createTextNode(room.name);
+                let linkA = document.createElement("a");
+                let linkText = document.createTextNode(room.name);
 
-            linkA.appendChild(linkText);
-            linkA.href = room.link;
+                linkA.appendChild(linkText);
+                linkA.href = room.link;
 
-            linksDiv.appendChild(linkA);
-        });
+                linksDiv.appendChild(linkA);
+            }
+        );
 
         return linksDiv;
     };
 
     mount = (): void => {
-        if (RecentlyVisitedRooms.rooms(this.n).set_.size == 0) {
+        if (
+            RecentlyVisitedRooms.rooms(RecentlyVisitedRooms.maxSize).set_
+                .size == 0
+        ) {
             return;
         }
 
