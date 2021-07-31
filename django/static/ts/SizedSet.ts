@@ -1,12 +1,12 @@
 import Serializable from "./Serializable";
 
 export default class SizedSet<T> implements Serializable {
-    n: number;
+    maxSize: number;
     set_: Set<T>;
 
-    constructor(n: number, initialValues: Iterable<T> | null = null) {
+    constructor(maxSize: number, initialValues: Iterable<T> | null = null) {
         this.set_ = new Set(initialValues);
-        this.n = n;
+        this.maxSize = maxSize;
     }
 
     prepend = (item: T): boolean => {
@@ -16,7 +16,7 @@ export default class SizedSet<T> implements Serializable {
             return false;
         }
 
-        if (this.set_.size >= this.n) {
+        if (this.set_.size >= this.maxSize) {
             arr.shift();
         }
 
