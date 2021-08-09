@@ -34,7 +34,8 @@ _build/
 # logs
 .log/
 
-# codecov
-
 # flycheck
 flycheck_*.py
+
+# mac os
+.DS_Store

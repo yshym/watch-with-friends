@@ -1,15 +1,23 @@
 import json
-from typing import Dict, List, Set
+from typing import Dict, Set
 
-from django.utils import timezone
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.utils import timezone
 
 from .tasks import create_message
+from config import redis
 
 
 class RoomConsumer(AsyncWebsocketConsumer):
-    users: Dict[str, List[str]] = {}
-    waiting_users: Set[str] = set()
+    r = redis.client
+
+    @property
+    def connected_users_set_name(self):
+        return f"{self.room_name}_connected_users"
+
+    @property
+    def waiting_users_set_name(self):
+        return f"{self.room_name}_waiting_users"
 
     async def connect(self):
         self.room_name = (
@@ -18,7 +26,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         self.room_group_name = f"room_{self.room_name}"
         self.user = self.scope.get("user")
 
-        self.is_new_user = not self.user_exists(self.room_name, self.user)
+        self.is_new_user = not self.user_is_connected(self.user)
 
         # Join room group
         await self.channel_layer.group_add(
@@ -28,7 +36,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
         if self.is_new_user:
-            self.add_user(self.room_name, self.user)
+            self.add_connected_user(self.user)
 
             await self.channel_layer.group_send(
                 self.room_group_name,
@@ -36,9 +44,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
                     "type": "user_connected",
                     "username": self.user.username,
                     "is_new_user": self.is_new_user,
-                    "connected_users": ",".join(
-                        self.users.get(self.room_name, [])
-                    ),
+                    "connected_users": b",".join(self.connected_users).decode(),
                 },
             )
         else:
@@ -54,17 +60,15 @@ class RoomConsumer(AsyncWebsocketConsumer):
             await self.disconnect(200)
 
     async def disconnect(self, code):
-        if self.is_new_user:
-            self.remove_user(self.room_name, self.user)
+        if self.user_is_connected(self.user):
+            self.remove_connected_user(self.user)
 
             # Leave room group
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     "type": "user_disconnected",
-                    "connected_users": ",".join(
-                        self.users.get(self.room_name)
-                    ),
+                    "connected_users": b",".join(self.connected_users).decode(),
                 },
             )
 
@@ -140,10 +144,10 @@ class RoomConsumer(AsyncWebsocketConsumer):
                 {"type": "buffering_video", "username": self.user.username},
             )
         elif message_type == "buffered_video":
-            if self.user in self.waiting_users:
+            if self.user_is_waiting(self.user):
                 self.remove_waiting_user(self.user)
 
-                if len(self.waiting_users) == 0:
+                if self.number_of_waiting_users == 0:
                     await self.channel_layer.group_send(
                         self.room_group_name, {"type": "all_players_buffered"}
                     )
@@ -243,17 +247,32 @@ class RoomConsumer(AsyncWebsocketConsumer):
     async def all_players_buffered(self, _event):
         await self.send(text_data=json.dumps({"type": "all_players_buffered"}))
 
-    def add_user(self, room_name, user):
-        self.users.setdefault(room_name, []).append(user.username)
+    @property
+    def connected_users(self) -> Set:
+        return self.r.smembers(self.connected_users_set_name)
 
-    def remove_user(self, room_name, user):
-        self.users.get(room_name, []).remove(user.username)
+    def add_connected_user(self, user):
+        self.r.sadd(self.connected_users_set_name, user.username)
 
-    def user_exists(self, room_name, user):
-        return user.username in self.users.get(room_name, [])
+    def remove_connected_user(self, user):
+        self.r.srem(self.connected_users_set_name, user.username)
+
+    def user_is_connected(self, user) -> bool:
+        return self.r.sismember(self.connected_users_set_name, user.username)
+
+    @property
+    def waiting_users(self) -> Set:
+        return self.r.smembers(self.waiting_users_set_name)
 
     def add_waiting_user(self, user):
-        self.waiting_users.add(user)
+        self.r.sadd(self.waiting_users_set_name, user.username)
 
     def remove_waiting_user(self, user):
-        self.waiting_users.discard(user)
+        self.r.srem(self.waiting_users_set_name, user.username)
+
+    def user_is_waiting(self, user) -> bool:
+        return self.r.sismember(self.waiting_users_set_name, user.username)
+
+    @property
+    def number_of_waiting_users(self) -> int:
+        return self.r.scard(self.waiting_users_set_name)
