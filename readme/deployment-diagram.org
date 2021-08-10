@@ -1,0 +1,24 @@
+#+TITLE: Deployment diagram
+
+#+BEGIN_SRC plantuml :file ./images/deployment-diagram.png
+actor "user"
+hexagon "nginx"
+card "web server" as web_server {
+    rectangle "front end" as front_end
+    rectangle "back end" as back_end
+}
+database "postgres"
+database "redis"
+rectangle "celery worker" as celery_worker
+
+user -> nginx
+nginx -> web_server
+front_end <-> back_end : ws
+back_end --> postgres
+back_end --> redis
+back_end <-> celery_worker
+celery_worker --> redis
+#+END_SRC
+
+#+RESULTS:
+[[file:./images/deployment-diagram.png]]
