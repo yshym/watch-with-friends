@@ -4,12 +4,38 @@
 
 * Table of contents :TOC_2:
 - [[#usage][Usage]]
+- [[#deployment-diagram][Deployment diagram]]
 
 * Usage
 1. Use YouTube link or upload a video from your computer.
-   [[./readme_images/screenshot1.png]]
-1. Share the link or the name of the room with your friends.
-2. When a user plays/pauses a video or seeks to a point,
+   [[./readme_images/create-room.png]]
+2. Share the link or the name of the room with your friends.
+3. When a user plays/pauses a video or seeks to a point,
    his actions will be propagated to all others in the room.
    Creator of the room is able to change a video.
-   [[./readme_images/screenshot2.png]]
+   [[./readme_images/room.png]]
+
+* Deployment diagram
+#+BEGIN_SRC plantuml :file ./readme_images/deployment-diagram.png
+actor "user"
+hexagon "nginx"
+card "web server" as web_server {
+    rectangle "front end" as front_end
+    rectangle "back end" as back_end
+}
+database "postgres"
+database "redis"
+rectangle "celery worker" as celery_worker
+
+user -> nginx
+nginx -> web_server
+front_end <-> back_end : ws
+back_end --> postgres
+back_end --> redis
+back_end <-> celery_worker
+celery_worker --> redis
+#+END_SRC
+[[./readme_images/deployment-diagram.png]]
+
+#+RESULTS:
+[[file:./readme_images/deployment-diagram.png]]
