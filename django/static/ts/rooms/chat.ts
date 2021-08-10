@@ -28,7 +28,7 @@ export const initializeChat = (roomSocket: RoomSocket) => {
                 roomSocket.socket.send(
                     JSON.stringify({
                         type: "message",
-                        room_name: roomSocket.roomName,
+                        room_id: roomSocket.roomId,
                         username: roomSocket.user,
                         message: message,
                     })

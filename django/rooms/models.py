@@ -17,7 +17,7 @@ def video_location(instance, _filename):
 
 class Room(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.SlugField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     video = models.FileField(
         upload_to=video_location,
         validators=[validate_video_extension],

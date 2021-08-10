@@ -169,6 +169,7 @@
     <br />
     <span id="connectedUsers"></span>
 
+    {{ room.id|text_script:"roomId" }}
     {{ room.name|text_script:"roomName" }}
     {{ room.author|text_script:"roomAuthorUsername" }}
     {{ user|text_script:"currentUserUsername" }}

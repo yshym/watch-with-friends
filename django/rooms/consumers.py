@@ -13,17 +13,17 @@ class RoomConsumer(AsyncWebsocketConsumer):
 
     @property
     def connected_users_set_name(self):
-        return f"{self.room_name}_connected_users"
+        return f"{self.room_id}_connected_users"
 
     @property
     def waiting_users_set_name(self):
-        return f"{self.room_name}_waiting_users"
+        return f"{self.room_id}_waiting_users"
 
     async def connect(self):
-        self.room_name = (
-            self.scope.get("url_route").get("kwargs").get("room_name")
+        self.room_id = (
+            self.scope.get("url_route").get("kwargs").get("room_id")
         )
-        self.room_group_name = f"room_{self.room_name}"
+        self.room_group_name = f"room_{self.room_id}"
         self.user = self.scope.get("user")
 
         self.is_new_user = not self.user_is_connected(self.user)
@@ -82,12 +82,12 @@ class RoomConsumer(AsyncWebsocketConsumer):
         message_type = text_data_json.get("type")
 
         if message_type == "message":
-            room_name = text_data_json.get("room_name")
+            room_id = text_data_json.get("room_id")
             username = text_data_json.get("username")
             message = text_data_json.get("message")
 
             create_message.delay(
-                room_name=room_name,
+                room_id=room_id,
                 username=username,
                 content=message,
             )
@@ -101,7 +101,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
                 self.room_group_name,
                 {
                     "type": "chat_message",
-                    "room_name": room_name,
+                    "room_id": room_id,
                     "username": username,
                     "message": message,
                     "timestamp": timestamp,
@@ -156,7 +156,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         username = event.get("username")
         message = event.get("message")
-        room_name = event.get("room_name")
+        room_id = event.get("room_id")
         timestamp = event.get("timestamp")
 
         # Send message to WebSocket
@@ -164,7 +164,7 @@ class RoomConsumer(AsyncWebsocketConsumer):
             text_data=json.dumps(
                 {
                     "type": "message",
-                    "room_name": room_name,
+                    "room_id": room_id,
                     "username": username,
                     "message": message,
                     "timestamp": timestamp,

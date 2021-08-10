@@ -25,7 +25,8 @@ HTMLElement.prototype.removeChildren = function (): HTMLElement {
 };
 
 // Declare variables from DTL text_script tags
-const [roomName, roomAuthor, user, videoURL] = [
+const [roomId, roomName, roomAuthor, user, videoURL] = [
+    getElementTextContent("roomId") || "",
     getElementTextContent("roomName") || "",
     getElementTextContent("roomAuthorUsername") || "",
     getElementTextContent("currentUserUsername") || "",
@@ -57,7 +58,7 @@ if (copyURLButton) {
 const video = initializeVideo();
 
 // Initialize room websocket
-const roomSocket = new RoomSocket(roomName, roomAuthor, user, video);
+const roomSocket = new RoomSocket(roomId, roomAuthor, user, video);
 
 initializeChat(roomSocket);
 

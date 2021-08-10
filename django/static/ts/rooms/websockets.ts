@@ -15,7 +15,7 @@ export class RoomSocket {
     socket: WebSocket;
     video: Plyr;
     handlers: VideoEventHandlers;
-    roomName: string;
+    roomId: string;
     roomAuthor: string;
     user: string;
     container: HTMLElement;
@@ -23,18 +23,18 @@ export class RoomSocket {
     connectedUsersContainer: HTMLElement;
 
     constructor(
-        roomName: string,
+        roomId: string,
         roomAuthor: string,
         user: string,
         video: Plyr
     ) {
-        this.roomName = roomName;
+        this.roomId = roomId;
         this.roomAuthor = roomAuthor;
         this.user = user;
         this.video = video;
 
         this.socket = new WebSocket(
-            `ws://${window.location.host}/ws/room/${this.roomName}/`
+            `ws://${window.location.host}/ws/room/${this.roomId}/`
         );
 
         this.getElements();
