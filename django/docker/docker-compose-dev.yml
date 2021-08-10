@@ -4,6 +4,9 @@ services:
   redis:
     container_name: wwf_redis
     image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - 6379:6379
   celery_worker:

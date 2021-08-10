@@ -3,7 +3,8 @@ version: "3.3"
 services:
   redis:
     container_name: wwf_redis
-    image: redis
+    build:
+      context: ./redis
     ports:
       - 6379:6379
   celery_worker:
