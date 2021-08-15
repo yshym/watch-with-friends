@@ -8,6 +8,7 @@ import {
     enableEvents,
     withoutHandlers,
 } from "./video";
+import { isHTTPS } from "../documentTools";
 
 type WebSocketMessageCallback = (data: Object) => void;
 
@@ -33,8 +34,9 @@ export class RoomSocket {
         this.user = user;
         this.video = video;
 
+        const webSocketProtocol = isHTTPS() ? "wss" : "ws";
         this.socket = new WebSocket(
-            `ws://${window.location.host}/ws/room/${this.roomId}/`
+            `${webSocketProtocol}://${window.location.host}/ws/room/${this.roomId}/`
         );
 
         this.getElements();
