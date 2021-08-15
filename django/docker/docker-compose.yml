@@ -54,6 +54,8 @@ services:
       - ../static_root:/var/www/static_root
       - ../media:/var/www/media
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/selfsigned.crt:/etc/ssl/certs/selfsigned.crt
+      - ./nginx/selfsigned.key:/etc/ssl/private/selfsigned.key
     depends_on:
       - web
 
