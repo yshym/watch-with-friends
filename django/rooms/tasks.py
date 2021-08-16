@@ -19,15 +19,15 @@ def cut_content(content):
 
 
 @shared_task
-def create_message(room_name, username, content):
+def create_message(room_id, username, content):
     logger.info(
-        "Creating Message(room_name='%s', author_username='%s', content='%s')",
-        room_name,
+        "Creating Message(room_id='%s', author_username='%s', content='%s')",
+        room_id,
         username,
         cut_content(content),
     )
     Message.objects.create(
-        room=Room.objects.get(name=room_name),
+        room=Room.objects.get(id=room_id),
         author=get_user_model().objects.get(username=username),
         content=content,
     )
