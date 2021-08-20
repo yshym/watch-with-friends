@@ -5,6 +5,19 @@
     box-shadow: 2px 2px 2px teal;
 }
 
+#room-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+#room-video {
+    flex-basis: 74%;
+}
+
+#chat {
+    flex-basis: 24%;
+}
+
 #video-player,
 #chat-log {
     height: 50vh;
@@ -52,14 +65,13 @@ form#room-video-change {
     display: none;
 }
 
-@media screen and (max-width: 950px) {
-    div#search>input {
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
+@media (max-width: 950px) {
+    #room-body {
+        flex-direction: column;
     }
-    div#search>span>button {
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
+
+    #chat {
+        max-width: 100%;
     }
 }
 

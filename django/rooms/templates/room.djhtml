@@ -60,8 +60,8 @@
 
     <hr />
 
-    <div class="d-flex">
-        <div class="col">
+    <div id="room-body">
+        <div id="room-video">
             <div class="d-flex justify-content-center">
                 <div id="video-spinner" class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
@@ -69,7 +69,7 @@
             </div>
             <div
                 id="video-player"
-                class="img-thumbnail video">
+                class="img-thumbnail video mb-3">
                 {% if room.video %}
                     <video
                         id="video-active"
@@ -84,10 +84,8 @@
                         data-plyr-embed-id="{{ room.youtube_link|youtube_video_id }}">
                     </div>
                 {% endif %}
-                <br /><br />
             </div>
             {% if user == room.author  %}
-                <br />
                 <button
                     id="room-video-change-form-show"
                     class="btn btn-light w-100">
@@ -113,8 +111,9 @@
                     </div>
                 </form>
             {% endif %}
+            <div id="connectedUsers" class="my-3"></div>
         </div>
-        <div class="chat col-sm-3">
+        <div id="chat">
             <div
                 class="card"
                 id="chat-log">
@@ -167,7 +166,6 @@
         </div>
     </div>
     <br />
-    <span id="connectedUsers"></span>
 
     {{ room.id|text_script:"roomId" }}
     {{ room.name|text_script:"roomName" }}
