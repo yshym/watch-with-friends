@@ -24,8 +24,6 @@ services:
     command: ./docker/web_entrypoint.sh
     env_file:
       - ../config/settings/.env
-    ports:
-      - 8000:8001
     volumes:
       - ../static_root:/code/static_root
       - ../media:/code/media
@@ -44,8 +42,7 @@ services:
     image: nginx:alpine
     container_name: wwf_proxy
     ports:
-      - 80:81
-      - 443:444
+      - 8001:8001
     volumes:
       - ../static_root:/var/www/static_root
       - ../media:/var/www/media
