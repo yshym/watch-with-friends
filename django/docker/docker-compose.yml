@@ -5,8 +5,6 @@ services:
     container_name: wwf_redis
     build:
       context: ./redis
-    ports:
-      - 6379:6379
   celery_worker:
     container_name: wwf_celery_worker
     build:
@@ -27,7 +25,7 @@ services:
     env_file:
       - ../config/settings/.env
     ports:
-      - 8000:8000
+      - 8000:8001
     volumes:
       - ../static_root:/code/static_root
       - ../media:/code/media
@@ -40,22 +38,18 @@ services:
     image: postgres
     env_file:
       - ../config/settings/.env
-    ports:
-      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
   proxy:
     image: nginx:alpine
     container_name: wwf_proxy
     ports:
-      - 80:80
-      - 443:443
+      - 80:81
+      - 443:444
     volumes:
       - ../static_root:/var/www/static_root
       - ../media:/var/www/media
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/selfsigned.crt:/etc/ssl/certs/selfsigned.crt
-      - ./nginx/selfsigned.key:/etc/ssl/private/selfsigned.key
     depends_on:
       - web
 
