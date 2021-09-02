@@ -18,15 +18,20 @@ export const initializeVideoElements = () => {
 
 // Load m3u8 file into player
 export const initializeLocalVideo = (videoURL: string) => {
-    const videoElement = document.getElementById("video-active");
+    const videoElement = <HTMLVideoElement>document.getElementById("video-active");
 
-    let hls = new Hls();
     let HLSFileWaiter = new Worker("/static/bundles/HLSFileWaiter.js");
 
     let videoName = videoURL.split(".")[0];
     HLSFileWaiter.addEventListener("message", (_e) => {
-        hls.loadSource(`${videoName}.m3u8`);
-        videoElement && hls.attachMedia(<HTMLVideoElement>videoElement);
+        let source = `${videoName}.m3u8`;
+        if (Hls.isSupported()) {
+            let hls = new Hls();
+            hls.loadSource(source);
+            videoElement && hls.attachMedia(videoElement);
+        } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
+            videoElement.src = source;
+        }
 
         initializeVideoElements();
     });

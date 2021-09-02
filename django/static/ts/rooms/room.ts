@@ -1,4 +1,3 @@
-import Hls from "hls.js";
 import { getElementTextContent } from "../documentTools";
 import { RoomSocket } from "./websockets";
 import { initializeVideo } from "./video";
@@ -68,7 +67,7 @@ if (roomAuthor === user) {
     initializeVideoChangeForm();
 }
 
-if (videoURL && Hls.isSupported()) {
+if (videoURL) {
     initializeLocalVideo(videoURL);
 } else {
     initializeVideoElements();
