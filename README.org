@@ -9,7 +9,7 @@
 * Usage
 1. Use YouTube link or upload a video from your computer.
    [[./readme/images/create-room.png]]
-2. Share the link or the name of the room with your friends.
+2. Share the link to the room with your friends.
 3. When a user plays/pauses a video or seeks to a point,
    his actions will be propagated to all others in the room.
    Creator of the room is able to change a video.
