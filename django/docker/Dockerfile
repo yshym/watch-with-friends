@@ -10,9 +10,8 @@ COPY . /code/
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
-# Install nodejs and npm
-RUN apt-get install -y nodejs libpq-dev
-RUN curl -L https://www.npmjs.com/install.sh | sh
+# Install dependencies
+RUN apt-get install -y nodejs npm libpq-dev
 
 # Install nodejs dependencies
 RUN npm --prefix ./static install
