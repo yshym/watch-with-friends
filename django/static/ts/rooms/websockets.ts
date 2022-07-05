@@ -108,13 +108,13 @@ export class RoomSocket {
     };
 
     onBufferingVideo: WebSocketMessageCallback = (_data: Object): void => {
-        withoutHandlers(this.video, "pause", this.handlers, () =>
+        withoutHandlers(this.video, ["pause"], this.handlers, () =>
             this.video.pause()
         );
     };
 
     onAllPlayersBuffered: WebSocketMessageCallback = (_data: Object): void => {
-        withoutHandlers(this.video, "play", this.handlers, () =>
+        withoutHandlers(this.video, ["play"], this.handlers, () =>
             this.video.play()
         );
     };
@@ -122,28 +122,26 @@ export class RoomSocket {
     onSeekedVideo: WebSocketMessageCallback = (data: any): void => {
         withoutHandlers(
             this.video,
-            "seeked",
+            ["pause", "seeked"],
             this.handlers,
             () => (this.video.currentTime = <number>data.current_time),
-            true
         );
     };
 
     onPauseVideo: WebSocketMessageCallback = (data: any): void => {
-        withoutHandlers(this.video, "pause", this.handlers, () =>
+        withoutHandlers(this.video, ["pause"], this.handlers, () =>
             this.video.pause()
         );
         withoutHandlers(
             this.video,
-            "seeked",
+            ["seeked"],
             this.handlers,
             () => (this.video.currentTime = <number>data.current_time),
-            true
         );
     };
 
     onPlayVideo: WebSocketMessageCallback = (_data: Object): void => {
-        withoutHandlers(this.video, "play", this.handlers, () =>
+        withoutHandlers(this.video, ["play"], this.handlers, () =>
             this.video.play()
         );
     };

@@ -53,20 +53,18 @@ export const disableEvents = (video: Plyr, handlers: VideoEventHandlers) => {
 
 export const withoutHandlers = (
     video: Plyr,
-    name: VideoEventName,
+    names: Array<VideoEventName>,
     handlers: any,
     callback: () => void,
-    skipNext: boolean = false
 ) => {
-    if (name in handlers) {
-        video.off(name, handlers[name]);
+    if (names.every((name: VideoEventName) => name in handlers)) {
+        names.forEach(
+            (name: VideoEventName) => video.off(name, handlers[name])
+        );
         callback();
-        const bindHandler = () => video.on(name, handlers[name]);
-        if (skipNext) {
-            video.once(name, bindHandler);
-        } else {
-            bindHandler();
-        }
+        names.forEach(
+            (name: VideoEventName) => video.on(name, handlers[name])
+        );
     } else {
         callback();
     }
